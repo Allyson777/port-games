@@ -168,7 +168,28 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-6 space-y-5 sm:space-y-6">
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-6 space-y-4 sm:space-y-5">
+
+      <!-- Sleek Gradient Status Pill (No harsh full-width gray lines) -->
+      <div id="community-notice" class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 border border-blue-500/20 px-3.5 sm:px-4 py-2.5 flex items-center justify-between gap-3 shadow-sm">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-7 h-7 rounded-xl bg-blue-500/15 border border-blue-400/25 flex items-center justify-center shrink-0 text-blue-400">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          <p id="header-disclaimer" class="text-xs text-[var(--foreground)]/90 leading-relaxed">
+            <strong class="font-bold text-blue-400">Aviso:</strong> Pedimos desculpas caso algum link não abra — os ports são mantidos por servidores da comunidade e podem passar por instabilidades temporárias.
+          </p>
+        </div>
+        <button onclick="document.getElementById('community-notice').classList.add('hidden')"
+                title="Fechar aviso"
+                class="w-6 h-6 rounded-lg text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-white/5 flex items-center justify-center shrink-0 transition">
+          ✕
+        </button>
+      </div>
 
       <!-- =================================================================== -->
       <!-- VIEW 1: BROWSER GAMES (WITH PLATFORM + SORT SUB-TABS)               -->
@@ -237,10 +258,15 @@
           </div>
         </div>
 
-        <!-- Clean Responsive Cover Grid -->
-        <section id="browser-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 sm:gap-5">
+        <!-- Clean Responsive Cover Grid (5x5 = 25 cards per page on desktop) -->
+        <section id="browser-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-5">
           <!-- Populated by JS -->
         </section>
+
+        <!-- Pagination Controls (25 cards per page) -->
+        <div id="browser-pagination" class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-[var(--border)]">
+          <!-- Populated by JS -->
+        </div>
 
       </div>
 
@@ -373,6 +399,8 @@
     let activeMainTab = 'BROWSER';
     let browserSort = 'POPULAR';
     let browserPlatform = 'ALL';
+    let browserCurrentPage = 1;
+    const BROWSER_PAGE_SIZE = 25;
     let currentConsole = 'ALL';
 
     let favorites = JSON.parse(localStorage.getItem('pina_ports_favs_v6') || '[]');
@@ -387,17 +415,65 @@
     const LB_GBA = 'https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Game_Boy_Advance/master/Named_Boxarts/';
 
     // =========================================================================
-    // TAB 1: BROWSER GAMES (STRICTLY CLASSIFIED BY REAL PORT & COVER PLATFORM)
+    // TAB 1: BROWSER GAMES (STRICTLY CLASSIFIED BY REAL PORT & DIRECT GAME URL)
     // =========================================================================
     const defaultBrowserGames = [
       // --- PS2 ---
+      {
+        id: 'b-dbz-bt3',
+        title: 'Dragon Ball Z: Budokai Tenkaichi 3',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 1,
+        dateRank: 75,
+        url: 'https://dragonballbt3.online/',
+        wiki: 'Dragon_Ball_Z:_Budokai_Tenkaichi_3',
+        covers: [LB_PS2 + 'Dragon%20Ball%20Z%20-%20Budokai%20Tenkaichi%203%20(USA).png'],
+        palette: ['#9a3412', '#f97316']
+      },
+      {
+        id: 'b-nfsu2',
+        title: 'Need for Speed: Underground 2',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 2,
+        dateRank: 74,
+        url: 'https://nfsu2.xyz/',
+        wiki: 'Need_for_Speed:_Underground_2',
+        covers: [LB_PS2 + 'Need%20for%20Speed%20-%20Underground%202%20(USA).png'],
+        palette: ['#064e3b', '#047857']
+      },
+      {
+        id: 'b-pes-6',
+        title: 'Pro Evolution Soccer 6 (PES 6 Online)',
+        author: 'OptiJuegos • PS2 / PSP',
+        platform: 'PS2',
+        popularRank: 3,
+        dateRank: 73,
+        url: 'https://pes6.optijuegos.net/',
+        wiki: 'Pro_Evolution_Soccer_6',
+        covers: [LB_PS2 + 'Pro%20Evolution%20Soccer%206%20(Europe).png'],
+        palette: ['#064e3b', '#10b981']
+      },
+      {
+        id: 'b-bully',
+        title: 'Bully (Canis Canem Edit)',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 4,
+        dateRank: 72,
+        url: 'https://bully.online/',
+        wiki: 'Bully_(video_game)',
+        covers: [LB_PS2 + 'Bully%20(USA).png'],
+        palette: ['#78350f', '#d97706']
+      },
       {
         id: 'b-f1-06',
         title: 'Formula One 06',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 1,
-        dateRank: 40,
+        popularRank: 5,
+        dateRank: 71,
         url: 'https://f12006.online/',
         wiki: 'Formula_One_06',
         covers: [LB_PS2 + 'Formula%20One%2006%20(Europe).png'],
@@ -408,8 +484,8 @@
         title: 'Downhill Domination',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 2,
-        dateRank: 39,
+        popularRank: 6,
+        dateRank: 70,
         url: 'https://downhilldomination.online/',
         wiki: 'Downhill_Domination',
         covers: [LB_PS2 + 'Downhill%20Domination%20(USA).png'],
@@ -420,32 +496,20 @@
         title: 'Tekken 5',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 3,
-        dateRank: 38,
+        popularRank: 7,
+        dateRank: 69,
         url: 'https://tekken5.online/',
         wiki: 'Tekken_5',
         covers: [LB_PS2 + 'Tekken%205%20(USA).png'],
         palette: ['#31102f', '#be185d']
       },
       {
-        id: 'b-dbz-bt3',
-        title: 'DBZ: Budokai Tenkaichi 3',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 4,
-        dateRank: 37,
-        url: 'https://dragonballbt3.online/',
-        wiki: 'Dragon_Ball_Z:_Budokai_Tenkaichi_3',
-        covers: [LB_PS2 + 'Dragon%20Ball%20Z%20-%20Budokai%20Tenkaichi%203%20(USA).png'],
-        palette: ['#9a3412', '#f97316']
-      },
-      {
         id: 'b-burnout-3',
         title: 'Burnout 3: Takedown',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 5,
-        dateRank: 36,
+        popularRank: 8,
+        dateRank: 68,
         url: 'https://burnout3.online/',
         wiki: 'Burnout_3:_Takedown',
         covers: [LB_PS2 + 'Burnout%203%20-%20Takedown%20(USA).png'],
@@ -456,8 +520,8 @@
         title: 'Def Jam: Fight for NY',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 6,
-        dateRank: 35,
+        popularRank: 9,
+        dateRank: 67,
         url: 'https://defjam.online/',
         wiki: 'Def_Jam:_Fight_for_NY',
         covers: [LB_PS2 + 'Def%20Jam%20-%20Fight%20for%20NY%20(USA).png'],
@@ -466,11 +530,11 @@
       {
         id: 'b-pes-11',
         title: 'PES 2011 / Bomba Patch',
-        author: 'OptiProjects • PS2',
+        author: 'OptiJuegos • PS2',
         platform: 'PS2',
-        popularRank: 7,
-        dateRank: 34,
-        url: 'https://optijuegos.net/',
+        popularRank: 10,
+        dateRank: 66,
+        url: 'https://pes11.optijuegos.net/',
         wiki: 'Pro_Evolution_Soccer_2011',
         covers: [LB_PS2 + 'Pro%20Evolution%20Soccer%202011%20(USA).png'],
         palette: ['#064e3b', '#10b981']
@@ -480,8 +544,8 @@
         title: 'Resident Evil 4',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 8,
-        dateRank: 33,
+        popularRank: 11,
+        dateRank: 65,
         url: 'https://residentevil4.online/',
         wiki: 'Resident_Evil_4',
         covers: [LB_PS2 + 'Resident%20Evil%204%20(USA).png'],
@@ -492,80 +556,56 @@
         title: 'SSX 3',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 9,
-        dateRank: 32,
+        popularRank: 12,
+        dateRank: 64,
         url: 'https://ssx3.online/',
         wiki: 'SSX_3',
         covers: [LB_PS2 + 'SSX%203%20(USA).png'],
         palette: ['#0c4a6e', '#0284c7']
       },
       {
-        id: 'b-gta-sa',
-        title: 'Grand Theft Auto: San Andreas',
-        author: 'OptiProjects • PS2',
-        platform: 'PS2',
-        popularRank: 10,
-        dateRank: 31,
-        url: 'https://optijuegos.net/',
-        wiki: 'Grand_Theft_Auto:_San_Andreas',
-        covers: [LB_PS2 + 'Grand%20Theft%20Auto%20-%20San%20Andreas%20(USA).png'],
-        palette: ['#14532d', '#16a34a']
-      },
-      {
         id: 'b-shaolin-monks',
         title: 'Mortal Kombat: Shaolin Monks',
-        author: 'Play! Web • PS2',
+        author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 11,
-        dateRank: 30,
-        url: 'https://play.purei.org/',
+        popularRank: 13,
+        dateRank: 63,
+        url: 'https://mortalkombatsm.online/',
         wiki: 'Mortal_Kombat:_Shaolin_Monks',
         covers: [LB_PS2 + 'Mortal%20Kombat%20-%20Shaolin%20Monks%20(USA).png'],
         palette: ['#450a0a', '#b91c1c']
-      },
-      {
-        id: 'b-black',
-        title: 'BLACK',
-        author: 'Play! Web • PS2',
-        platform: 'PS2',
-        popularRank: 12,
-        dateRank: 29,
-        url: 'https://play.purei.org/',
-        wiki: 'Black_(video_game)',
-        covers: [LB_PS2 + 'Black%20(USA).png'],
-        palette: ['#090d16', '#334155']
       },
       {
         id: 'b-midnight-club-3',
         title: 'Midnight Club 3: DUB Edition',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 13,
-        dateRank: 28,
-        url: 'https://inxanitylabs.com/',
+        popularRank: 14,
+        dateRank: 62,
+        url: 'https://midnighhtclub3.online/',
         wiki: 'Midnight_Club_3:_DUB_Edition',
         covers: [LB_PS2 + 'Midnight%20Club%203%20-%20DUB%20Edition%20Remix%20(USA).png'],
         palette: ['#312e81', '#4f46e5']
       },
       {
-        id: 'b-nfsu2',
-        title: 'Need for Speed: Underground 2',
+        id: 'b-naruto-un5',
+        title: 'Naruto Shippuden: Ultimate Ninja 5',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 14,
-        dateRank: 27,
-        url: 'https://nfsu2.net/',
-        wiki: 'Need_for_Speed:_Underground_2',
-        covers: [LB_PS2 + 'Need%20for%20Speed%20-%20Underground%202%20(USA).png'],
-        palette: ['#064e3b', '#047857']
+        popularRank: 15,
+        dateRank: 61,
+        url: 'https://narutoshippuden5.online/',
+        wiki: 'Naruto_Shippuden:_Ultimate_Ninja_5',
+        covers: [LB_PS2 + 'Naruto%20Shippuden%20-%20Ultimate%20Ninja%205%20(Europe).png'],
+        palette: ['#7c2d12', '#ea580c']
       },
       {
         id: 'b-mvc2',
         title: 'Marvel vs. Capcom 2',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 15,
-        dateRank: 26,
+        popularRank: 16,
+        dateRank: 60,
         url: 'https://mvc2.online/',
         wiki: 'Marvel_vs._Capcom_2:_New_Age_of_Heroes',
         covers: [LB_PS2 + 'Marvel%20vs.%20Capcom%202%20-%20New%20Age%20of%20Heroes%20(USA).png'],
@@ -576,8 +616,8 @@
         title: 'FIFA Street 2',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 16,
-        dateRank: 25,
+        popularRank: 17,
+        dateRank: 59,
         url: 'https://fifastreet.online/',
         wiki: 'FIFA_Street_2',
         covers: [LB_PS2 + 'FIFA%20Street%202%20(USA).png'],
@@ -588,8 +628,8 @@
         title: 'NFL Street',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 17,
-        dateRank: 24,
+        popularRank: 18,
+        dateRank: 58,
         url: 'https://nflstreet.online/',
         wiki: 'NFL_Street',
         covers: [LB_PS2 + 'NFL%20Street%20(USA).png'],
@@ -600,8 +640,8 @@
         title: 'NBA Street V3',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 18,
-        dateRank: 23,
+        popularRank: 19,
+        dateRank: 57,
         url: 'https://nbastreet.online/',
         wiki: 'NBA_Street_V3',
         covers: [LB_PS2 + 'NBA%20Street%20V3%20(USA).png'],
@@ -612,35 +652,95 @@
         title: 'WWE SmackDown vs. Raw 2011',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 19,
-        dateRank: 22,
-        url: 'https://inxanitylabs.com/',
+        popularRank: 20,
+        dateRank: 56,
+        url: 'https://wwe2011.online/',
         wiki: 'WWE_SmackDown_vs._Raw_2011',
         covers: [LB_PS2 + 'WWE%20SmackDown%20vs.%20Raw%202011%20(USA).png'],
         palette: ['#1e1b4b', '#dc2626']
       },
       {
-        id: 'b-guitar-hero-3',
-        title: 'Guitar Hero III: Legends of Rock',
+        id: 'b-nba-2k12',
+        title: 'NBA 2K12',
         author: 'Slayoner • PS2',
         platform: 'PS2',
-        popularRank: 20,
-        dateRank: 21,
-        url: 'https://inxanitylabs.com/',
+        popularRank: 21,
+        dateRank: 55,
+        url: 'https://nba2k12.online/',
+        wiki: 'NBA_2K12',
+        covers: [LB_PS2 + 'NBA%202K12%20(USA).png'],
+        palette: ['#7f1d1d', '#dc2626']
+      },
+      {
+        id: 'b-wwe-hctp',
+        title: 'WWE SmackDown! Here Comes the Pain',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 22,
+        dateRank: 54,
+        url: 'https://wwepain.online/',
+        wiki: 'WWE_SmackDown!_Here_Comes_the_Pain',
+        covers: [LB_PS2 + 'WWE%20SmackDown!%20Here%20Comes%20the%20Pain%20(USA).png'],
+        palette: ['#1e1b4b', '#dc2626']
+      },
+      {
+        id: 'b-guitar-hero-3',
+        title: 'Guitar Hero III: Legends of Rock',
+        author: 'Web Edition • PS2',
+        platform: 'PS2',
+        popularRank: 23,
+        dateRank: 53,
+        url: 'https://lasvegasherogame.com/gh3/',
         wiki: 'Guitar_Hero_III:_Legends_of_Rock',
         covers: [LB_PS2 + 'Guitar%20Hero%20III%20-%20Legends%20of%20Rock%20(USA).png'],
         palette: ['#450a0a', '#ea580c']
       },
+      {
+        id: 'b-simpsons-har-web',
+        title: 'The Simpsons: Hit & Run (WASM Port)',
+        author: 'cjoseph WASM • PS2',
+        platform: 'PS2',
+        popularRank: 24,
+        dateRank: 52,
+        url: 'https://shar-wasm.cjoseph.workers.dev/?skipmovie',
+        wiki: 'The_Simpsons:_Hit_&_Run',
+        covers: [LB_PS2 + 'Simpsons,%20The%20-%20Hit%20%26%20Run%20(USA).png'],
+        palette: ['#854d0e', '#eab308']
+      },
+      {
+        id: 'b-gta-vc-ps2',
+        title: 'Grand Theft Auto: Vice City (reVC Web)',
+        author: 'Quenq / reVC • PS2 / PC',
+        platform: 'PS2',
+        popularRank: 25,
+        dateRank: 51,
+        url: 'https://quenq.com/apps/vice-city/',
+        wiki: 'Grand_Theft_Auto:_Vice_City',
+        covers: [LB_PS2 + 'Grand%20Theft%20Auto%20-%20Vice%20City%20(USA).png'],
+        palette: ['#701a75', '#db2777']
+      },
 
       // --- PS1 / PSP ---
+      {
+        id: 'b-gow-coo',
+        title: 'God of War: Chains of Olympus',
+        author: 'Slayoner • PSP',
+        platform: 'PS1_PSP',
+        popularRank: 26,
+        dateRank: 50,
+        url: 'https://godofwar.online/',
+        wiki: 'God_of_War:_Chains_of_Olympus',
+        covers: [LB_PSP + 'God%20of%20War%20-%20Chains%20of%20Olympus%20(USA).png'],
+        palette: ['#450a0a', '#dc2626']
+      },
       {
         id: 'b-naruto-impact',
         title: 'Naruto Shippuden: Ultimate Ninja Impact',
         author: 'Slayoner • PSP',
         platform: 'PS1_PSP',
-        popularRank: 21,
-        dateRank: 20,
-        url: 'https://inxanitylabs.com/',
+        popularRank: 27,
+        dateRank: 49,
+        url: 'https://narutoimpact.online/',
         wiki: 'Naruto_Shippuden:_Ultimate_Ninja_Impact',
         covers: [LB_PSP + 'Naruto%20Shippuden%20-%20Ultimate%20Ninja%20Impact%20(USA).png'],
         palette: ['#7c2d12', '#f97316']
@@ -650,8 +750,8 @@
         title: 'Tekken 5: Dark Resurrection',
         author: 'Slayoner • PSP',
         platform: 'PS1_PSP',
-        popularRank: 22,
-        dateRank: 19,
+        popularRank: 28,
+        dateRank: 48,
         url: 'https://tekkendr.live/',
         wiki: 'Tekken_5:_Dark_Resurrection',
         covers: [LB_PSP + 'Tekken%20-%20Dark%20Resurrection%20(USA).png'],
@@ -662,12 +762,37 @@
         title: 'FIFA 11',
         author: 'Slayoner • PSP',
         platform: 'PS1_PSP',
-        popularRank: 23,
-        dateRank: 18,
+        popularRank: 29,
+        dateRank: 47,
         url: 'https://fifa11.online/',
         wiki: 'FIFA_11',
         covers: [LB_PSP + 'FIFA%20Soccer%2011%20(USA).png'],
         palette: ['#1e3a8a', '#2563eb']
+      },
+      {
+        id: 'b-gta-ctw',
+        title: 'Grand Theft Auto: Chinatown Wars',
+        author: 'Web Port • PSP',
+        platform: 'PS1_PSP',
+        popularRank: 30,
+        dateRank: 46,
+        url: 'https://gta-chinatown-wars.pages.dev/',
+        wiki: 'Grand_Theft_Auto:_Chinatown_Wars',
+        covers: [LB_PSP + 'Grand%20Theft%20Auto%20-%20Chinatown%20Wars%20(USA).png'],
+        palette: ['#7f1d1d', '#f59e0b']
+      },
+      {
+        id: 'b-crash-bash',
+        title: 'Crash Bash Online',
+        author: 'crashbash.app • PS1',
+        platform: 'PS1_PSP',
+        isSquareCover: true,
+        popularRank: 31,
+        dateRank: 45,
+        url: 'https://crashbash.app/',
+        wiki: 'Crash_Bash',
+        covers: [LB_PS1 + 'Crash%20Bash%20(USA).png'],
+        palette: ['#7c2d12', '#f97316']
       },
       {
         id: 'b-tomb-raider-lara',
@@ -675,8 +800,8 @@
         author: 'XProger • PS1',
         platform: 'PS1_PSP',
         isSquareCover: true,
-        popularRank: 24,
-        dateRank: 17,
+        popularRank: 32,
+        dateRank: 44,
         url: 'https://xproger.info/projects/OpenLara/',
         wiki: 'Tomb_Raider_(1996_video_game)',
         covers: [LB_PS1 + 'Tomb%20Raider%20(USA).png'],
@@ -685,116 +810,176 @@
 
       // --- PS3 ---
       {
-        id: 'b-gta-iv-web',
-        title: 'Grand Theft Auto IV (Web Map & Engine)',
-        author: 'noclip.website • PS3',
+        id: 'b-mw2-web',
+        title: 'Call of Duty: Modern Warfare 2 (iw4browse)',
+        author: 'iw4browse • PS3 / Xbox 360',
         platform: 'PS3',
-        popularRank: 25,
-        dateRank: 16,
-        url: 'https://noclip.website/',
-        wiki: 'Grand_Theft_Auto_IV',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/12210/library_600x900.jpg'],
-        palette: ['#1c1917', '#ca8a04']
+        popularRank: 33,
+        dateRank: 43,
+        url: 'https://iw4browse.iw4b.workers.dev/',
+        wiki: 'Call_of_Duty:_Modern_Warfare_2',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10180/library_600x900.jpg'],
+        palette: ['#14532d', '#4d7c0f']
       },
       {
-        id: 'b-dark-souls-web',
-        title: 'Dark Souls (Web Engine Viewer)',
-        author: 'noclip.website • PS3',
+        id: 'b-bo-zombies',
+        title: 'Call of Duty: Black Ops Zombies',
+        author: 'vel.gg • PS3 Era',
         platform: 'PS3',
-        popularRank: 26,
-        dateRank: 15,
-        url: 'https://noclip.website/',
-        wiki: 'Dark_Souls',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/570940/library_600x900.jpg'],
-        palette: ['#090d16', '#ea580c']
+        popularRank: 34,
+        dateRank: 42,
+        url: 'https://vel.gg/bsz',
+        wiki: 'Call_of_Duty:_Black_Ops',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/42700/library_600x900.jpg'],
+        palette: ['#1c1917', '#dc2626']
+      },
+      {
+        id: 'b-waw-zombies',
+        title: 'Call of Duty: World at War Zombies',
+        author: 'waw.fun • PS3 Era',
+        platform: 'PS3',
+        popularRank: 35,
+        dateRank: 41,
+        url: 'https://waw.fun/',
+        wiki: 'Call_of_Duty:_World_at_War',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10090/library_600x900.jpg'],
+        palette: ['#1c1917', '#b91c1c']
       },
       {
         id: 'b-cod-zombies-web',
         title: 'Call of Duty: Zombies (NZ:P Web)',
         author: 'NZ:P Team • PS3 Era',
         platform: 'PS3',
-        popularRank: 27,
-        dateRank: 14,
+        popularRank: 36,
+        dateRank: 40,
         url: 'https://nzp.gay/',
         wiki: 'Call_of_Duty:_World_at_War',
         covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10090/library_600x900.jpg'],
         palette: ['#1c1917', '#b91c1c']
       },
+      {
+        id: 'b-skate-3-web',
+        title: 'Skate 3 (Web Remake)',
+        author: 'aaddpp • PS3 / Xbox 360',
+        platform: 'PS3',
+        popularRank: 37,
+        dateRank: 39,
+        url: 'https://skate.aaddpp.lol/',
+        wiki: 'Skate_3',
+        covers: [],
+        palette: ['#0f172a', '#0284c7']
+      },
 
       // --- PS4 / PS5 ---
       {
         id: 'b-gta-v-web',
-        title: 'GTA V (Web Sandbox / Fan Port)',
-        author: 'WebGL Community • PS4 / PS5',
+        title: 'Grand Theft Auto V (GTA V Web Port)',
+        author: 'FivePlay • PS4 / PS5',
         platform: 'PS4_PS5',
-        popularRank: 28,
-        dateRank: 13,
-        url: 'https://itch.io/games/tag-gta/html5',
+        popularRank: 3,
+        dateRank: 75,
+        url: 'https://fiveplay.lol/',
         wiki: 'Grand_Theft_Auto_V',
         covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/271590/library_600x900.jpg'],
         palette: ['#14532d', '#15803d']
       },
       {
         id: 'b-fifa-14',
-        title: 'FIFA 14',
-        author: 'PlayGamesInBrowser • PS4',
+        title: 'FIFA 14 (Online Web Port)',
+        author: 'Slayoner • PS4 / PS3',
         platform: 'PS4_PS5',
-        popularRank: 29,
-        dateRank: 12,
-        url: 'https://playgamesinbrowser.com/',
+        popularRank: 38,
+        dateRank: 38,
+        url: 'https://fifa14.online/',
         wiki: 'FIFA_14',
         covers: [],
         palette: ['#1e3a8a', '#3b82f6']
       },
       {
-        id: 'b-spider-man-web',
-        title: 'Spider-Man (Web Swinging Fan Port)',
-        author: 'WebGL Community • PS4 / PS5',
+        id: 'b-pes-14',
+        title: 'Pro Evolution Soccer 2014 (PES 2014)',
+        author: 'Slayoner • PS4 / PS3',
         platform: 'PS4_PS5',
-        popularRank: 30,
-        dateRank: 11,
-        url: 'https://itch.io/games/html5/tag-spider-man',
-        wiki: "Marvel's_Spider-Man_(video_game)",
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/1817070/library_600x900.jpg'],
-        palette: ['#7f1d1d', '#dc2626']
+        popularRank: 39,
+        dateRank: 37,
+        url: 'https://pes14.online/',
+        wiki: 'Pro_Evolution_Soccer_2014',
+        covers: [LB_PS2 + 'Pro%20Evolution%20Soccer%202014%20(Europe).png'],
+        palette: ['#064e3b', '#10b981']
+      },
+      {
+        id: 'b-gta-3-web',
+        title: 'Grand Theft Auto III (re3 Web Port)',
+        author: 'Quenq / re3 • PS4 / PC',
+        platform: 'PS4_PS5',
+        popularRank: 40,
+        dateRank: 36,
+        url: 'https://quenq.com/apps/iii-online/',
+        wiki: 'Grand_Theft_Auto_III',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/12100/library_600x900.jpg'],
+        palette: ['#14532d', '#15803d']
       },
 
       // --- XBOX ---
       {
         id: 'b-halo-ce',
-        title: 'Halo: Combat Evolved',
-        author: 'OpenCE Team • Xbox',
+        title: 'Halo: Combat Evolved (Multiplayer Web)',
+        author: 'Exenu / OpenCE • Xbox',
         platform: 'XBOX',
-        popularRank: 31,
-        dateRank: 10,
-        url: 'https://ported2browser.com/?search=Halo',
+        popularRank: 41,
+        dateRank: 35,
+        url: 'https://halo.exenu.co.uk/',
         wiki: 'Halo:_Combat_Evolved',
         covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/976730/library_600x900.jpg'],
         palette: ['#14532d', '#15803d']
       },
       {
         id: 'b-nfs-mw',
-        title: 'Need for Speed: Most Wanted',
-        author: 'Lauta • Xbox 360',
+        title: 'Need for Speed: Most Wanted (2005)',
+        author: 'Lauta Web Port • Xbox 360',
         platform: 'XBOX',
-        popularRank: 32,
-        dateRank: 9,
-        url: 'https://playgamesinbrowser.com/',
+        popularRank: 42,
+        dateRank: 34,
+        url: 'https://nfsmwested.lauta.site/',
         wiki: 'Need_for_Speed:_Most_Wanted_(2005_video_game)',
         covers: [],
         palette: ['#78350f', '#d97706']
       },
       {
-        id: 'b-hl2-xbox',
-        title: 'Half-Life 2 (Web Engine Demo)',
-        author: 'Source Web • Xbox',
+        id: 'b-morrowind',
+        title: 'The Elder Scrolls III: Morrowind',
+        author: 'OpenMW Web • Xbox / PC',
         platform: 'XBOX',
-        popularRank: 33,
-        dateRank: 8,
-        url: 'https://noclip.website/',
-        wiki: 'Half-Life_2',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/220/library_600x900.jpg'],
-        palette: ['#7c2d12', '#ea580c']
+        popularRank: 43,
+        dateRank: 33,
+        url: 'https://morrowind.app/',
+        wiki: 'The_Elder_Scrolls_III:_Morrowind',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/22320/library_600x900.jpg'],
+        palette: ['#422006', '#ca8a04']
+      },
+      {
+        id: 'b-cuphead-web',
+        title: 'Cuphead (WASM Web Port)',
+        author: 'WASM Port • Xbox / PC',
+        platform: 'XBOX',
+        popularRank: 44,
+        dateRank: 32,
+        url: 'https://wasm.rip/files/cuphead/index.html',
+        wiki: 'Cuphead',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/268910/library_600x900.jpg'],
+        palette: ['#7f1d1d', '#eab308']
+      },
+      {
+        id: 'b-fez-web',
+        title: 'FEZ (WASM Web Port)',
+        author: 'WASM Port • Xbox 360 / PC',
+        platform: 'XBOX',
+        popularRank: 45,
+        dateRank: 31,
+        url: 'https://wasm.rip/files/FEZ/fez.html',
+        wiki: 'Fez_(video_game)',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/224760/library_600x900.jpg'],
+        palette: ['#701a75', '#f59e0b']
       },
 
       // --- NINTENDO ---
@@ -804,9 +989,9 @@
         author: 'ArkShocer • Nintendo 64',
         platform: 'NINTENDO',
         isSquareCover: true,
-        popularRank: 34,
-        dateRank: 7,
-        url: 'https://ported2browser.com/?search=Super+Mario+64',
+        popularRank: 46,
+        dateRank: 30,
+        url: 'https://arkshocer.github.io/sm64/',
         wiki: 'Super_Mario_64',
         covers: [LB_N64 + 'Super%20Mario%2064%20(USA).png'],
         palette: ['#7f1d1d', '#ef4444']
@@ -814,12 +999,12 @@
       {
         id: 'b-zelda-oot',
         title: 'Zelda: Ocarina of Time',
-        author: 'Web Port • Nintendo 64',
+        author: 'ShipWeb • Nintendo 64',
         platform: 'NINTENDO',
         isSquareCover: true,
-        popularRank: 35,
-        dateRank: 6,
-        url: 'https://ported2browser.com/?search=Zelda',
+        popularRank: 47,
+        dateRank: 29,
+        url: 'https://samfisher753.github.io/ShipWeb/',
         wiki: 'The_Legend_of_Zelda:_Ocarina_of_Time',
         covers: [LB_N64 + 'Legend%20of%20Zelda,%20The%20-%20Ocarina%20of%20Time%20(USA).png'],
         palette: ['#14532d', '#ca8a04']
@@ -827,370 +1012,615 @@
       {
         id: 'b-mk64',
         title: 'Mario Kart 64',
-        author: 'Web Port • Nintendo 64',
+        author: 'mk64 Decomp • Nintendo 64',
         platform: 'NINTENDO',
         isSquareCover: true,
-        popularRank: 36,
-        dateRank: 5,
-        url: 'https://ported2browser.com/?search=Mario+Kart',
+        popularRank: 48,
+        dateRank: 28,
+        url: 'https://andrewnakas.github.io/',
         wiki: 'Mario_Kart_64',
         covers: [LB_N64 + 'Mario%20Kart%2064%20(USA).png'],
         palette: ['#7f1d1d', '#f59e0b']
       },
       {
-        id: 'b-pokemon-firered',
-        title: 'Pokémon FireRed / Viridian Forest',
-        author: 'Web Port • Nintendo GBA',
+        id: 'b-pokemon-18',
+        title: 'Pokémon (18 Classic Games Web)',
+        author: 'PokeWeb • Game Boy / GBA',
         platform: 'NINTENDO',
         isSquareCover: true,
-        popularRank: 37,
-        dateRank: 4,
-        url: 'https://ported2browser.com/?search=Viridian+Forest',
+        popularRank: 49,
+        dateRank: 27,
+        url: 'https://pokeweb.morisoba.moe/',
+        wiki: 'Pokémon_Red,_Blue,_and_Yellow',
+        covers: [LB_GBA + 'Pokemon%20-%20Emerald%20Version%20(USA,%20Europe).png'],
+        palette: ['#064e3b', '#10b981']
+      },
+      {
+        id: 'b-pokemon-firered',
+        title: 'Pokémon FireRed / Viridian Forest',
+        author: 'PokéBonk 3D • Nintendo GBA',
+        platform: 'NINTENDO',
+        isSquareCover: true,
+        popularRank: 50,
+        dateRank: 26,
+        url: 'https://pokebonk.com/',
         wiki: 'Pokémon_FireRed_and_LeafGreen',
         covers: [LB_GBA + 'Pokemon%20-%20FireRed%20Version%20(USA,%20Europe)%20(Rev%201).png'],
         palette: ['#7f1d1d', '#ea580c']
       },
-
-      // --- PC / OUTROS ---
       {
-        id: 'b-gta-vc',
-        title: 'Grand Theft Auto: Vice City',
-        author: 'DOS.Zone • PC',
-        platform: 'OTHER',
-        popularRank: 38,
-        dateRank: 3,
-        url: 'https://dos.zone/grand-theft-auto-vice-city/',
-        wiki: 'Grand_Theft_Auto:_Vice_City',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/12110/library_600x900.jpg'],
-        palette: ['#701a75', '#db2777']
+        id: 'b-pokemon-redstone',
+        title: 'Pokémon Redstone (Web Edition)',
+        author: 'Redstone Team • Nintendo GBA',
+        platform: 'NINTENDO',
+        isSquareCover: true,
+        popularRank: 51,
+        dateRank: 25,
+        url: 'https://pokemon-redstone.pages.dev/',
+        wiki: 'Pokémon_Ruby_and_Sapphire',
+        covers: [LB_GBA + 'Pokemon%20-%20Ruby%20Version%20(USA,%20Europe)%20(Rev%202).png'],
+        palette: ['#7f1d1d', '#dc2626']
       },
       {
+        id: 'b-monkey-ball',
+        title: 'Super Monkey Ball (GameCube Web)',
+        author: 'monkeyball-online • GameCube',
+        platform: 'NINTENDO',
+        popularRank: 52,
+        dateRank: 24,
+        url: 'https://monkeyball-online.pages.dev/',
+        wiki: 'Super_Monkey_Ball_(video_game)',
+        covers: [],
+        palette: ['#7c2d12', '#f59e0b']
+      },
+      {
+        id: 'b-smb-web',
+        title: 'Super Mario Bros. (Web Port)',
+        author: 'FullScreenMario • NES',
+        platform: 'NINTENDO',
+        isSquareCover: true,
+        popularRank: 53,
+        dateRank: 23,
+        url: 'https://supermariobros.io/',
+        wiki: 'Super_Mario_Bros.',
+        covers: [],
+        palette: ['#7f1d1d', '#dc2626']
+      },
+
+      // --- PC / OUTROS (DIRECT PLAYABLE WEB PORTS) ---
+      {
         id: 'b-cs-16',
-        title: 'Counter-Strike 1.6 & Surf',
-        author: 'Play-CS / 0yield • PC',
+        title: 'Counter-Strike 1.6 (CSJS Live)',
+        author: 'CSJS • PC',
         platform: 'OTHER',
-        popularRank: 39,
-        dateRank: 2,
-        url: 'https://play-cs.com/',
+        popularRank: 54,
+        dateRank: 22,
+        url: 'https://csjs.live/',
         wiki: 'Counter-Strike_(video_game)',
         covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10/library_600x900.jpg'],
         palette: ['#1e293b', '#0369a1']
       },
       {
-        id: 'b-hotline-miami',
-        title: 'Hotline Miami',
-        author: 'mdecombax • PC',
+        id: 'b-cs-skirmish',
+        title: 'Counter-Strike 1.6 (Combat Skirmish)',
+        author: 'Combat Skirmish • PC',
         platform: 'OTHER',
-        popularRank: 40,
-        dateRank: 1,
-        url: 'https://ported2browser.com/?search=Hotline+Miami',
-        wiki: 'Hotline_Miami',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/219150/library_600x900.jpg'],
-        palette: ['#4c0519', '#ec4899']
+        popularRank: 55,
+        dateRank: 21,
+        url: 'https://combatskirmish.net/quickjoin',
+        wiki: 'Counter-Strike_(video_game)',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10/library_600x900.jpg'],
+        palette: ['#0f172a', '#f59e0b']
+      },
+      {
+        id: 'b-hl-1',
+        title: 'Half-Life (Xash3D Web Port)',
+        author: 'pixelsuft / Xash3D • PC',
+        platform: 'OTHER',
+        popularRank: 56,
+        dateRank: 20,
+        url: 'https://pixelsuft.github.io/hl/',
+        wiki: 'Half-Life_(video_game)',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/70/library_600x900.jpg'],
+        palette: ['#7c2d12', '#ea580c']
+      },
+      {
+        id: 'b-portal',
+        title: 'Portal (Web Port)',
+        author: 'yikes.pw • PC',
+        platform: 'OTHER',
+        popularRank: 57,
+        dateRank: 19,
+        url: 'https://yikes.pw/portal/',
+        wiki: 'Portal_(video_game)',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/400/library_600x900.jpg'],
+        palette: ['#0c4a6e', '#ea580c']
+      },
+      {
+        id: 'b-tf2',
+        title: 'Team Fortress 2 (Web Port)',
+        author: 'riddy • PC',
+        platform: 'OTHER',
+        popularRank: 58,
+        dateRank: 18,
+        url: 'https://tf2.riddy.workers.dev/',
+        wiki: 'Team_Fortress_2',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/440/library_600x900.jpg'],
+        palette: ['#7c2d12', '#f97316']
+      },
+      {
+        id: 'b-stardew',
+        title: 'Stardew Valley (WASM Port)',
+        author: 'WASM Port • PC',
+        platform: 'OTHER',
+        popularRank: 59,
+        dateRank: 17,
+        url: 'https://wasm.rip/files/stardewvalley/index.html',
+        wiki: 'Stardew_Valley',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/413150/library_600x900.jpg'],
+        palette: ['#14532d', '#eab308']
+      },
+      {
+        id: 'b-hollow-knight',
+        title: 'Hollow Knight (Web Port)',
+        author: 'WebAssembly Port • PC',
+        platform: 'OTHER',
+        popularRank: 60,
+        dateRank: 16,
+        url: 'https://fnaffree.io/hollow-knight',
+        wiki: 'Hollow_Knight',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/367520/library_600x900.jpg'],
+        palette: ['#0f172a', '#38bdf8']
+      },
+      {
+        id: 'b-isaac',
+        title: 'The Binding of Isaac: Repentance+',
+        author: 'tboi.online • PC',
+        platform: 'OTHER',
+        popularRank: 61,
+        dateRank: 15,
+        url: 'https://tboi.online/',
+        wiki: 'The_Binding_of_Isaac:_Rebirth',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/250900/library_600x900.jpg'],
+        palette: ['#450a0a', '#991b1b']
+      },
+      {
+        id: 'b-lethal-company',
+        title: 'Lethal Company (WASM Port)',
+        author: 'WASM Port • PC',
+        platform: 'OTHER',
+        popularRank: 62,
+        dateRank: 14,
+        url: 'https://wasm.rip/files/lethal/index.html',
+        wiki: 'Lethal_Company',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/1966720/library_600x900.jpg'],
+        palette: ['#450a0a', '#ea580c']
+      },
+      {
+        id: 'b-brotato',
+        title: 'Brotato (WASM Port)',
+        author: 'WASM Port • PC',
+        platform: 'OTHER',
+        popularRank: 63,
+        dateRank: 13,
+        url: 'https://wasm.rip/files/bpac/index.html',
+        wiki: 'Brotato',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/1942280/library_600x900.jpg'],
+        palette: ['#78350f', '#eab308']
+      },
+      {
+        id: 'b-inscryption',
+        title: 'Inscryption (WASM Port)',
+        author: 'WASM Port • PC',
+        platform: 'OTHER',
+        popularRank: 64,
+        dateRank: 12,
+        url: 'https://wasm.rip/files/inscryption/index.html',
+        wiki: 'Inscryption',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/1092790/library_600x900.jpg'],
+        palette: ['#1c1917', '#b45309']
+      },
+      {
+        id: 'b-rimworld',
+        title: 'RimWorld (WASM Port)',
+        author: 'WASM Port • PC',
+        platform: 'OTHER',
+        popularRank: 65,
+        dateRank: 11,
+        url: 'https://wasm.rip/files/rimworld/index.html',
+        wiki: 'RimWorld',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/294100/library_600x900.jpg'],
+        palette: ['#1e293b', '#64748b']
+      },
+      {
+        id: 'b-clustertruck',
+        title: 'Clustertruck (WASM Port)',
+        author: 'WASM Port • PC',
+        platform: 'OTHER',
+        popularRank: 66,
+        dateRank: 10,
+        url: 'https://wasm.rip/files/ClusterTruck/clustertruck.html',
+        wiki: 'Clustertruck',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/397950/library_600x900.jpg'],
+        palette: ['#1e1b4b', '#ec4899']
+      },
+      {
+        id: 'b-diablo-1',
+        title: 'Diablo (DevilutionX Web)',
+        author: 'JohnImril • PC',
+        platform: 'OTHER',
+        popularRank: 67,
+        dateRank: 9,
+        url: 'https://johnimril.github.io/diablo_web/',
+        wiki: 'Diablo_(video_game)',
+        covers: [],
+        palette: ['#450a0a', '#b91c1c']
+      },
+      {
+        id: 'b-celeste-wasm',
+        title: 'Celeste (WASM Web Port)',
+        author: 'MercuryWorkshop • PC',
+        platform: 'OTHER',
+        popularRank: 68,
+        dateRank: 8,
+        url: 'https://celeste.r58playz.dev/',
+        wiki: 'Celeste_(video_game)',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/504230/library_600x900.jpg'],
+        palette: ['#31102f', '#ec4899']
+      },
+      {
+        id: 'b-red-alert-2',
+        title: 'Command & Conquer: Red Alert 2',
+        author: 'Chrono Divide • PC',
+        platform: 'OTHER',
+        popularRank: 69,
+        dateRank: 7,
+        url: 'https://game.chronodivide.com/',
+        wiki: 'Command_&_Conquer:_Red_Alert_2',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/2229850/library_600x900.jpg'],
+        palette: ['#7f1d1d', '#dc2626']
+      },
+      {
+        id: 'b-quake-3',
+        title: 'Quake III Arena (Browser Port)',
+        author: 'q3.pieter.com • PC',
+        platform: 'OTHER',
+        popularRank: 70,
+        dateRank: 6,
+        url: 'https://q3.pieter.com/',
+        wiki: 'Quake_III_Arena',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/2200/library_600x900.jpg'],
+        palette: ['#450a0a', '#ea580c']
+      },
+      {
+        id: 'b-doom-2',
+        title: 'DOOM II Multiplayer (Web Port)',
+        author: 'doom.pieter.com • PC',
+        platform: 'OTHER',
+        popularRank: 71,
+        dateRank: 5,
+        url: 'https://doom.pieter.com/',
+        wiki: 'Doom_II',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/2300/library_600x900.jpg'],
+        palette: ['#450a0a', '#ea580c']
+      },
+      {
+        id: 'b-minecraft-18',
+        title: 'Minecraft 1.8.8 (EaglercraftX)',
+        author: 'WASM Arcade • PC',
+        platform: 'OTHER',
+        popularRank: 72,
+        dateRank: 4,
+        url: 'https://wasmarcade.com/minecraft',
+        wiki: 'Minecraft',
+        covers: [],
+        palette: ['#14532d', '#16a34a']
+      },
+      {
+        id: 'b-lego-island',
+        title: 'LEGO Island (isle.pizza Web Port)',
+        author: 'isle.pizza • PC',
+        platform: 'OTHER',
+        popularRank: 73,
+        dateRank: 3,
+        url: 'https://isle.pizza/',
+        wiki: 'Lego_Island',
+        covers: [],
+        palette: ['#1e3a8a', '#eab308']
+      },
+      {
+        id: 'b-space-cadet',
+        title: '3D Pinball: Space Cadet (WASM)',
+        author: 'alula / Decomp • PC',
+        platform: 'OTHER',
+        popularRank: 74,
+        dateRank: 2,
+        url: 'https://alula.github.io/SpaceCadetPinball/',
+        wiki: 'Full_Tilt!_Pinball',
+        covers: [],
+        palette: ['#1e1b4b', '#4f46e5']
       },
       {
         id: 'b-slime-rancher',
-        title: 'Slime Rancher',
+        title: 'Slime Rancher (Web Port)',
         author: 'snubby.top • PC',
         platform: 'OTHER',
-        popularRank: 41,
+        popularRank: 75,
         dateRank: 1,
         url: 'https://slimeranchers.com/',
         wiki: 'Slime_Rancher',
         covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/433340/library_600x900.jpg'],
         palette: ['#831843', '#ec4899']
-      },
-      {
-        id: 'b-fear-hunger',
-        title: 'Fear & Hunger',
-        author: 'breadbb • PC',
-        platform: 'OTHER',
-        popularRank: 42,
-        dateRank: 1,
-        url: 'https://ported2browser.com/?search=Fear+%26+Hunger',
-        wiki: 'Fear_&_Hunger',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/1002300/library_600x900.jpg'],
-        palette: ['#1c1917', '#44403c']
-      },
-      {
-        id: 'b-toca-3',
-        title: 'TOCA Race Driver 3',
-        author: 'quepocomprar.com.ar • PC',
-        platform: 'OTHER',
-        popularRank: 43,
-        dateRank: 1,
-        url: 'https://quepocomprar.com.ar/',
-        wiki: 'TOCA_Race_Driver_3',
-        covers: [],
-        palette: ['#1e293b', '#475569']
-      },
-      {
-        id: 'b-rugby-08',
-        title: 'Rugby 08',
-        author: 'mitchivin • PC',
-        platform: 'OTHER',
-        popularRank: 44,
-        dateRank: 1,
-        url: 'https://mitchivin.github.io/rugby08/',
-        wiki: 'Rugby_08',
-        covers: [],
-        palette: ['#064e3b', '#15803d']
       }
     ];
 
     // =========================================================================
-    // TAB 2: NATIVE PC PORTS (STRICTLY CLASSIFIED BY CONSOLE ORIGIN)
+    // TAB 2: NATIVE PC PORTS (DECOMPILATIONS / STATIC RECOMPS / SOURCE PORTS)
+    // Only true native PC ports — ZERO emulators & ZERO bare GitHub links.
     // =========================================================================
     const defaultNativeProjects = [
-      // --- PS2 ---
+      // --- PS2 (NATIVE DECOMPILATIONS, RECOMPILATIONS & SOURCE PORTS) ---
       {
         id: 'n-jak-opengoal',
-        title: 'Jak & Daxter / Jak II / Jak 3',
-        author: 'OpenGOAL • PS2',
+        title: 'Jak & Daxter: The Precursor Legacy',
+        author: 'OpenGOAL Native • PS2',
         console: 'PS2',
         hasExe: true,
-        url: 'https://github.com/open-goal/launcher/releases/latest',
-        repoUrl: 'https://github.com/open-goal/jak-project',
+        url: 'https://opengoal.dev/',
         wiki: 'Jak_and_Daxter:_The_Precursor_Legacy',
         covers: [LB_PS2 + 'Jak%20and%20Daxter%20-%20The%20Precursor%20Legacy%20(USA).png'],
         palette: ['#78350f', '#eab308']
       },
       {
-        id: 'n-kh2-decomp',
-        title: 'Kingdom Hearts II (OpenKH)',
-        author: 'OpenKH • PS2',
+        id: 'n-jak2-opengoal',
+        title: 'Jak II (OpenGOAL Native PC)',
+        author: 'OpenGOAL Native • PS2',
         console: 'PS2',
         hasExe: true,
-        url: 'https://github.com/OpenKH/OpenKh/releases/latest',
-        repoUrl: 'https://github.com/OpenKH/OpenKh',
-        wiki: 'Kingdom_Hearts_II',
-        covers: [LB_PS2 + 'Kingdom%20Hearts%20II%20(USA).png'],
-        palette: ['#1e1b4b', '#6366f1']
+        url: 'https://opengoal.dev/',
+        wiki: 'Jak_II',
+        covers: [LB_PS2 + 'Jak%20II%20(USA).png'],
+        palette: ['#1e293b', '#dc2626']
       },
       {
-        id: 'n-sly-cooper',
-        title: 'Sly Cooper and the Thievius Raccoonus',
-        author: 'ProjectCane • PS2',
+        id: 'n-jak3-opengoal',
+        title: 'Jak 3 (OpenGOAL Native PC)',
+        author: 'OpenGOAL Native • PS2',
         console: 'PS2',
         hasExe: true,
-        url: 'https://github.com/theclub654/ProjectCane/releases',
-        repoUrl: 'https://github.com/theclub654/ProjectCane',
-        wiki: 'Sly_Cooper_and_the_Thievius_Raccoonus',
-        covers: [LB_PS2 + 'Sly%20Cooper%20and%20the%20Thievius%20Raccoonus%20(USA).png'],
-        palette: ['#1e3a8a', '#3b82f6']
+        url: 'https://opengoal.dev/',
+        wiki: 'Jak_3',
+        covers: [LB_PS2 + 'Jak%203%20(USA).png'],
+        palette: ['#78350f', '#d97706']
+      },
+      {
+        id: 'n-gta-re3',
+        title: 'Grand Theft Auto III (re3 Native Port)',
+        author: 're3 Team • PS2 / PC',
+        console: 'PS2',
+        hasExe: true,
+        url: 'https://archive.org/details/gta-3-gta-vc-re_20210222_0707',
+        wiki: 'Grand_Theft_Auto_III',
+        covers: [LB_PS2 + 'Grand%20Theft%20Auto%20III%20(USA).png'],
+        palette: ['#1c1917', '#ea580c']
+      },
+      {
+        id: 'n-gta-revc',
+        title: 'GTA: Vice City (reVC Native Port)',
+        author: 'reVC Team • PS2 / PC',
+        console: 'PS2',
+        hasExe: true,
+        url: 'https://archive.org/details/gta-3-gta-vc-re_20210222_0707',
+        wiki: 'Grand_Theft_Auto:_Vice_City',
+        covers: [LB_PS2 + 'Grand%20Theft%20Auto%20-%20Vice%20City%20(USA).png'],
+        palette: ['#701a75', '#db2777']
+      },
+      {
+        id: 'n-gta-relcs',
+        title: 'GTA: Liberty City Stories (reLCS PC Port)',
+        author: 'reLCS Team • PS2 / PSP',
+        console: 'PS2',
+        hasExe: true,
+        url: 'https://www.moddb.com/mods/gta-re-liberty-city-stories-pc/downloads/gta-liberty-city-stories-pc-full-edition-50',
+        wiki: 'Grand_Theft_Auto:_Liberty_City_Stories',
+        covers: [LB_PS2 + 'Grand%20Theft%20Auto%20-%20Liberty%20City%20Stories%20(USA).png'],
+        palette: ['#450a0a', '#b91c1c']
       },
       {
         id: 'n-sh2-enhanced',
         title: 'Silent Hill 2: Enhanced Edition',
-        author: 'SH2 Enhancements • PS2',
+        author: 'SH2 Enhancements • PS2 / PC',
         console: 'PS2',
         hasExe: true,
-        url: 'https://github.com/elishacloud/Silent-Hill-2-Enhancements/releases/latest',
-        repoUrl: 'https://github.com/elishacloud/Silent-Hill-2-Enhancements',
+        url: 'https://enhanced.townofsilenthill.com/SH2/install.htm',
         wiki: 'Silent_Hill_2',
         covers: [LB_PS2 + 'Silent%20Hill%202%20(USA).png'],
         palette: ['#090d16', '#1e293b']
       },
       {
         id: 'n-simpsons-donut',
-        title: 'The Simpsons: Hit & Run',
-        author: 'Donut Engine • PS2',
+        title: 'The Simpsons: Hit & Run (Native PC)',
+        author: 'Donut Team • PS2 / PC',
         console: 'PS2',
         hasExe: true,
-        url: 'https://github.com/plowteam/donut/releases',
-        repoUrl: 'https://github.com/plowteam/donut',
+        url: 'https://modbakery.donutteam.com/releases/view/lucas-mod-launcher',
         wiki: 'The_Simpsons:_Hit_&_Run',
         covers: [LB_PS2 + 'Simpsons,%20The%20-%20Hit%20%26%20Run%20(USA).png'],
         palette: ['#854d0e', '#eab308']
       },
       {
-        id: 'n-downhill-pc',
-        title: 'Downhill Domination',
-        author: 'downhill-revived • PS2',
+        id: 'n-dmc3-crimson',
+        title: 'Devil May Cry 3: Crimson (Native Port)',
+        author: 'Crimson Team • PS2 / PC',
         console: 'PS2',
-        hasExe: false,
-        url: 'https://github.com/skuza-oss/downhill-revived',
-        repoUrl: 'https://github.com/skuza-oss/downhill-revived',
-        wiki: 'Downhill_Domination',
-        covers: [LB_PS2 + 'Downhill%20Domination%20(USA).png'],
-        palette: ['#7c2d12', '#ea580c']
-      },
-      {
-        id: 'n-shaolin-monks-pc',
-        title: 'Mortal Kombat: Shaolin Monks',
-        author: 'ShaolinMonksRecomp • PS2',
-        console: 'PS2',
-        hasExe: false,
-        url: 'https://github.com/OAleex/ShaolinMonksRecomp',
-        repoUrl: 'https://github.com/OAleex/ShaolinMonksRecomp',
-        wiki: 'Mortal_Kombat:_Shaolin_Monks',
-        covers: [LB_PS2 + 'Mortal%20Kombat%20-%20Shaolin%20Monks%20(USA).png'],
-        palette: ['#450a0a', '#b91c1c']
-      },
-      {
-        id: 'n-ratchet-clank',
-        title: 'Ratchet & Clank',
-        author: 'rac-rs • PS2',
-        console: 'PS2',
-        hasExe: false,
-        url: 'https://github.com/AsobiCodes/rac-rs',
-        repoUrl: 'https://github.com/AsobiCodes/rac-rs',
-        wiki: 'Ratchet_&_Clank_(2002_video_game)',
-        covers: [LB_PS2 + 'Ratchet%20%26%20Clank%20(USA).png'],
-        palette: ['#7c2d12', '#f59e0b']
-      },
-      {
-        id: 'n-gow-ps2',
-        title: 'God of War (PS2 Native Port)',
-        author: 'Waffle565 • PS2',
-        console: 'PS2',
-        hasExe: false,
-        url: 'https://github.com/Waffle565/God-Of-War-Native-Port',
-        repoUrl: 'https://github.com/Waffle565/God-Of-War-Native-Port',
-        wiki: 'God_of_War_(2005_video_game)',
-        covers: [LB_PS2 + 'God%20of%20War%20(USA).png'],
+        hasExe: true,
+        url: 'https://www.nexusmods.com/devilmaycryhdcollection/mods/272',
+        wiki: "Devil_May_Cry_3:_Dante's_Awakening",
+        covers: [LB_PS2 + 'Devil%20May%20Cry%203%20-%20Dante%27s%20Awakening%20(USA).png'],
         palette: ['#450a0a', '#dc2626']
       },
       {
-        id: 'n-burnout3-pc',
-        title: 'Burnout 3: Takedown',
-        author: 'burnout3-pc • PS2',
+        id: 'n-kh2-decomp',
+        title: 'Kingdom Hearts II (OpenKH Native)',
+        author: 'OpenKH • PS2',
         console: 'PS2',
-        hasExe: false,
-        url: 'https://github.com/danielgomesvieira2000/burnout3-pc',
-        repoUrl: 'https://github.com/danielgomesvieira2000/burnout3-pc',
-        wiki: 'Burnout_3:_Takedown',
-        covers: [LB_PS2 + 'Burnout%203%20-%20Takedown%20(USA).png'],
-        palette: ['#7f1d1d', '#ef4444']
+        hasExe: true,
+        url: 'https://openkh.dev/',
+        wiki: 'Kingdom_Hearts_II',
+        covers: [LB_PS2 + 'Kingdom%20Hearts%20II%20(USA).png'],
+        palette: ['#1e1b4b', '#6366f1']
+      },
+      {
+        id: 'n-crash-twinsanity',
+        title: 'Crash Twinsanity (TwinsanityEvolved PC)',
+        author: 'TwinsanityEvolved • PS2',
+        console: 'PS2',
+        hasExe: true,
+        url: 'https://playported.com/ports/587-crash-twinsanity/',
+        wiki: 'Crash_Twinsanity',
+        covers: [LB_PS2 + 'Crash%20Twinsanity%20(USA).png'],
+        palette: ['#7c2d12', '#f97316']
+      },
+      {
+        id: 'n-defjam-vendetta',
+        title: 'Def Jam: Vendetta Recompiled',
+        author: 'PS2Recomp • PS2',
+        console: 'PS2',
+        hasExe: true,
+        url: 'https://allrecomps.com/',
+        wiki: 'Def_Jam_Vendetta',
+        covers: [LB_PS2 + 'Def%20Jam%20Vendetta%20(USA).png'],
+        palette: ['#27272a', '#b45309']
       },
 
-      // --- PS3 ---
+      // --- PS3 (STATIC RECOMPILATIONS & NATIVE PORTS) ---
       {
-        id: 'n-rpcs3',
-        title: 'Demon\'s Souls (RPCS3 Build)',
-        author: 'RPCS3 LLVM • PS3',
+        id: 'n-demons-souls-recomp',
+        title: 'Demon\'s Souls Recompiled (Native D3D12)',
+        author: 'DemonsSoulsRecomp • PS3',
         console: 'PS3',
         hasExe: true,
-        url: 'https://github.com/RPCS3/rpcs3-binaries-win/releases/latest',
-        repoUrl: 'https://github.com/RPCS3/rpcs3',
+        url: 'https://allrecomps.com/',
         wiki: "Demon's_Souls",
         covers: [],
         palette: ['#1e293b', '#475569']
       },
       {
         id: 'n-gow3-spartan',
-        title: 'God of War III (SpartanPort)',
-        author: 'FelipePrado0 • PS3',
+        title: 'God of War III (SpartanPort Native PC)',
+        author: 'FelipePrado0 • PS3 / PS4',
         console: 'PS3',
-        hasExe: false,
-        url: 'https://github.com/FelipePrado0/SpartanPort',
-        repoUrl: 'https://github.com/FelipePrado0/SpartanPort',
+        hasExe: true,
+        url: 'https://allrecomps.com/',
         wiki: 'God_of_War_III',
         covers: [],
         palette: ['#450a0a', '#991b1b']
       },
-      {
-        id: 'n-mgs4-ps3',
-        title: 'Metal Gear Solid 4: Guns of the Patriots',
-        author: 'RPCS3 / MGS4 • PS3',
-        console: 'PS3',
-        hasExe: true,
-        url: 'https://github.com/RPCS3/rpcs3-binaries-win/releases/latest',
-        repoUrl: 'https://github.com/RPCS3/rpcs3',
-        wiki: 'Metal_Gear_Solid_4:_Guns_of_the_Patriots',
-        covers: [],
-        palette: ['#1c1917', '#57534e']
-      },
 
-      // --- PS4 ---
+      // --- PS4 (NATIVE WINDOWS PORTS — NO EMULATOR) ---
       {
-        id: 'n-bloodborne-pc',
-        title: 'Bloodborne PC (shadPS4 Build)',
-        author: 'shadPS4 / Supermedo • PS4',
+        id: 'n-spiderman2-brazil',
+        title: 'Marvel\'s Spider-Man 2 (Port PC Brazil)',
+        author: 'SM2 PC Brazil Team • PS4 / PS5',
         console: 'PS4',
         hasExe: true,
-        url: 'https://github.com/shadps4-emu/shadPS4/releases/latest',
-        repoUrl: 'https://github.com/Supermedo/bloodborne_pc',
+        url: 'https://gamedrive.org/',
+        wiki: "Marvel's_Spider-Man_2",
+        covers: [],
+        palette: ['#7f1d1d', '#dc2626']
+      },
+      {
+        id: 'n-bloodborne-pc',
+        title: 'Bloodborne PC (bbport Native Runtime)',
+        author: 'bbport Team • PS4',
+        console: 'PS4',
+        hasExe: true,
+        url: 'https://allrecomps.com/',
         wiki: 'Bloodborne',
         covers: [],
         palette: ['#090d16', '#334155']
       },
       {
-        id: 'n-driveclub-pc',
-        title: 'Driveclub',
-        author: 'driveclub-recomp • PS4',
+        id: 'n-ctr-nitrofueled',
+        title: 'CTR: Nitro-Fueled (OCTR Native PC Port)',
+        author: 'OCTR Team • PS4',
         console: 'PS4',
-        hasExe: false,
-        url: 'https://github.com/OverkillLabs3/driveclub-recomp',
-        repoUrl: 'https://github.com/OverkillLabs3/driveclub-recomp',
-        wiki: 'Driveclub',
+        hasExe: true,
+        url: 'https://playported.com/ports/555-crash-team-racing/',
+        wiki: 'Crash_Team_Racing_Nitro-Fueled',
         covers: [],
-        palette: ['#7f1d1d', '#dc2626']
-      },
-      {
-        id: 'n-infamous-ss',
-        title: 'inFAMOUS Second Son',
-        author: 'iss_pc • PS4',
-        console: 'PS4',
-        hasExe: false,
-        url: 'https://github.com/HayatoG/iss_pc',
-        repoUrl: 'https://github.com/HayatoG/iss_pc',
-        wiki: 'Infamous_Second_Son',
-        covers: [],
-        palette: ['#1e1b4b', '#ec4899']
+        palette: ['#7c2d12', '#f59e0b']
       },
 
-      // --- XBOX / 360 ---
+      // --- XBOX / 360 (XENONRECOMP & NATIVE PC PORTS) ---
       {
         id: 'n-sonic-unleashed',
         title: 'Sonic Unleashed Recompiled',
-        author: 'hedge-dev • Xbox 360',
+        author: 'hedge-dev (XenonRecomp) • Xbox 360',
         console: 'XBOX',
         hasExe: true,
-        url: 'https://github.com/hedge-dev/UnleashedRecomp/releases/latest',
-        repoUrl: 'https://github.com/hedge-dev/UnleashedRecomp',
+        url: 'https://sourceforge.net/projects/unleashedrecomp.mirror/files/',
         wiki: 'Sonic_Unleashed',
         covers: [],
         palette: ['#1e3a8a', '#2563eb']
       },
       {
-        id: 'n-lost-odyssey',
-        title: 'Lost Odyssey Recompiled',
-        author: 'freefrank • Xbox 360',
+        id: 'n-sonic-p06',
+        title: 'Sonic the Hedgehog (Project \'06 Native)',
+        author: 'ChaosX • Xbox 360',
         console: 'XBOX',
         hasExe: true,
-        url: 'https://github.com/freefrank/LostOdysseyRecomp/releases/latest',
-        repoUrl: 'https://github.com/freefrank/LostOdysseyRecomp',
-        wiki: 'Lost_Odyssey',
+        url: 'https://archive.org/details/project-06-update-3.5',
+        wiki: 'Sonic_the_Hedgehog_(2006_video_game)',
         covers: [],
         palette: ['#1e293b', '#38bdf8']
       },
       {
-        id: 'n-sh-downpour',
-        title: 'Silent Hill: Downpour Recompiled',
-        author: 'LittleBitUA • Xbox 360',
+        id: 'n-lost-odyssey',
+        title: 'Lost Odyssey Recompiled',
+        author: 'XenonRecomp • Xbox 360',
         console: 'XBOX',
         hasExe: true,
-        url: 'https://github.com/LittleBitUA/DownpourRecomp/releases/latest',
-        repoUrl: 'https://github.com/LittleBitUA/DownpourRecomp',
-        wiki: 'Silent_Hill:_Downpour',
+        url: 'https://allrecomps.com/',
+        wiki: 'Lost_Odyssey',
         covers: [],
-        palette: ['#0f172a', '#475569']
+        palette: ['#1e293b', '#0ea5e9']
       },
       {
         id: 'n-fable-2',
         title: 'Fable II Recompiled',
-        author: 'himdo • Xbox 360',
+        author: 'XenonRecomp • Xbox 360',
         console: 'XBOX',
-        hasExe: false,
-        url: 'https://github.com/himdo/Fable-2-Recomp',
-        repoUrl: 'https://github.com/himdo/Fable-2-Recomp',
+        hasExe: true,
+        url: 'https://allrecomps.com/',
         wiki: 'Fable_II',
         covers: [],
         palette: ['#78350f', '#f59e0b']
       },
+      {
+        id: 'n-skate-3',
+        title: 'Skate 3 Recompiled',
+        author: 'XenonRecomp • Xbox 360',
+        console: 'XBOX',
+        hasExe: true,
+        url: 'https://allrecomps.com/',
+        wiki: 'Skate_3',
+        covers: [],
+        palette: ['#1e293b', '#f97316']
+      },
+      {
+        id: 'n-driv3r-definitive',
+        title: 'Driv3r: Definitive Edition (Native PC)',
+        author: 'Vortex Team • Xbox / PC',
+        console: 'XBOX',
+        hasExe: true,
+        url: 'https://archive.org/details/driv3r-rerelease',
+        wiki: 'Driv3r',
+        covers: [],
+        palette: ['#1c1917', '#b91c1c']
+      },
 
-      // --- NINTENDO ---
+      // --- NINTENDO (N64RECOMP & HARBOURMASTERS NATIVE PORTS) ---
       {
         id: 'n-zelda-soh',
         title: 'Zelda: Ocarina of Time (Ship of Harkinian)',
@@ -1198,8 +1628,7 @@
         console: 'NINTENDO',
         isSquareCover: true,
         hasExe: true,
-        url: 'https://github.com/HarbourMasters/Shipwright/releases/latest',
-        repoUrl: 'https://github.com/HarbourMasters/Shipwright',
+        url: 'https://www.shipofharkinian.com/',
         wiki: 'The_Legend_of_Zelda:_Ocarina_of_Time',
         covers: [LB_N64 + 'Legend%20of%20Zelda,%20The%20-%20Ocarina%20of%20Time%20(USA).png'],
         palette: ['#14532d', '#ca8a04']
@@ -1211,104 +1640,180 @@
         console: 'NINTENDO',
         isSquareCover: true,
         hasExe: true,
-        url: 'https://github.com/HarbourMasters/2ship2harkinian/releases/latest',
-        repoUrl: 'https://github.com/HarbourMasters/2ship2harkinian',
+        url: 'https://2ship2harkinian.com/',
         wiki: "The_Legend_of_Zelda:_Majora's_Mask",
         covers: [LB_N64 + 'Legend%20of%20Zelda,%20The%20-%20Majora%27s%20Mask%20(USA).png'],
         palette: ['#3b0764', '#9333ea']
       },
       {
+        id: 'n-zelda64-recomp',
+        title: 'Zelda 64: Recompiled (Majora\'s Mask RT)',
+        author: 'Wiseguy (N64Recomp) • Nintendo 64',
+        console: 'NINTENDO',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://recomplauncher.com/',
+        wiki: "The_Legend_of_Zelda:_Majora's_Mask",
+        covers: [LB_N64 + 'Legend%20of%20Zelda,%20The%20-%20Majora%27s%20Mask%20(USA).png'],
+        palette: ['#4c1d95', '#a855f7']
+      },
+      {
         id: 'n-banjo-recomp',
-        title: 'Banjo-Kazooie Recompiled',
+        title: 'Banjo-Kazooie: Recompiled',
         author: 'BanjoRecomp • Nintendo 64',
         console: 'NINTENDO',
         isSquareCover: true,
         hasExe: true,
-        url: 'https://github.com/BanjoRecomp/BanjoRecomp/releases/latest',
-        repoUrl: 'https://github.com/BanjoRecomp/BanjoRecomp',
+        url: 'https://banjorecomp.com/',
         wiki: 'Banjo-Kazooie',
         covers: [LB_N64 + 'Banjo-Kazooie%20(USA).png'],
         palette: ['#7c2d12', '#facc15']
       },
       {
         id: 'n-starfox-starship',
-        title: 'Star Fox 64 (Starship)',
+        title: 'Star Fox 64 (Starship Native PC)',
         author: 'HarbourMasters • Nintendo 64',
         console: 'NINTENDO',
         isSquareCover: true,
         hasExe: true,
-        url: 'https://github.com/HarbourMasters/Starship/releases/latest',
-        repoUrl: 'https://github.com/HarbourMasters/Starship',
+        url: 'https://harbourmasters64.com/',
         wiki: 'Star_Fox_64',
         covers: [LB_N64 + 'Star%20Fox%2064%20(USA).png'],
         palette: ['#1e3a8a', '#38bdf8']
       },
       {
+        id: 'n-mk64-spaghetti',
+        title: 'Mario Kart 64 (SpaghettiKart PC)',
+        author: 'HarbourMasters • Nintendo 64',
+        console: 'NINTENDO',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://harbourmasters64.com/',
+        wiki: 'Mario_Kart_64',
+        covers: [LB_N64 + 'Mario%20Kart%2064%20(USA).png'],
+        palette: ['#7f1d1d', '#f59e0b']
+      },
+      {
+        id: 'n-sm64-coop',
+        title: 'Super Mario 64 (sm64coopdx / Ghostship)',
+        author: 'Coop Deluxe • Nintendo 64',
+        console: 'NINTENDO',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://sm64coopdx.com/',
+        wiki: 'Super_Mario_64',
+        covers: [LB_N64 + 'Super%20Mario%2064%20(USA).png'],
+        palette: ['#7f1d1d', '#ef4444']
+      },
+      {
         id: 'n-perfect-dark',
-        title: 'Perfect Dark PC Port',
+        title: 'Perfect Dark (Native PC Decomp)',
         author: 'fgsfdsfgs • Nintendo 64',
         console: 'NINTENDO',
         isSquareCover: true,
         hasExe: true,
-        url: 'https://github.com/fgsfdsfgs/perfect_dark/releases/latest',
-        repoUrl: 'https://github.com/fgsfdsfgs/perfect_dark',
+        url: 'https://perfect-dark.uptodown.com/windows/download',
         wiki: 'Perfect_Dark',
         covers: [LB_N64 + 'Perfect%20Dark%20(USA).png'],
         palette: ['#0f172a', '#dc2626']
       },
       {
-        id: 'n-sm64-coop',
-        title: 'Super Mario 64 (sm64coopdx)',
-        author: 'Coop Deluxe • Nintendo 64',
+        id: 'n-goemon64-recomp',
+        title: 'Mystical Ninja Starring Goemon (Recompiled)',
+        author: 'Goemon64Recomp • Nintendo 64',
         console: 'NINTENDO',
         isSquareCover: true,
         hasExe: true,
-        url: 'https://github.com/coop-deluxe/sm64coopdx/releases/latest',
-        repoUrl: 'https://github.com/coop-deluxe/sm64coopdx',
-        wiki: 'Super_Mario_64',
-        covers: [LB_N64 + 'Super%20Mario%2064%20(USA).png'],
-        palette: ['#7f1d1d', '#ef4444']
+        url: 'https://allrecomps.com/',
+        wiki: 'Mystical_Ninja_Starring_Goemon',
+        covers: [LB_N64 + 'Mystical%20Ninja%20Starring%20Goemon%20(USA).png'],
+        palette: ['#7f1d1d', '#dc2626']
       },
 
-      // --- PS1 / CLÁSSICOS ---
+      // --- PS1 / CLÁSSICOS (NATIVE DECOMPILATIONS & SOURCE PORTS) ---
+      {
+        id: 'n-sh1-pc',
+        title: 'Silent Hill (1999 Native PC Decomp)',
+        author: 'PsyCross / SH1PC • PS1',
+        console: 'PS1',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://sh1pc.com/',
+        wiki: 'Silent_Hill_(video_game)',
+        covers: [LB_PS1 + 'Silent%20Hill%20(USA).png'],
+        palette: ['#090d16', '#334155']
+      },
+      {
+        id: 'n-ctr-native',
+        title: 'Crash Team Racing (CTR-Native PC Port)',
+        author: 'CTR-Tools • PS1',
+        console: 'PS1',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://playported.com/ports/555-crash-team-racing/',
+        wiki: 'Crash_Team_Racing',
+        covers: [LB_PS1 + 'Crash%20Team%20Racing%20(USA).png'],
+        palette: ['#7c2d12', '#f97316']
+      },
       {
         id: 'n-driver2',
-        title: 'Driver 2 (REDRIVER2)',
+        title: 'Driver 2 (REDRIVER2 Native PC)',
         author: 'OpenDriver2 • PS1',
         console: 'PS1',
         isSquareCover: true,
         hasExe: true,
-        url: 'https://github.com/OpenDriver2/REDRIVER2/releases/latest',
-        repoUrl: 'https://github.com/OpenDriver2/REDRIVER2',
+        url: 'https://opendriver2.github.io/',
         wiki: 'Driver_2',
         covers: [LB_PS1 + 'Driver%202%20(USA)%20(Disc%201).png'],
         palette: ['#1e293b', '#eab308']
       },
       {
+        id: 'n-driver-syndicate',
+        title: 'The Driver Syndicate (Driver 1 Remake)',
+        author: 'SoapyMan • PS1 / PC',
+        console: 'PS1',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://driver-syndicate.com/',
+        wiki: 'Driver_(video_game)',
+        covers: [LB_PS1 + 'Driver%20-%20You%20Are%20the%20Wheelman%20(USA).png'],
+        palette: ['#1c1917', '#ca8a04']
+      },
+      {
         id: 'n-wipeout-phantom',
-        title: 'WipEout Phantom Edition',
+        title: 'WipEout Phantom Edition (Native PC)',
         author: 'Phantom Edition • PS1',
         console: 'PS1',
         isSquareCover: true,
         hasExe: true,
-        url: 'https://github.com/wipeout-phantom-edition/wipeout-phantom-edition/releases/latest',
-        repoUrl: 'https://github.com/wipeout-phantom-edition/wipeout-phantom-edition',
+        url: 'https://archive.org/details/wipeout-phantom-edition',
         wiki: 'Wipeout_(video_game)',
         covers: [LB_PS1 + 'Wipeout%20(USA).png'],
         palette: ['#0f172a', '#06b6d4']
       },
       {
         id: 'n-openlara-pc',
-        title: 'Tomb Raider (OpenLara PC)',
+        title: 'Tomb Raider (OpenLara Native PC)',
         author: 'XProger • PS1',
         console: 'PS1',
         isSquareCover: true,
         hasExe: true,
-        url: 'https://github.com/XProger/OpenLara/releases/latest',
-        repoUrl: 'https://github.com/XProger/OpenLara',
+        url: 'https://archive.org/details/OpenLara',
         wiki: 'Tomb_Raider_(1996_video_game)',
         covers: [LB_PS1 + 'Tomb%20Raider%20(USA).png'],
         palette: ['#1c1917', '#b45309']
+      },
+      {
+        id: 'n-re-classic-rebirth',
+        title: 'Resident Evil 1 / 2 / 3 (Classic REbirth)',
+        author: 'Classic REbirth • PS1 / PC',
+        console: 'PS1',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://appleofeden.de-doc.com/index.php/downloads/',
+        wiki: 'Resident_Evil_2',
+        covers: [LB_PS1 + 'Resident%20Evil%202%20(USA)%20(Disc%201).png'],
+        palette: ['#450a0a', '#991b1b']
       }
     ];
 
@@ -1325,7 +1830,11 @@
         countNative: (n) => `${n} ports nativos`,
         playBtn: 'Jogar',
         downloadExeBtn: 'Baixar Executável',
-        openGithubBtn: 'Abrir GitHub'
+        openGithubBtn: 'Abrir GitHub',
+        pageInfo: (start, end, total, page, pages) => `Mostrando ${start}–${end} de ${total} jogos • Página ${page} de ${pages}`,
+        prevPage: '← Anterior',
+        nextPage: 'Próxima →',
+        disclaimer: '<strong class="font-bold text-blue-400">Aviso:</strong> Pedimos desculpas caso algum link não abra — os ports são mantidos por servidores da comunidade e podem passar por instabilidades temporárias.'
       },
       en: {
         tabBrowser: 'Browser Games',
@@ -1339,7 +1848,11 @@
         countNative: (n) => `${n} native ports`,
         playBtn: 'Play',
         downloadExeBtn: 'Download .EXE',
-        openGithubBtn: 'Open GitHub'
+        openGithubBtn: 'Open GitHub',
+        pageInfo: (start, end, total, page, pages) => `Showing ${start}–${end} of ${total} games • Page ${page} of ${pages}`,
+        prevPage: '← Prev',
+        nextPage: 'Next →',
+        disclaimer: '<strong class="font-bold text-blue-400">Notice:</strong> We apologize if any link fails to open — these ports are hosted on community servers and may occasionally experience temporary downtime.'
       }
     };
 
@@ -1416,6 +1929,7 @@
     }
 
     function handleSearch() {
+      browserCurrentPage = 1;
       if (activeMainTab === 'BROWSER') {
         renderBrowserGames();
       } else {
@@ -1459,6 +1973,8 @@
       document.getElementById('label-tab-browser').textContent = t.tabBrowser;
       document.getElementById('label-tab-native').textContent = t.tabNative;
       document.getElementById('global-search').placeholder = t.searchPlaceholder;
+      const discEl = document.getElementById('header-disclaimer');
+      if (discEl) discEl.innerHTML = t.disclaimer;
 
       const sortBtns = document.querySelectorAll('.b-sort-btn');
       sortBtns[0].textContent = t.sortPopular;
@@ -1472,6 +1988,7 @@
 
     function setBrowserPlatform(plat) {
       browserPlatform = plat;
+      browserCurrentPage = 1;
       document.querySelectorAll('.b-plat-btn').forEach(btn => {
         if (btn.getAttribute('data-bplat') === plat) {
           btn.className = 'b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]';
@@ -1484,6 +2001,7 @@
 
     function setBrowserSort(sortMode) {
       browserSort = sortMode;
+      browserCurrentPage = 1;
       document.querySelectorAll('.b-sort-btn').forEach(btn => {
         if (btn.getAttribute('data-sort') === sortMode) {
           btn.className = 'b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]';
@@ -1492,6 +2010,15 @@
         }
       });
       renderBrowserGames();
+    }
+
+    function setBrowserPage(page) {
+      browserCurrentPage = page;
+      renderBrowserGames();
+      const secBrowser = document.getElementById('section-browser');
+      if (secBrowser) {
+        secBrowser.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     function toggleFav(id, ev) {
@@ -1563,15 +2090,6 @@
                    class="relative z-10 w-full h-full ${fitClass} group-hover:scale-105 transition-transform duration-300" />
             </a>
 
-            <!-- Optional GitHub Repo Badge on Top-Left (for Native Ports with .EXE) -->
-            ${item.repoUrl && item.hasExe ? `
-              <a href="${item.repoUrl}" target="_blank" rel="noopener noreferrer"
-                 title="Código Fonte no GitHub"
-                 class="absolute top-2 left-2 z-20 px-2 h-6 rounded-full bg-black/70 hover:bg-black/90 text-white flex items-center justify-center text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                GitHub
-              </a>
-            ` : ''}
-
             <!-- Favorite Star on Top-Right -->
             <button onclick="toggleFav('${item.id}', event)"
                     title="Favorito"
@@ -1626,17 +2144,75 @@
       });
 
       if (browserSort === 'POPULAR') {
-        filtered.sort((a, b) => (a.popularRank || 99) - (b.popularRank || 99));
+        filtered.sort((a, b) => (a.popularRank || 999) - (b.popularRank || 999));
       } else if (browserSort === 'RECENT') {
         filtered.sort((a, b) => (b.dateRank || 0) - (a.dateRank || 0));
       } else if (browserSort === 'AZ') {
         filtered.sort((a, b) => a.title.localeCompare(b.title));
       }
 
-      document.getElementById('browser-count-label').textContent = t.countBrowser(filtered.length);
+      const totalItems = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(totalItems / BROWSER_PAGE_SIZE));
+      if (browserCurrentPage > totalPages) browserCurrentPage = totalPages;
+      if (browserCurrentPage < 1) browserCurrentPage = 1;
+
+      const startIdx = (browserCurrentPage - 1) * BROWSER_PAGE_SIZE;
+      const pageItems = filtered.slice(startIdx, startIdx + BROWSER_PAGE_SIZE);
+
+      document.getElementById('browser-count-label').textContent = t.countBrowser(totalItems);
 
       const grid = document.getElementById('browser-grid');
-      grid.innerHTML = filtered.map(g => buildCoverCardHTML(g, t.playBtn, false)).join('');
+      grid.innerHTML = pageItems.map(g => buildCoverCardHTML(g, t.playBtn, false)).join('');
+
+      const pagEl = document.getElementById('browser-pagination');
+      if (pagEl) {
+        if (totalItems === 0) {
+          pagEl.innerHTML = '';
+        } else {
+          const startDisplay = startIdx + 1;
+          const endDisplay = Math.min(startIdx + BROWSER_PAGE_SIZE, totalItems);
+
+          let pageBtnsHTML = '';
+          const prevDisabled = browserCurrentPage <= 1;
+          const nextDisabled = browserCurrentPage >= totalPages;
+
+          pageBtnsHTML += `
+            <button onclick="setBrowserPage(${browserCurrentPage - 1})"
+                    ${prevDisabled ? 'disabled' : ''}
+                    class="px-3 py-1.5 rounded-xl text-xs font-semibold border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] transition ${prevDisabled ? 'opacity-40 cursor-not-allowed' : 'hover:border-[var(--primary)] hover:text-[var(--primary)]'}">
+              ${t.prevPage}
+            </button>
+          `;
+
+          for (let p = 1; p <= totalPages; p++) {
+            const isActive = p === browserCurrentPage;
+            pageBtnsHTML += `
+              <button onclick="setBrowserPage(${p})"
+                      class="w-8 h-8 rounded-xl text-xs font-bold transition flex items-center justify-center ${isActive ? 'bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm' : 'bg-[var(--card)] border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-[var(--primary)]'}">
+                ${p}
+              </button>
+            `;
+          }
+
+          pageBtnsHTML += `
+            <button onclick="setBrowserPage(${browserCurrentPage + 1})"
+                    ${nextDisabled ? 'disabled' : ''}
+                    class="px-3 py-1.5 rounded-xl text-xs font-semibold border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] transition ${nextDisabled ? 'opacity-40 cursor-not-allowed' : 'hover:border-[var(--primary)] hover:text-[var(--primary)]'}">
+              ${t.nextPage}
+            </button>
+          `;
+
+          pagEl.innerHTML = `
+            <span class="text-xs text-[var(--muted-foreground)]">
+              ${t.pageInfo(startDisplay, endDisplay, totalItems, browserCurrentPage, totalPages)}
+            </span>
+            <div class="flex items-center gap-1.5 flex-wrap justify-center">
+              ${pageBtnsHTML}
+            </div>
+          `;
+        }
+      }
+
       resolveMissingCovers();
     }
 
@@ -1708,6 +2284,7 @@
           palette: ['#1e3a8a', '#2563eb']
         });
         localStorage.setItem('pina_browser_custom_v6', JSON.stringify(customBrowserGames));
+        browserCurrentPage = 1;
         switchMainTab('BROWSER');
       } else {
         const mappedConsole = plat === 'PS4_PS5' ? 'PS4' : (plat === 'PS1_PSP' ? 'PS1' : plat);
