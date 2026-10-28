@@ -1,0 +1,21 @@
+{
+  "name": "pina-ports-hub-secure",
+  "version": "1.0.0",
+  "description": "PINA Ports Hub - Secure Authentication, Single-Session & Protected Games Catalog",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "python-server": "python server/server.py",
+    "test": "python -m unittest discover tests"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.8",
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
+

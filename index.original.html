@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PINA Ports Hub • Browser & Native PC Ports</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232563eb'/%3E%3Cstop offset='50%25' stop-color='%234f46e5'/%3E%3Cstop offset='100%25' stop-color='%237c3aed'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M19 24h26c4.5 0 8 3.5 8.8 8l1.7 9.5c.6 3.5-2 6.5-5.5 6.5-2.2 0-4.2-1.2-5.2-3.1L42 40H22l-2.8 4.9c-1 1.9-3 3.1-5.2 3.1-3.5 0-6.1-3-5.5-6.5L10.2 32c.8-4.5 4.3-8 8.8-8z' fill='%23fff'/%3E%3Cpath d='M21 29v3h-3v3h3v3h3v-3h3v-3h-3v-3h-3z' fill='%233b82f6'/%3E%3Ccircle cx='43' cy='31' r='2.2' fill='%234f46e5'/%3E%3Ccircle cx='47' cy='35' r='2.2' fill='%23ec4899'/%3E%3Ccircle cx='39' cy='35' r='2.2' fill='%2306b6d4'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --background: #0b0f17;
+      --card: #131b2b;
+      --foreground: #f8fafc;
+      --muted-foreground: #94a3b8;
+      --placeholder: #64748b;
+      --border: #1e293b;
+      --primary: #3b82f6;
+      --primary-foreground: #ffffff;
+      --secondary: #1e293b;
+      --secondary-foreground: #e2e8f0;
+    }
+    html.light {
+      --background: #f1f5f9;
+      --card: #ffffff;
+      --foreground: #0f172a;
+      --muted-foreground: #64748b;
+      --placeholder: #94a3b8;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-foreground: #ffffff;
+      --secondary: #f1f5f9;
+      --secondary-foreground: #1e293b;
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+  <div>
+    <!-- Redesigned Top Header with Custom Brand Logo & Icon Mode Switcher -->
+    <header class="border-b border-[var(--border)] bg-[var(--card)]/95 backdrop-blur sticky top-0 z-30">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3 sm:gap-5">
+
+        <!-- Left: Custom Gaming Emblem Logo + Divider + Icon Mode Switcher -->
+        <div class="flex flex-wrap items-center gap-3 sm:gap-5 min-w-0">
+
+          <!-- Brand Logo -->
+          <a href="#" onclick="switchMainTab('BROWSER'); return false;" class="group flex items-center gap-3 shrink-0 select-none">
+            <!-- Custom SVG Gamepad Crest -->
+            <div class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-2xl p-0.5 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 shadow-md group-hover:scale-105 transition-transform duration-200">
+              <div class="w-full h-full rounded-[14px] bg-slate-950/90 flex items-center justify-center relative overflow-hidden">
+                <!-- Subtle ambient glow inside logo -->
+                <div class="absolute -top-3 -left-3 w-7 h-7 bg-blue-500/40 rounded-full blur-md"></div>
+                <div class="absolute -bottom-3 -right-3 w-7 h-7 bg-purple-500/40 rounded-full blur-md"></div>
+                <svg class="w-6 h-6 sm:w-7 sm:h-7 relative z-10" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="padGrad" x1="8" y1="18" x2="56" y2="48" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#60a5fa"/>
+                      <stop offset="50%" stop-color="#818cf8"/>
+                      <stop offset="100%" stop-color="#c084fc"/>
+                    </linearGradient>
+                  </defs>
+                  <!-- Controller Body -->
+                  <path d="M18.5 21H45.5C50.4 21 54.5 24.6 55.3 29.4L57.2 40.2C57.9 44.3 54.7 48 50.5 48C48.1 48 45.8 46.7 44.6 44.5L41.8 39.5H22.2L19.4 44.5C18.2 46.7 15.9 48 13.5 48C9.3 48 6.1 44.3 6.8 40.2L8.7 29.4C9.5 24.6 13.6 21 18.5 21Z"
+                        fill="url(#padGrad)" stroke="#ffffff" stroke-opacity="0.25" stroke-width="1.5"/>
+                  <!-- D-Pad -->
+                  <path d="M19.5 26.5V30H16V33.5H19.5V37H23V33.5H26.5V30H23V26.5H19.5Z" fill="#0f172a"/>
+                  <!-- Action Buttons -->
+                  <circle cx="44.5" cy="28" r="2.3" fill="#38bdf8"/>
+                  <circle cx="48.5" cy="32" r="2.3" fill="#f472b6"/>
+                  <circle cx="40.5" cy="32" r="2.3" fill="#0f172a"/>
+                  <circle cx="44.5" cy="36" r="2.3" fill="#facc15"/>
+                  <!-- Center Core Glow -->
+                  <rect x="29.5" y="28" width="5" height="2.5" rx="1.25" fill="#ffffff" fill-opacity="0.85"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Stylized Brand Wordmark -->
+            <div class="flex flex-col">
+              <div class="flex items-center gap-1.5 leading-none">
+                <span class="font-black text-base sm:text-lg tracking-tight text-[var(--foreground)]">
+                  PINA
+                </span>
+                <span class="font-black text-base sm:text-lg tracking-tight bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+                  PORTS
+                </span>
+                <span class="px-1.5 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/15 text-blue-400 border border-blue-500/30">
+                  HUB
+                </span>
+              </div>
+              <div class="flex items-center gap-1.5 mt-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span class="text-[11px] font-medium tracking-wide text-[var(--muted-foreground)]">
+                  Web &amp; Native Console Archive
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Subtle Vertical Divider -->
+          <div class="hidden md:block h-8 w-px bg-[var(--border)]"></div>
+
+          <!-- Redesigned Segmented Navigation Switcher with Icons -->
+          <nav class="inline-flex items-center rounded-2xl bg-[var(--background)] border border-[var(--border)] p-1 gap-1 max-w-full overflow-x-auto shadow-inner">
+            <button id="main-tab-browser" onclick="switchMainTab('BROWSER')"
+                    class="px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              <span id="label-tab-browser">Jogos de Navegador</span>
+            </button>
+
+            <button id="main-tab-native" onclick="switchMainTab('NATIVE')"
+                    class="px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+              <span id="label-tab-native">Ports Nativos PC</span>
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-black/25 border border-white/10 leading-none">
+                .EXE
+              </span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Right Controls (Order 2 on mobile, Order 3 on desktop) -->
+        <div class="order-2 lg:order-3 flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <button onclick="openAddModal()"
+                  class="px-3 py-2 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] hover:border-[var(--primary)] transition whitespace-nowrap flex items-center gap-1.5">
+            <span class="text-blue-400 font-black text-sm leading-none">+</span>
+            <span>Adicionar</span>
+          </button>
+
+          <button onclick="document.documentElement.classList.toggle('light')"
+                  class="px-2.5 py-2 rounded-xl text-xs border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] hover:border-[var(--primary)] transition"
+                  title="Alternar Tema Dark / Day">
+            🌓
+          </button>
+
+          <div class="inline-flex rounded-xl border border-[var(--border)] bg-[var(--background)] p-0.5">
+            <button id="lang-pt" onclick="setLanguage('pt')" class="px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition bg-[var(--primary)] text-[var(--primary-foreground)]">
+              PT
+            </button>
+            <button id="lang-en" onclick="setLanguage('en')" class="px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+              EN
+            </button>
+          </div>
+        </div>
+
+        <!-- Center: Search Bar (Full-width row on mobile/tablet, centered inline on desktop) -->
+        <div class="order-3 lg:order-2 w-full lg:w-auto lg:flex-1 lg:max-w-xs xl:max-w-sm min-w-0">
+          <div class="relative">
+            <svg class="w-4 h-4 text-[var(--placeholder)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input id="global-search" type="text" oninput="handleSearch()"
+                   placeholder="Pesquisar jogo..."
+                   class="w-full pl-9 pr-3.5 py-2 rounded-xl text-xs sm:text-sm bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--placeholder)] focus:outline-none focus:border-[var(--primary)] transition" />
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-6 space-y-5 sm:space-y-6">
+
+      <!-- =================================================================== -->
+      <!-- VIEW 1: BROWSER GAMES (WITH PLATFORM + SORT SUB-TABS)               -->
+      <!-- =================================================================== -->
+      <div id="section-browser" class="space-y-5">
+
+        <!-- Filter & Sub-Tabs Bar -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-[var(--border)]">
+          <!-- Platform Sub-Tabs -->
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <button onclick="setBrowserPlatform('ALL')" data-bplat="ALL"
+                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]">
+              Todos
+            </button>
+            <button onclick="setBrowserPlatform('PS2')" data-bplat="PS2"
+                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              PS2
+            </button>
+            <button onclick="setBrowserPlatform('PS1_PSP')" data-bplat="PS1_PSP"
+                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              PS1 / PSP
+            </button>
+            <button onclick="setBrowserPlatform('PS3')" data-bplat="PS3"
+                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              PS3
+            </button>
+            <button onclick="setBrowserPlatform('PS4_PS5')" data-bplat="PS4_PS5"
+                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              PS4 / PS5
+            </button>
+            <button onclick="setBrowserPlatform('XBOX')" data-bplat="XBOX"
+                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              Xbox
+            </button>
+            <button onclick="setBrowserPlatform('NINTENDO')" data-bplat="NINTENDO"
+                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              Nintendo
+            </button>
+            <button onclick="setBrowserPlatform('OTHER')" data-bplat="OTHER"
+                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              PC / Outros
+            </button>
+          </div>
+
+          <!-- Sort Sub-Tabs (Populares, Recentes, A-Z, Favoritos) -->
+          <div class="flex items-center justify-between sm:justify-start gap-2 flex-wrap">
+            <div class="inline-flex flex-wrap rounded-xl bg-[var(--card)] border border-[var(--border)] p-0.5 gap-0.5">
+              <button onclick="setBrowserSort('POPULAR')" data-sort="POPULAR"
+                      class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]">
+                Populares
+              </button>
+              <button onclick="setBrowserSort('RECENT')" data-sort="RECENT"
+                      class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+                Recentes
+              </button>
+              <button onclick="setBrowserSort('AZ')" data-sort="AZ"
+                      class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+                A–Z
+              </button>
+              <button onclick="setBrowserSort('FAV')" data-sort="FAV"
+                      class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+                ★ Favoritos
+              </button>
+            </div>
+            <span id="browser-count-label" class="text-xs text-[var(--muted-foreground)] whitespace-nowrap">0 jogos</span>
+          </div>
+        </div>
+
+        <!-- Clean Responsive Cover Grid -->
+        <section id="browser-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 sm:gap-5">
+          <!-- Populated by JS -->
+        </section>
+
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- VIEW 2: NATIVE PC PORTS (SAME COVER LAYOUT + DIRECT .EXE DOWNLOAD)  -->
+      <!-- =================================================================== -->
+      <div id="section-native" class="hidden space-y-5">
+
+        <!-- Platform Filter Bar for Native PC Ports -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-[var(--border)]">
+          <div class="flex flex-wrap gap-1.5">
+            <button onclick="setConsoleFilter('ALL')" data-console="ALL"
+                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]">
+              Todos
+            </button>
+            <button onclick="setConsoleFilter('PS2')" data-console="PS2"
+                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              PS2
+            </button>
+            <button onclick="setConsoleFilter('PS3')" data-console="PS3"
+                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              PS3
+            </button>
+            <button onclick="setConsoleFilter('PS4')" data-console="PS4"
+                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              PS4
+            </button>
+            <button onclick="setConsoleFilter('XBOX')" data-console="XBOX"
+                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              Xbox / 360
+            </button>
+            <button onclick="setConsoleFilter('NINTENDO')" data-console="NINTENDO"
+                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              Nintendo
+            </button>
+            <button onclick="setConsoleFilter('PS1')" data-console="PS1"
+                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
+              PS1 / Clássicos
+            </button>
+          </div>
+
+          <span id="native-count-label" class="text-xs text-[var(--muted-foreground)] whitespace-nowrap">0 ports nativos</span>
+        </div>
+
+        <!-- Same Responsive Cover Grid for Native PC Ports -->
+        <section id="projects-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 sm:gap-5">
+          <!-- Populated by JS -->
+        </section>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Mini Footer -->
+  <footer class="border-t border-[var(--border)] bg-[var(--card)] mt-12 py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--muted-foreground)]">
+      <span>PINA Ports Hub</span>
+      <span class="font-semibold tracking-wider text-[var(--foreground)]">developed by PINA-ESTUDIOS</span>
+    </div>
+  </footer>
+
+  <!-- Modal: Add Custom Game -->
+  <div id="add-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/60">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl max-w-md w-full p-5 space-y-4 shadow-xl">
+      <div class="flex items-center justify-between border-b border-[var(--border)] pb-3">
+        <h3 class="text-sm font-bold text-[var(--foreground)]">Adicionar Novo Jogo</h3>
+        <button onclick="closeAddModal()" class="text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)]">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-medium mb-1">Aba de Destino *</label>
+          <select id="inp-tab-type" class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]">
+            <option value="BROWSER">Jogos de Navegador</option>
+            <option value="NATIVE">Ports Nativos PC (Executável / GitHub)</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div>
+            <label class="block font-medium mb-1">Nome do Jogo *</label>
+            <input id="inp-title" type="text" placeholder="Ex: Bully"
+                   class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
+          </div>
+          <div>
+            <label class="block font-medium mb-1">Plataforma *</label>
+            <select id="inp-plat" class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]">
+              <option value="PS2">PS2</option>
+              <option value="PS1_PSP">PS1 / PSP</option>
+              <option value="PS3">PS3</option>
+              <option value="PS4_PS5">PS4 / PS5</option>
+              <option value="XBOX">Xbox</option>
+              <option value="NINTENDO">Nintendo</option>
+              <option value="OTHER">PC / Outros</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block font-medium mb-1">Autor / Projeto</label>
+          <input id="inp-author" type="text" placeholder="Ex: Slayoner"
+                 class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
+        </div>
+        <div>
+          <label class="block font-medium mb-1">URL da Capa (Se deixar vazio, busca automático na Wikipedia)</label>
+          <input id="inp-cover" type="url" placeholder="https://.../capa.png"
+                 class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
+        </div>
+        <div>
+          <label class="block font-medium mb-1">Link Direto do Jogo / Executável *</label>
+          <input id="inp-url" type="url" placeholder="https://..."
+                 class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2 border-t border-[var(--border)]">
+        <button onclick="closeAddModal()"
+                class="px-3.5 py-1.5 rounded-xl text-xs border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">
+          Cancelar
+        </button>
+        <button onclick="saveCustomEntry()"
+                class="px-4 py-1.5 rounded-xl text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)]">
+          Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentLang = 'pt';
+    let activeMainTab = 'BROWSER';
+    let browserSort = 'POPULAR';
+    let browserPlatform = 'ALL';
+    let currentConsole = 'ALL';
+
+    let favorites = JSON.parse(localStorage.getItem('pina_ports_favs_v6') || '[]');
+    let customBrowserGames = JSON.parse(localStorage.getItem('pina_browser_custom_v6') || '[]');
+    let customNativeGames = JSON.parse(localStorage.getItem('pina_native_custom_v6') || '[]');
+    let wikiCoverCache = JSON.parse(localStorage.getItem('pina_wiki_covers_v6') || '{}');
+
+    const LB_PS2 = 'https://raw.githubusercontent.com/libretro-thumbnails/Sony_-_PlayStation_2/master/Named_Boxarts/';
+    const LB_PSP = 'https://raw.githubusercontent.com/libretro-thumbnails/Sony_-_PlayStation_Portable/master/Named_Boxarts/';
+    const LB_N64 = 'https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Nintendo_64/master/Named_Boxarts/';
+    const LB_PS1 = 'https://raw.githubusercontent.com/libretro-thumbnails/Sony_-_PlayStation/master/Named_Boxarts/';
+    const LB_GBA = 'https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Game_Boy_Advance/master/Named_Boxarts/';
+
+    // =========================================================================
+    // TAB 1: BROWSER GAMES (STRICTLY CLASSIFIED BY REAL PORT & COVER PLATFORM)
+    // =========================================================================
+    const defaultBrowserGames = [
+      // --- PS2 ---
+      {
+        id: 'b-f1-06',
+        title: 'Formula One 06',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 1,
+        dateRank: 40,
+        url: 'https://f12006.online/',
+        wiki: 'Formula_One_06',
+        covers: [LB_PS2 + 'Formula%20One%2006%20(Europe).png'],
+        palette: ['#0f172a', '#1d4ed8']
+      },
+      {
+        id: 'b-downhill',
+        title: 'Downhill Domination',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 2,
+        dateRank: 39,
+        url: 'https://downhilldomination.online/',
+        wiki: 'Downhill_Domination',
+        covers: [LB_PS2 + 'Downhill%20Domination%20(USA).png'],
+        palette: ['#7c2d12', '#ea580c']
+      },
+      {
+        id: 'b-tekken-5',
+        title: 'Tekken 5',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 3,
+        dateRank: 38,
+        url: 'https://tekken5.online/',
+        wiki: 'Tekken_5',
+        covers: [LB_PS2 + 'Tekken%205%20(USA).png'],
+        palette: ['#31102f', '#be185d']
+      },
+      {
+        id: 'b-dbz-bt3',
+        title: 'DBZ: Budokai Tenkaichi 3',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 4,
+        dateRank: 37,
+        url: 'https://dragonballbt3.online/',
+        wiki: 'Dragon_Ball_Z:_Budokai_Tenkaichi_3',
+        covers: [LB_PS2 + 'Dragon%20Ball%20Z%20-%20Budokai%20Tenkaichi%203%20(USA).png'],
+        palette: ['#9a3412', '#f97316']
+      },
+      {
+        id: 'b-burnout-3',
+        title: 'Burnout 3: Takedown',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 5,
+        dateRank: 36,
+        url: 'https://burnout3.online/',
+        wiki: 'Burnout_3:_Takedown',
+        covers: [LB_PS2 + 'Burnout%203%20-%20Takedown%20(USA).png'],
+        palette: ['#7f1d1d', '#dc2626']
+      },
+      {
+        id: 'b-def-jam',
+        title: 'Def Jam: Fight for NY',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 6,
+        dateRank: 35,
+        url: 'https://defjam.online/',
+        wiki: 'Def_Jam:_Fight_for_NY',
+        covers: [LB_PS2 + 'Def%20Jam%20-%20Fight%20for%20NY%20(USA).png'],
+        palette: ['#27272a', '#b45309']
+      },
+      {
+        id: 'b-pes-11',
+        title: 'PES 2011 / Bomba Patch',
+        author: 'OptiProjects • PS2',
+        platform: 'PS2',
+        popularRank: 7,
+        dateRank: 34,
+        url: 'https://optijuegos.net/',
+        wiki: 'Pro_Evolution_Soccer_2011',
+        covers: [LB_PS2 + 'Pro%20Evolution%20Soccer%202011%20(USA).png'],
+        palette: ['#064e3b', '#10b981']
+      },
+      {
+        id: 'b-re4',
+        title: 'Resident Evil 4',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 8,
+        dateRank: 33,
+        url: 'https://residentevil4.online/',
+        wiki: 'Resident_Evil_4',
+        covers: [LB_PS2 + 'Resident%20Evil%204%20(USA).png'],
+        palette: ['#1c1917', '#991b1b']
+      },
+      {
+        id: 'b-ssx-3',
+        title: 'SSX 3',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 9,
+        dateRank: 32,
+        url: 'https://ssx3.online/',
+        wiki: 'SSX_3',
+        covers: [LB_PS2 + 'SSX%203%20(USA).png'],
+        palette: ['#0c4a6e', '#0284c7']
+      },
+      {
+        id: 'b-gta-sa',
+        title: 'Grand Theft Auto: San Andreas',
+        author: 'OptiProjects • PS2',
+        platform: 'PS2',
+        popularRank: 10,
+        dateRank: 31,
+        url: 'https://optijuegos.net/',
+        wiki: 'Grand_Theft_Auto:_San_Andreas',
+        covers: [LB_PS2 + 'Grand%20Theft%20Auto%20-%20San%20Andreas%20(USA).png'],
+        palette: ['#14532d', '#16a34a']
+      },
+      {
+        id: 'b-shaolin-monks',
+        title: 'Mortal Kombat: Shaolin Monks',
+        author: 'Play! Web • PS2',
+        platform: 'PS2',
+        popularRank: 11,
+        dateRank: 30,
+        url: 'https://play.purei.org/',
+        wiki: 'Mortal_Kombat:_Shaolin_Monks',
+        covers: [LB_PS2 + 'Mortal%20Kombat%20-%20Shaolin%20Monks%20(USA).png'],
+        palette: ['#450a0a', '#b91c1c']
+      },
+      {
+        id: 'b-black',
+        title: 'BLACK',
+        author: 'Play! Web • PS2',
+        platform: 'PS2',
+        popularRank: 12,
+        dateRank: 29,
+        url: 'https://play.purei.org/',
+        wiki: 'Black_(video_game)',
+        covers: [LB_PS2 + 'Black%20(USA).png'],
+        palette: ['#090d16', '#334155']
+      },
+      {
+        id: 'b-midnight-club-3',
+        title: 'Midnight Club 3: DUB Edition',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 13,
+        dateRank: 28,
+        url: 'https://inxanitylabs.com/',
+        wiki: 'Midnight_Club_3:_DUB_Edition',
+        covers: [LB_PS2 + 'Midnight%20Club%203%20-%20DUB%20Edition%20Remix%20(USA).png'],
+        palette: ['#312e81', '#4f46e5']
+      },
+      {
+        id: 'b-nfsu2',
+        title: 'Need for Speed: Underground 2',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 14,
+        dateRank: 27,
+        url: 'https://nfsu2.net/',
+        wiki: 'Need_for_Speed:_Underground_2',
+        covers: [LB_PS2 + 'Need%20for%20Speed%20-%20Underground%202%20(USA).png'],
+        palette: ['#064e3b', '#047857']
+      },
+      {
+        id: 'b-mvc2',
+        title: 'Marvel vs. Capcom 2',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 15,
+        dateRank: 26,
+        url: 'https://mvc2.online/',
+        wiki: 'Marvel_vs._Capcom_2:_New_Age_of_Heroes',
+        covers: [LB_PS2 + 'Marvel%20vs.%20Capcom%202%20-%20New%20Age%20of%20Heroes%20(USA).png'],
+        palette: ['#1e3a8a', '#dc2626']
+      },
+      {
+        id: 'b-fifa-street-2',
+        title: 'FIFA Street 2',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 16,
+        dateRank: 25,
+        url: 'https://fifastreet.online/',
+        wiki: 'FIFA_Street_2',
+        covers: [LB_PS2 + 'FIFA%20Street%202%20(USA).png'],
+        palette: ['#365314', '#65a30d']
+      },
+      {
+        id: 'b-nfl-street',
+        title: 'NFL Street',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 17,
+        dateRank: 24,
+        url: 'https://nflstreet.online/',
+        wiki: 'NFL_Street',
+        covers: [LB_PS2 + 'NFL%20Street%20(USA).png'],
+        palette: ['#172554', '#dc2626']
+      },
+      {
+        id: 'b-nba-street',
+        title: 'NBA Street V3',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 18,
+        dateRank: 23,
+        url: 'https://nbastreet.online/',
+        wiki: 'NBA_Street_V3',
+        covers: [LB_PS2 + 'NBA%20Street%20V3%20(USA).png'],
+        palette: ['#7c2d12', '#ea580c']
+      },
+      {
+        id: 'b-wwe-svr-2011',
+        title: 'WWE SmackDown vs. Raw 2011',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 19,
+        dateRank: 22,
+        url: 'https://inxanitylabs.com/',
+        wiki: 'WWE_SmackDown_vs._Raw_2011',
+        covers: [LB_PS2 + 'WWE%20SmackDown%20vs.%20Raw%202011%20(USA).png'],
+        palette: ['#1e1b4b', '#dc2626']
+      },
+      {
+        id: 'b-guitar-hero-3',
+        title: 'Guitar Hero III: Legends of Rock',
+        author: 'Slayoner • PS2',
+        platform: 'PS2',
+        popularRank: 20,
+        dateRank: 21,
+        url: 'https://inxanitylabs.com/',
+        wiki: 'Guitar_Hero_III:_Legends_of_Rock',
+        covers: [LB_PS2 + 'Guitar%20Hero%20III%20-%20Legends%20of%20Rock%20(USA).png'],
+        palette: ['#450a0a', '#ea580c']
+      },
+
+      // --- PS1 / PSP ---
+      {
+        id: 'b-naruto-impact',
+        title: 'Naruto Shippuden: Ultimate Ninja Impact',
+        author: 'Slayoner • PSP',
+        platform: 'PS1_PSP',
+        popularRank: 21,
+        dateRank: 20,
+        url: 'https://inxanitylabs.com/',
+        wiki: 'Naruto_Shippuden:_Ultimate_Ninja_Impact',
+        covers: [LB_PSP + 'Naruto%20Shippuden%20-%20Ultimate%20Ninja%20Impact%20(USA).png'],
+        palette: ['#7c2d12', '#f97316']
+      },
+      {
+        id: 'b-tekken-dr',
+        title: 'Tekken 5: Dark Resurrection',
+        author: 'Slayoner • PSP',
+        platform: 'PS1_PSP',
+        popularRank: 22,
+        dateRank: 19,
+        url: 'https://tekkendr.live/',
+        wiki: 'Tekken_5:_Dark_Resurrection',
+        covers: [LB_PSP + 'Tekken%20-%20Dark%20Resurrection%20(USA).png'],
+        palette: ['#450a0a', '#991b1b']
+      },
+      {
+        id: 'b-fifa-11',
+        title: 'FIFA 11',
+        author: 'Slayoner • PSP',
+        platform: 'PS1_PSP',
+        popularRank: 23,
+        dateRank: 18,
+        url: 'https://fifa11.online/',
+        wiki: 'FIFA_11',
+        covers: [LB_PSP + 'FIFA%20Soccer%2011%20(USA).png'],
+        palette: ['#1e3a8a', '#2563eb']
+      },
+      {
+        id: 'b-tomb-raider-lara',
+        title: 'Tomb Raider (OpenLara Web)',
+        author: 'XProger • PS1',
+        platform: 'PS1_PSP',
+        isSquareCover: true,
+        popularRank: 24,
+        dateRank: 17,
+        url: 'https://xproger.info/projects/OpenLara/',
+        wiki: 'Tomb_Raider_(1996_video_game)',
+        covers: [LB_PS1 + 'Tomb%20Raider%20(USA).png'],
+        palette: ['#1c1917', '#b45309']
+      },
+
+      // --- PS3 ---
+      {
+        id: 'b-gta-iv-web',
+        title: 'Grand Theft Auto IV (Web Map & Engine)',
+        author: 'noclip.website • PS3',
+        platform: 'PS3',
+        popularRank: 25,
+        dateRank: 16,
+        url: 'https://noclip.website/',
+        wiki: 'Grand_Theft_Auto_IV',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/12210/library_600x900.jpg'],
+        palette: ['#1c1917', '#ca8a04']
+      },
+      {
+        id: 'b-dark-souls-web',
+        title: 'Dark Souls (Web Engine Viewer)',
+        author: 'noclip.website • PS3',
+        platform: 'PS3',
+        popularRank: 26,
+        dateRank: 15,
+        url: 'https://noclip.website/',
+        wiki: 'Dark_Souls',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/570940/library_600x900.jpg'],
+        palette: ['#090d16', '#ea580c']
+      },
+      {
+        id: 'b-cod-zombies-web',
+        title: 'Call of Duty: Zombies (NZ:P Web)',
+        author: 'NZ:P Team • PS3 Era',
+        platform: 'PS3',
+        popularRank: 27,
+        dateRank: 14,
+        url: 'https://nzp.gay/',
+        wiki: 'Call_of_Duty:_World_at_War',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10090/library_600x900.jpg'],
+        palette: ['#1c1917', '#b91c1c']
+      },
+
+      // --- PS4 / PS5 ---
+      {
+        id: 'b-gta-v-web',
+        title: 'GTA V (Web Sandbox / Fan Port)',
+        author: 'WebGL Community • PS4 / PS5',
+        platform: 'PS4_PS5',
+        popularRank: 28,
+        dateRank: 13,
+        url: 'https://itch.io/games/tag-gta/html5',
+        wiki: 'Grand_Theft_Auto_V',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/271590/library_600x900.jpg'],
+        palette: ['#14532d', '#15803d']
+      },
+      {
+        id: 'b-fifa-14',
+        title: 'FIFA 14',
+        author: 'PlayGamesInBrowser • PS4',
+        platform: 'PS4_PS5',
+        popularRank: 29,
+        dateRank: 12,
+        url: 'https://playgamesinbrowser.com/',
+        wiki: 'FIFA_14',
+        covers: [],
+        palette: ['#1e3a8a', '#3b82f6']
+      },
+      {
+        id: 'b-spider-man-web',
+        title: 'Spider-Man (Web Swinging Fan Port)',
+        author: 'WebGL Community • PS4 / PS5',
+        platform: 'PS4_PS5',
+        popularRank: 30,
+        dateRank: 11,
+        url: 'https://itch.io/games/html5/tag-spider-man',
+        wiki: "Marvel's_Spider-Man_(video_game)",
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/1817070/library_600x900.jpg'],
+        palette: ['#7f1d1d', '#dc2626']
+      },
+
+      // --- XBOX ---
+      {
+        id: 'b-halo-ce',
+        title: 'Halo: Combat Evolved',
+        author: 'OpenCE Team • Xbox',
+        platform: 'XBOX',
+        popularRank: 31,
+        dateRank: 10,
+        url: 'https://ported2browser.com/?search=Halo',
+        wiki: 'Halo:_Combat_Evolved',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/976730/library_600x900.jpg'],
+        palette: ['#14532d', '#15803d']
+      },
+      {
+        id: 'b-nfs-mw',
+        title: 'Need for Speed: Most Wanted',
+        author: 'Lauta • Xbox 360',
+        platform: 'XBOX',
+        popularRank: 32,
+        dateRank: 9,
+        url: 'https://playgamesinbrowser.com/',
+        wiki: 'Need_for_Speed:_Most_Wanted_(2005_video_game)',
+        covers: [],
+        palette: ['#78350f', '#d97706']
+      },
+      {
+        id: 'b-hl2-xbox',
+        title: 'Half-Life 2 (Web Engine Demo)',
+        author: 'Source Web • Xbox',
+        platform: 'XBOX',
+        popularRank: 33,
+        dateRank: 8,
+        url: 'https://noclip.website/',
+        wiki: 'Half-Life_2',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/220/library_600x900.jpg'],
+        palette: ['#7c2d12', '#ea580c']
+      },
+
+      // --- NINTENDO ---
+      {
+        id: 'b-sm64',
+        title: 'Super Mario 64',
+        author: 'ArkShocer • Nintendo 64',
+        platform: 'NINTENDO',
+        isSquareCover: true,
+        popularRank: 34,
+        dateRank: 7,
+        url: 'https://ported2browser.com/?search=Super+Mario+64',
+        wiki: 'Super_Mario_64',
+        covers: [LB_N64 + 'Super%20Mario%2064%20(USA).png'],
+        palette: ['#7f1d1d', '#ef4444']
+      },
+      {
+        id: 'b-zelda-oot',
+        title: 'Zelda: Ocarina of Time',
+        author: 'Web Port • Nintendo 64',
+        platform: 'NINTENDO',
+        isSquareCover: true,
+        popularRank: 35,
+        dateRank: 6,
+        url: 'https://ported2browser.com/?search=Zelda',
+        wiki: 'The_Legend_of_Zelda:_Ocarina_of_Time',
+        covers: [LB_N64 + 'Legend%20of%20Zelda,%20The%20-%20Ocarina%20of%20Time%20(USA).png'],
+        palette: ['#14532d', '#ca8a04']
+      },
+      {
+        id: 'b-mk64',
+        title: 'Mario Kart 64',
+        author: 'Web Port • Nintendo 64',
+        platform: 'NINTENDO',
+        isSquareCover: true,
+        popularRank: 36,
+        dateRank: 5,
+        url: 'https://ported2browser.com/?search=Mario+Kart',
+        wiki: 'Mario_Kart_64',
+        covers: [LB_N64 + 'Mario%20Kart%2064%20(USA).png'],
+        palette: ['#7f1d1d', '#f59e0b']
+      },
+      {
+        id: 'b-pokemon-firered',
+        title: 'Pokémon FireRed / Viridian Forest',
+        author: 'Web Port • Nintendo GBA',
+        platform: 'NINTENDO',
+        isSquareCover: true,
+        popularRank: 37,
+        dateRank: 4,
+        url: 'https://ported2browser.com/?search=Viridian+Forest',
+        wiki: 'Pokémon_FireRed_and_LeafGreen',
+        covers: [LB_GBA + 'Pokemon%20-%20FireRed%20Version%20(USA,%20Europe)%20(Rev%201).png'],
+        palette: ['#7f1d1d', '#ea580c']
+      },
+
+      // --- PC / OUTROS ---
+      {
+        id: 'b-gta-vc',
+        title: 'Grand Theft Auto: Vice City',
+        author: 'DOS.Zone • PC',
+        platform: 'OTHER',
+        popularRank: 38,
+        dateRank: 3,
+        url: 'https://dos.zone/grand-theft-auto-vice-city/',
+        wiki: 'Grand_Theft_Auto:_Vice_City',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/12110/library_600x900.jpg'],
+        palette: ['#701a75', '#db2777']
+      },
+      {
+        id: 'b-cs-16',
+        title: 'Counter-Strike 1.6 & Surf',
+        author: 'Play-CS / 0yield • PC',
+        platform: 'OTHER',
+        popularRank: 39,
+        dateRank: 2,
+        url: 'https://play-cs.com/',
+        wiki: 'Counter-Strike_(video_game)',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10/library_600x900.jpg'],
+        palette: ['#1e293b', '#0369a1']
+      },
+      {
+        id: 'b-hotline-miami',
+        title: 'Hotline Miami',
+        author: 'mdecombax • PC',
+        platform: 'OTHER',
+        popularRank: 40,
+        dateRank: 1,
+        url: 'https://ported2browser.com/?search=Hotline+Miami',
+        wiki: 'Hotline_Miami',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/219150/library_600x900.jpg'],
+        palette: ['#4c0519', '#ec4899']
+      },
+      {
+        id: 'b-slime-rancher',
+        title: 'Slime Rancher',
+        author: 'snubby.top • PC',
+        platform: 'OTHER',
+        popularRank: 41,
+        dateRank: 1,
+        url: 'https://slimeranchers.com/',
+        wiki: 'Slime_Rancher',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/433340/library_600x900.jpg'],
+        palette: ['#831843', '#ec4899']
+      },
+      {
+        id: 'b-fear-hunger',
+        title: 'Fear & Hunger',
+        author: 'breadbb • PC',
+        platform: 'OTHER',
+        popularRank: 42,
+        dateRank: 1,
+        url: 'https://ported2browser.com/?search=Fear+%26+Hunger',
+        wiki: 'Fear_&_Hunger',
+        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/1002300/library_600x900.jpg'],
+        palette: ['#1c1917', '#44403c']
+      },
+      {
+        id: 'b-toca-3',
+        title: 'TOCA Race Driver 3',
+        author: 'quepocomprar.com.ar • PC',
+        platform: 'OTHER',
+        popularRank: 43,
+        dateRank: 1,
+        url: 'https://quepocomprar.com.ar/',
+        wiki: 'TOCA_Race_Driver_3',
+        covers: [],
+        palette: ['#1e293b', '#475569']
+      },
+      {
+        id: 'b-rugby-08',
+        title: 'Rugby 08',
+        author: 'mitchivin • PC',
+        platform: 'OTHER',
+        popularRank: 44,
+        dateRank: 1,
+        url: 'https://mitchivin.github.io/rugby08/',
+        wiki: 'Rugby_08',
+        covers: [],
+        palette: ['#064e3b', '#15803d']
+      }
+    ];
+
+    // =========================================================================
+    // TAB 2: NATIVE PC PORTS (STRICTLY CLASSIFIED BY CONSOLE ORIGIN)
+    // =========================================================================
+    const defaultNativeProjects = [
+      // --- PS2 ---
+      {
+        id: 'n-jak-opengoal',
+        title: 'Jak & Daxter / Jak II / Jak 3',
+        author: 'OpenGOAL • PS2',
+        console: 'PS2',
+        hasExe: true,
+        url: 'https://github.com/open-goal/launcher/releases/latest',
+        repoUrl: 'https://github.com/open-goal/jak-project',
+        wiki: 'Jak_and_Daxter:_The_Precursor_Legacy',
+        covers: [LB_PS2 + 'Jak%20and%20Daxter%20-%20The%20Precursor%20Legacy%20(USA).png'],
+        palette: ['#78350f', '#eab308']
+      },
+      {
+        id: 'n-kh2-decomp',
+        title: 'Kingdom Hearts II (OpenKH)',
+        author: 'OpenKH • PS2',
+        console: 'PS2',
+        hasExe: true,
+        url: 'https://github.com/OpenKH/OpenKh/releases/latest',
+        repoUrl: 'https://github.com/OpenKH/OpenKh',
+        wiki: 'Kingdom_Hearts_II',
+        covers: [LB_PS2 + 'Kingdom%20Hearts%20II%20(USA).png'],
+        palette: ['#1e1b4b', '#6366f1']
+      },
+      {
+        id: 'n-sly-cooper',
+        title: 'Sly Cooper and the Thievius Raccoonus',
+        author: 'ProjectCane • PS2',
+        console: 'PS2',
+        hasExe: true,
+        url: 'https://github.com/theclub654/ProjectCane/releases',
+        repoUrl: 'https://github.com/theclub654/ProjectCane',
+        wiki: 'Sly_Cooper_and_the_Thievius_Raccoonus',
+        covers: [LB_PS2 + 'Sly%20Cooper%20and%20the%20Thievius%20Raccoonus%20(USA).png'],
+        palette: ['#1e3a8a', '#3b82f6']
+      },
+      {
+        id: 'n-sh2-enhanced',
+        title: 'Silent Hill 2: Enhanced Edition',
+        author: 'SH2 Enhancements • PS2',
+        console: 'PS2',
+        hasExe: true,
+        url: 'https://github.com/elishacloud/Silent-Hill-2-Enhancements/releases/latest',
+        repoUrl: 'https://github.com/elishacloud/Silent-Hill-2-Enhancements',
+        wiki: 'Silent_Hill_2',
+        covers: [LB_PS2 + 'Silent%20Hill%202%20(USA).png'],
+        palette: ['#090d16', '#1e293b']
+      },
+      {
+        id: 'n-simpsons-donut',
+        title: 'The Simpsons: Hit & Run',
+        author: 'Donut Engine • PS2',
+        console: 'PS2',
+        hasExe: true,
+        url: 'https://github.com/plowteam/donut/releases',
+        repoUrl: 'https://github.com/plowteam/donut',
+        wiki: 'The_Simpsons:_Hit_&_Run',
+        covers: [LB_PS2 + 'Simpsons,%20The%20-%20Hit%20%26%20Run%20(USA).png'],
+        palette: ['#854d0e', '#eab308']
+      },
+      {
+        id: 'n-downhill-pc',
+        title: 'Downhill Domination',
+        author: 'downhill-revived • PS2',
+        console: 'PS2',
+        hasExe: false,
+        url: 'https://github.com/skuza-oss/downhill-revived',
+        repoUrl: 'https://github.com/skuza-oss/downhill-revived',
+        wiki: 'Downhill_Domination',
+        covers: [LB_PS2 + 'Downhill%20Domination%20(USA).png'],
+        palette: ['#7c2d12', '#ea580c']
+      },
+      {
+        id: 'n-shaolin-monks-pc',
+        title: 'Mortal Kombat: Shaolin Monks',
+        author: 'ShaolinMonksRecomp • PS2',
+        console: 'PS2',
+        hasExe: false,
+        url: 'https://github.com/OAleex/ShaolinMonksRecomp',
+        repoUrl: 'https://github.com/OAleex/ShaolinMonksRecomp',
+        wiki: 'Mortal_Kombat:_Shaolin_Monks',
+        covers: [LB_PS2 + 'Mortal%20Kombat%20-%20Shaolin%20Monks%20(USA).png'],
+        palette: ['#450a0a', '#b91c1c']
+      },
+      {
+        id: 'n-ratchet-clank',
+        title: 'Ratchet & Clank',
+        author: 'rac-rs • PS2',
+        console: 'PS2',
+        hasExe: false,
+        url: 'https://github.com/AsobiCodes/rac-rs',
+        repoUrl: 'https://github.com/AsobiCodes/rac-rs',
+        wiki: 'Ratchet_&_Clank_(2002_video_game)',
+        covers: [LB_PS2 + 'Ratchet%20%26%20Clank%20(USA).png'],
+        palette: ['#7c2d12', '#f59e0b']
+      },
+      {
+        id: 'n-gow-ps2',
+        title: 'God of War (PS2 Native Port)',
+        author: 'Waffle565 • PS2',
+        console: 'PS2',
+        hasExe: false,
+        url: 'https://github.com/Waffle565/God-Of-War-Native-Port',
+        repoUrl: 'https://github.com/Waffle565/God-Of-War-Native-Port',
+        wiki: 'God_of_War_(2005_video_game)',
+        covers: [LB_PS2 + 'God%20of%20War%20(USA).png'],
+        palette: ['#450a0a', '#dc2626']
+      },
+      {
+        id: 'n-burnout3-pc',
+        title: 'Burnout 3: Takedown',
+        author: 'burnout3-pc • PS2',
+        console: 'PS2',
+        hasExe: false,
+        url: 'https://github.com/danielgomesvieira2000/burnout3-pc',
+        repoUrl: 'https://github.com/danielgomesvieira2000/burnout3-pc',
+        wiki: 'Burnout_3:_Takedown',
+        covers: [LB_PS2 + 'Burnout%203%20-%20Takedown%20(USA).png'],
+        palette: ['#7f1d1d', '#ef4444']
+      },
+
+      // --- PS3 ---
+      {
+        id: 'n-rpcs3',
+        title: 'Demon\'s Souls (RPCS3 Build)',
+        author: 'RPCS3 LLVM • PS3',
+        console: 'PS3',
+        hasExe: true,
+        url: 'https://github.com/RPCS3/rpcs3-binaries-win/releases/latest',
+        repoUrl: 'https://github.com/RPCS3/rpcs3',
+        wiki: "Demon's_Souls",
+        covers: [],
+        palette: ['#1e293b', '#475569']
+      },
+      {
+        id: 'n-gow3-spartan',
+        title: 'God of War III (SpartanPort)',
+        author: 'FelipePrado0 • PS3',
+        console: 'PS3',
+        hasExe: false,
+        url: 'https://github.com/FelipePrado0/SpartanPort',
+        repoUrl: 'https://github.com/FelipePrado0/SpartanPort',
+        wiki: 'God_of_War_III',
+        covers: [],
+        palette: ['#450a0a', '#991b1b']
+      },
+      {
+        id: 'n-mgs4-ps3',
+        title: 'Metal Gear Solid 4: Guns of the Patriots',
+        author: 'RPCS3 / MGS4 • PS3',
+        console: 'PS3',
+        hasExe: true,
+        url: 'https://github.com/RPCS3/rpcs3-binaries-win/releases/latest',
+        repoUrl: 'https://github.com/RPCS3/rpcs3',
+        wiki: 'Metal_Gear_Solid_4:_Guns_of_the_Patriots',
+        covers: [],
+        palette: ['#1c1917', '#57534e']
+      },
+
+      // --- PS4 ---
+      {
+        id: 'n-bloodborne-pc',
+        title: 'Bloodborne PC (shadPS4 Build)',
+        author: 'shadPS4 / Supermedo • PS4',
+        console: 'PS4',
+        hasExe: true,
+        url: 'https://github.com/shadps4-emu/shadPS4/releases/latest',
+        repoUrl: 'https://github.com/Supermedo/bloodborne_pc',
+        wiki: 'Bloodborne',
+        covers: [],
+        palette: ['#090d16', '#334155']
+      },
+      {
+        id: 'n-driveclub-pc',
+        title: 'Driveclub',
+        author: 'driveclub-recomp • PS4',
+        console: 'PS4',
+        hasExe: false,
+        url: 'https://github.com/OverkillLabs3/driveclub-recomp',
+        repoUrl: 'https://github.com/OverkillLabs3/driveclub-recomp',
+        wiki: 'Driveclub',
+        covers: [],
+        palette: ['#7f1d1d', '#dc2626']
+      },
+      {
+        id: 'n-infamous-ss',
+        title: 'inFAMOUS Second Son',
+        author: 'iss_pc • PS4',
+        console: 'PS4',
+        hasExe: false,
+        url: 'https://github.com/HayatoG/iss_pc',
+        repoUrl: 'https://github.com/HayatoG/iss_pc',
+        wiki: 'Infamous_Second_Son',
+        covers: [],
+        palette: ['#1e1b4b', '#ec4899']
+      },
+
+      // --- XBOX / 360 ---
+      {
+        id: 'n-sonic-unleashed',
+        title: 'Sonic Unleashed Recompiled',
+        author: 'hedge-dev • Xbox 360',
+        console: 'XBOX',
+        hasExe: true,
+        url: 'https://github.com/hedge-dev/UnleashedRecomp/releases/latest',
+        repoUrl: 'https://github.com/hedge-dev/UnleashedRecomp',
+        wiki: 'Sonic_Unleashed',
+        covers: [],
+        palette: ['#1e3a8a', '#2563eb']
+      },
+      {
+        id: 'n-lost-odyssey',
+        title: 'Lost Odyssey Recompiled',
+        author: 'freefrank • Xbox 360',
+        console: 'XBOX',
+        hasExe: true,
+        url: 'https://github.com/freefrank/LostOdysseyRecomp/releases/latest',
+        repoUrl: 'https://github.com/freefrank/LostOdysseyRecomp',
+        wiki: 'Lost_Odyssey',
+        covers: [],
+        palette: ['#1e293b', '#38bdf8']
+      },
+      {
+        id: 'n-sh-downpour',
+        title: 'Silent Hill: Downpour Recompiled',
+        author: 'LittleBitUA • Xbox 360',
+        console: 'XBOX',
+        hasExe: true,
+        url: 'https://github.com/LittleBitUA/DownpourRecomp/releases/latest',
+        repoUrl: 'https://github.com/LittleBitUA/DownpourRecomp',
+        wiki: 'Silent_Hill:_Downpour',
+        covers: [],
+        palette: ['#0f172a', '#475569']
+      },
+      {
+        id: 'n-fable-2',
+        title: 'Fable II Recompiled',
+        author: 'himdo • Xbox 360',
+        console: 'XBOX',
+        hasExe: false,
+        url: 'https://github.com/himdo/Fable-2-Recomp',
+        repoUrl: 'https://github.com/himdo/Fable-2-Recomp',
+        wiki: 'Fable_II',
+        covers: [],
+        palette: ['#78350f', '#f59e0b']
+      },
+
+      // --- NINTENDO ---
+      {
+        id: 'n-zelda-soh',
+        title: 'Zelda: Ocarina of Time (Ship of Harkinian)',
+        author: 'HarbourMasters • Nintendo 64',
+        console: 'NINTENDO',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://github.com/HarbourMasters/Shipwright/releases/latest',
+        repoUrl: 'https://github.com/HarbourMasters/Shipwright',
+        wiki: 'The_Legend_of_Zelda:_Ocarina_of_Time',
+        covers: [LB_N64 + 'Legend%20of%20Zelda,%20The%20-%20Ocarina%20of%20Time%20(USA).png'],
+        palette: ['#14532d', '#ca8a04']
+      },
+      {
+        id: 'n-zelda-2ship',
+        title: 'Zelda: Majora\'s Mask (2Ship2Harkinian)',
+        author: 'HarbourMasters • Nintendo 64',
+        console: 'NINTENDO',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://github.com/HarbourMasters/2ship2harkinian/releases/latest',
+        repoUrl: 'https://github.com/HarbourMasters/2ship2harkinian',
+        wiki: "The_Legend_of_Zelda:_Majora's_Mask",
+        covers: [LB_N64 + 'Legend%20of%20Zelda,%20The%20-%20Majora%27s%20Mask%20(USA).png'],
+        palette: ['#3b0764', '#9333ea']
+      },
+      {
+        id: 'n-banjo-recomp',
+        title: 'Banjo-Kazooie Recompiled',
+        author: 'BanjoRecomp • Nintendo 64',
+        console: 'NINTENDO',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://github.com/BanjoRecomp/BanjoRecomp/releases/latest',
+        repoUrl: 'https://github.com/BanjoRecomp/BanjoRecomp',
+        wiki: 'Banjo-Kazooie',
+        covers: [LB_N64 + 'Banjo-Kazooie%20(USA).png'],
+        palette: ['#7c2d12', '#facc15']
+      },
+      {
+        id: 'n-starfox-starship',
+        title: 'Star Fox 64 (Starship)',
+        author: 'HarbourMasters • Nintendo 64',
+        console: 'NINTENDO',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://github.com/HarbourMasters/Starship/releases/latest',
+        repoUrl: 'https://github.com/HarbourMasters/Starship',
+        wiki: 'Star_Fox_64',
+        covers: [LB_N64 + 'Star%20Fox%2064%20(USA).png'],
+        palette: ['#1e3a8a', '#38bdf8']
+      },
+      {
+        id: 'n-perfect-dark',
+        title: 'Perfect Dark PC Port',
+        author: 'fgsfdsfgs • Nintendo 64',
+        console: 'NINTENDO',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://github.com/fgsfdsfgs/perfect_dark/releases/latest',
+        repoUrl: 'https://github.com/fgsfdsfgs/perfect_dark',
+        wiki: 'Perfect_Dark',
+        covers: [LB_N64 + 'Perfect%20Dark%20(USA).png'],
+        palette: ['#0f172a', '#dc2626']
+      },
+      {
+        id: 'n-sm64-coop',
+        title: 'Super Mario 64 (sm64coopdx)',
+        author: 'Coop Deluxe • Nintendo 64',
+        console: 'NINTENDO',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://github.com/coop-deluxe/sm64coopdx/releases/latest',
+        repoUrl: 'https://github.com/coop-deluxe/sm64coopdx',
+        wiki: 'Super_Mario_64',
+        covers: [LB_N64 + 'Super%20Mario%2064%20(USA).png'],
+        palette: ['#7f1d1d', '#ef4444']
+      },
+
+      // --- PS1 / CLÁSSICOS ---
+      {
+        id: 'n-driver2',
+        title: 'Driver 2 (REDRIVER2)',
+        author: 'OpenDriver2 • PS1',
+        console: 'PS1',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://github.com/OpenDriver2/REDRIVER2/releases/latest',
+        repoUrl: 'https://github.com/OpenDriver2/REDRIVER2',
+        wiki: 'Driver_2',
+        covers: [LB_PS1 + 'Driver%202%20(USA)%20(Disc%201).png'],
+        palette: ['#1e293b', '#eab308']
+      },
+      {
+        id: 'n-wipeout-phantom',
+        title: 'WipEout Phantom Edition',
+        author: 'Phantom Edition • PS1',
+        console: 'PS1',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://github.com/wipeout-phantom-edition/wipeout-phantom-edition/releases/latest',
+        repoUrl: 'https://github.com/wipeout-phantom-edition/wipeout-phantom-edition',
+        wiki: 'Wipeout_(video_game)',
+        covers: [LB_PS1 + 'Wipeout%20(USA).png'],
+        palette: ['#0f172a', '#06b6d4']
+      },
+      {
+        id: 'n-openlara-pc',
+        title: 'Tomb Raider (OpenLara PC)',
+        author: 'XProger • PS1',
+        console: 'PS1',
+        isSquareCover: true,
+        hasExe: true,
+        url: 'https://github.com/XProger/OpenLara/releases/latest',
+        repoUrl: 'https://github.com/XProger/OpenLara',
+        wiki: 'Tomb_Raider_(1996_video_game)',
+        covers: [LB_PS1 + 'Tomb%20Raider%20(USA).png'],
+        palette: ['#1c1917', '#b45309']
+      }
+    ];
+
+    const i18n = {
+      pt: {
+        tabBrowser: 'Jogos de Navegador',
+        tabNative: 'Ports Nativos PC',
+        searchPlaceholder: 'Pesquisar jogo...',
+        sortPopular: 'Populares',
+        sortRecent: 'Recentes',
+        sortAz: 'A–Z',
+        sortFav: '★ Favoritos',
+        countBrowser: (n) => `${n} jogos`,
+        countNative: (n) => `${n} ports nativos`,
+        playBtn: 'Jogar',
+        downloadExeBtn: 'Baixar Executável',
+        openGithubBtn: 'Abrir GitHub'
+      },
+      en: {
+        tabBrowser: 'Browser Games',
+        tabNative: 'Native PC Ports',
+        searchPlaceholder: 'Search game...',
+        sortPopular: 'Popular',
+        sortRecent: 'Recent',
+        sortAz: 'A–Z',
+        sortFav: '★ Favorites',
+        countBrowser: (n) => `${n} games`,
+        countNative: (n) => `${n} native ports`,
+        playBtn: 'Play',
+        downloadExeBtn: 'Download .EXE',
+        openGithubBtn: 'Open GitHub'
+      }
+    };
+
+    function applyResolvedCover(imgEl, url) {
+      imgEl.src = url;
+      imgEl.style.display = 'block';
+      const bgImg = imgEl.parentElement && imgEl.parentElement.querySelector('.cover-blur-bg');
+      if (bgImg) {
+        bgImg.src = url;
+        bgImg.style.display = 'block';
+      }
+    }
+
+    async function fetchWikiCoverForElement(imgEl, wikiTitle, gameTitle) {
+      const cacheKey = wikiTitle || gameTitle;
+      if (wikiCoverCache[cacheKey]) {
+        applyResolvedCover(imgEl, wikiCoverCache[cacheKey]);
+        return;
+      }
+
+      try {
+        if (wikiTitle) {
+          const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(wikiTitle)}`);
+          if (res.ok) {
+            const data = await res.json();
+            const imgUrl = (data.originalimage && data.originalimage.source) || (data.thumbnail && data.thumbnail.source);
+            if (imgUrl) {
+              wikiCoverCache[cacheKey] = imgUrl;
+              localStorage.setItem('pina_wiki_covers_v6', JSON.stringify(wikiCoverCache));
+              applyResolvedCover(imgEl, imgUrl);
+              return;
+            }
+          }
+        }
+
+        const sUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(gameTitle + ' video game')}&gsrlimit=1&prop=pageimages&piprop=original|thumbnail&pithumbsize=600&format=json&origin=*`;
+        const sRes = await fetch(sUrl);
+        if (sRes.ok) {
+          const sData = await sRes.json();
+          const pages = sData.query && sData.query.pages;
+          if (pages) {
+            const firstPage = Object.values(pages)[0];
+            const foundUrl = (firstPage.original && firstPage.original.source) || (firstPage.thumbnail && firstPage.thumbnail.source);
+            if (foundUrl) {
+              wikiCoverCache[cacheKey] = foundUrl;
+              localStorage.setItem('pina_wiki_covers_v6', JSON.stringify(wikiCoverCache));
+              applyResolvedCover(imgEl, foundUrl);
+              return;
+            }
+          }
+        }
+      } catch (e) {}
+      imgEl.style.display = 'none';
+    }
+
+    function handleCoverError(imgEl) {
+      const wikiAttempted = imgEl.getAttribute('data-wiki-tried') === '1';
+      if (!wikiAttempted) {
+        imgEl.setAttribute('data-wiki-tried', '1');
+        const wikiTitle = imgEl.getAttribute('data-wiki') || '';
+        const gameTitle = imgEl.getAttribute('alt') || '';
+        fetchWikiCoverForElement(imgEl, wikiTitle, gameTitle);
+      } else {
+        imgEl.style.display = 'none';
+      }
+    }
+
+    function resolveMissingCovers() {
+      document.querySelectorAll('img[data-needs-wiki="1"]').forEach(imgEl => {
+        imgEl.removeAttribute('data-needs-wiki');
+        imgEl.setAttribute('data-wiki-tried', '1');
+        fetchWikiCoverForElement(imgEl, imgEl.getAttribute('data-wiki') || '', imgEl.getAttribute('alt') || '');
+      });
+    }
+
+    function handleSearch() {
+      if (activeMainTab === 'BROWSER') {
+        renderBrowserGames();
+      } else {
+        renderNativeProjects();
+      }
+    }
+
+    function switchMainTab(tab) {
+      activeMainTab = tab;
+      const secBrowser = document.getElementById('section-browser');
+      const secNative = document.getElementById('section-native');
+      const btnBrowser = document.getElementById('main-tab-browser');
+      const btnNative = document.getElementById('main-tab-native');
+
+      if (tab === 'BROWSER') {
+        secBrowser.classList.remove('hidden');
+        secNative.classList.add('hidden');
+        btnBrowser.className = 'px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm';
+        btnNative.className = 'px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)]';
+        renderBrowserGames();
+      } else {
+        secBrowser.classList.add('hidden');
+        secNative.classList.remove('hidden');
+        btnNative.className = 'px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm';
+        btnBrowser.className = 'px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)]';
+        renderNativeProjects();
+      }
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      const t = i18n[lang];
+
+      document.getElementById('lang-pt').className = lang === 'pt'
+        ? 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition bg-[var(--primary)] text-[var(--primary-foreground)]'
+        : 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]';
+      document.getElementById('lang-en').className = lang === 'en'
+        ? 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition bg-[var(--primary)] text-[var(--primary-foreground)]'
+        : 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]';
+
+      document.getElementById('label-tab-browser').textContent = t.tabBrowser;
+      document.getElementById('label-tab-native').textContent = t.tabNative;
+      document.getElementById('global-search').placeholder = t.searchPlaceholder;
+
+      const sortBtns = document.querySelectorAll('.b-sort-btn');
+      sortBtns[0].textContent = t.sortPopular;
+      sortBtns[1].textContent = t.sortRecent;
+      sortBtns[2].textContent = t.sortAz;
+      sortBtns[3].textContent = t.sortFav;
+
+      renderBrowserGames();
+      renderNativeProjects();
+    }
+
+    function setBrowserPlatform(plat) {
+      browserPlatform = plat;
+      document.querySelectorAll('.b-plat-btn').forEach(btn => {
+        if (btn.getAttribute('data-bplat') === plat) {
+          btn.className = 'b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]';
+        } else {
+          btn.className = 'b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]';
+        }
+      });
+      renderBrowserGames();
+    }
+
+    function setBrowserSort(sortMode) {
+      browserSort = sortMode;
+      document.querySelectorAll('.b-sort-btn').forEach(btn => {
+        if (btn.getAttribute('data-sort') === sortMode) {
+          btn.className = 'b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]';
+        } else {
+          btn.className = 'b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]';
+        }
+      });
+      renderBrowserGames();
+    }
+
+    function toggleFav(id, ev) {
+      if (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+      }
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(x => x !== id);
+      } else {
+        favorites.push(id);
+      }
+      localStorage.setItem('pina_ports_favs_v6', JSON.stringify(favorites));
+      renderBrowserGames();
+      renderNativeProjects();
+    }
+
+    function buildCoverCardHTML(item, btnLabel, isDownloadBtn) {
+      const isFav = favorites.includes(item.id);
+      const [c1, c2] = item.palette || ['#0f172a', '#1e3a8a'];
+      const cacheKey = item.wiki || item.title;
+      const cachedUrl = wikiCoverCache[cacheKey];
+      const primaryCover = cachedUrl || (item.covers && item.covers[0]) || '';
+      const needsWikiImmediately = !primaryCover ? '1' : '0';
+      const platTag = (item.console || item.platform || 'PORT')
+        .replace('PS4_PS5', 'PS4/PS5')
+        .replace('PS1_PSP', 'PS1/PSP');
+
+      const fitClass = item.isSquareCover ? 'object-contain p-1.5' : 'object-fill';
+
+      return `
+        <div class="group min-w-0 overflow-hidden bg-[var(--card)] border border-[var(--border)] rounded-2xl p-2.5 sm:p-3 flex flex-col justify-between shadow-sm hover:border-[var(--primary)] hover:shadow-lg transition-all duration-200">
+
+          <!-- Pure Native Game Cover -->
+          <div class="relative aspect-[3/4] rounded-xl overflow-hidden bg-[var(--background)] border border-[var(--border)]"
+               style="background: linear-gradient(160deg, ${c1} 0%, ${c2} 100%);">
+
+            <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="block w-full h-full relative">
+              <!-- Clean Box Art Fallback Underneath -->
+              <div class="absolute inset-0 flex flex-col justify-between p-3 text-white select-none">
+                <div class="bg-black/75 px-2 py-0.5 rounded text-xs font-bold tracking-widest uppercase self-start">
+                  ${platTag}
+                </div>
+                <div class="my-auto text-center px-1">
+                  <div class="font-extrabold text-sm sm:text-base uppercase tracking-tight leading-snug drop-shadow">
+                    ${item.title}
+                  </div>
+                </div>
+                <div class="text-xs text-white/75 font-medium text-center truncate">
+                  ${item.author}
+                </div>
+              </div>
+
+              <!-- Blurred Backdrop for Square/Landscape Covers -->
+              <img src="${primaryCover}"
+                   alt=""
+                   aria-hidden="true"
+                   style="${primaryCover ? '' : 'display:none;'}"
+                   class="cover-blur-bg absolute inset-0 z-0 w-full h-full object-cover blur-md scale-110 opacity-55 pointer-events-none" />
+
+              <!-- Official Box Art Image -->
+              <img src="${primaryCover}"
+                   alt="${item.title}"
+                   loading="lazy"
+                   data-wiki="${item.wiki || ''}"
+                   data-needs-wiki="${needsWikiImmediately}"
+                   onerror="handleCoverError(this)"
+                   style="${primaryCover ? '' : 'display:none;'}"
+                   class="relative z-10 w-full h-full ${fitClass} group-hover:scale-105 transition-transform duration-300" />
+            </a>
+
+            <!-- Optional GitHub Repo Badge on Top-Left (for Native Ports with .EXE) -->
+            ${item.repoUrl && item.hasExe ? `
+              <a href="${item.repoUrl}" target="_blank" rel="noopener noreferrer"
+                 title="Código Fonte no GitHub"
+                 class="absolute top-2 left-2 z-20 px-2 h-6 rounded-full bg-black/70 hover:bg-black/90 text-white flex items-center justify-center text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                GitHub
+              </a>
+            ` : ''}
+
+            <!-- Favorite Star on Top-Right -->
+            <button onclick="toggleFav('${item.id}', event)"
+                    title="Favorito"
+                    class="absolute top-2 right-2 z-20 w-7 h-7 rounded-full bg-black/65 text-amber-300 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity ${isFav ? '!opacity-100' : ''}">
+              ${isFav ? '★' : '☆'}
+            </button>
+          </div>
+
+          <!-- Clean Card Footer + Single Full-Width Responsive Action Button -->
+          <div class="pt-2.5 sm:pt-3 flex flex-col gap-2 min-w-0">
+            <div class="px-0.5 min-w-0">
+              <div class="font-bold text-xs sm:text-sm text-[var(--foreground)] truncate" title="${item.title}">
+                ${item.title}
+              </div>
+              <div class="text-xs text-[var(--muted-foreground)] truncate mt-0.5" title="${item.author}">
+                ${item.author}
+              </div>
+            </div>
+
+            <a href="${item.url}" target="_blank" rel="noopener noreferrer"
+               class="w-full min-w-0 py-2 px-2.5 sm:px-3 rounded-xl text-xs font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 shadow-sm">
+              ${isDownloadBtn ? `
+                <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24">
+                  <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+              ` : `
+                <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              `}
+              <span class="truncate">${btnLabel}</span>
+            </a>
+          </div>
+
+        </div>
+      `;
+    }
+
+    function renderBrowserGames() {
+      const t = i18n[currentLang];
+      const query = document.getElementById('global-search').value.trim().toLowerCase();
+
+      const allGames = [...customBrowserGames, ...defaultBrowserGames];
+      let filtered = allGames.filter(g => {
+        if (browserPlatform !== 'ALL' && g.platform !== browserPlatform) return false;
+        if (browserSort === 'FAV' && !favorites.includes(g.id)) return false;
+        if (query) {
+          const hay = `${g.title} ${g.author} ${g.platform}`.toLowerCase();
+          if (!hay.includes(query)) return false;
+        }
+        return true;
+      });
+
+      if (browserSort === 'POPULAR') {
+        filtered.sort((a, b) => (a.popularRank || 99) - (b.popularRank || 99));
+      } else if (browserSort === 'RECENT') {
+        filtered.sort((a, b) => (b.dateRank || 0) - (a.dateRank || 0));
+      } else if (browserSort === 'AZ') {
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+      }
+
+      document.getElementById('browser-count-label').textContent = t.countBrowser(filtered.length);
+
+      const grid = document.getElementById('browser-grid');
+      grid.innerHTML = filtered.map(g => buildCoverCardHTML(g, t.playBtn, false)).join('');
+      resolveMissingCovers();
+    }
+
+    function setConsoleFilter(c) {
+      currentConsole = c;
+      document.querySelectorAll('.console-tab').forEach(btn => {
+        if (btn.getAttribute('data-console') === c) {
+          btn.className = 'console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]';
+        } else {
+          btn.className = 'console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]';
+        }
+      });
+      renderNativeProjects();
+    }
+
+    function renderNativeProjects() {
+      const t = i18n[currentLang];
+      const query = document.getElementById('global-search').value.trim().toLowerCase();
+      const allNative = [...customNativeGames, ...defaultNativeProjects];
+
+      const filtered = allNative.filter(p => {
+        if (currentConsole !== 'ALL' && p.console !== currentConsole) return false;
+        if (query) {
+          const hay = `${p.title} ${p.author} ${p.console}`.toLowerCase();
+          if (!hay.includes(query)) return false;
+        }
+        return true;
+      });
+
+      document.getElementById('native-count-label').textContent = t.countNative(filtered.length);
+
+      const grid = document.getElementById('projects-grid');
+      grid.innerHTML = filtered.map(p => {
+        const label = p.hasExe ? t.downloadExeBtn : t.openGithubBtn;
+        return buildCoverCardHTML(p, label, p.hasExe);
+      }).join('');
+      resolveMissingCovers();
+    }
+
+    function openAddModal() {
+      document.getElementById('add-modal').classList.remove('hidden');
+    }
+
+    function closeAddModal() {
+      document.getElementById('add-modal').classList.add('hidden');
+    }
+
+    function saveCustomEntry() {
+      const tabType = document.getElementById('inp-tab-type').value;
+      const title = document.getElementById('inp-title').value.trim();
+      const plat = document.getElementById('inp-plat').value;
+      const author = document.getElementById('inp-author').value.trim() || plat;
+      const cover = document.getElementById('inp-cover').value.trim();
+      const url = document.getElementById('inp-url').value.trim();
+
+      if (!title || !url) return;
+
+      if (tabType === 'BROWSER') {
+        customBrowserGames.unshift({
+          id: 'cb-' + Date.now(),
+          title,
+          author,
+          platform: plat,
+          popularRank: 0,
+          dateRank: 99,
+          url,
+          wiki: title.replace(/\s+/g, '_'),
+          covers: cover ? [cover] : [],
+          palette: ['#1e3a8a', '#2563eb']
+        });
+        localStorage.setItem('pina_browser_custom_v6', JSON.stringify(customBrowserGames));
+        switchMainTab('BROWSER');
+      } else {
+        const mappedConsole = plat === 'PS4_PS5' ? 'PS4' : (plat === 'PS1_PSP' ? 'PS1' : plat);
+        customNativeGames.unshift({
+          id: 'cn-' + Date.now(),
+          title,
+          author,
+          console: mappedConsole,
+          hasExe: true,
+          url,
+          wiki: title.replace(/\s+/g, '_'),
+          covers: cover ? [cover] : [],
+          palette: ['#1e3a8a', '#2563eb']
+        });
+        localStorage.setItem('pina_native_custom_v6', JSON.stringify(customNativeGames));
+        switchMainTab('NATIVE');
+      }
+
+      document.getElementById('inp-title').value = '';
+      document.getElementById('inp-cover').value = '';
+      document.getElementById('inp-url').value = '';
+      closeAddModal();
+    }
+
+    renderBrowserGames();
+    renderNativeProjects();
+  </script>
+</body>
+</html>
