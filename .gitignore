@@ -1,0 +1,21 @@
+# Ambientes e Segredos
+.env
+.env.local
+*.env
+
+# Dependências
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Logs e arquivos de sistema
+*.log
+.DS_Store
+Thumbs.db
+

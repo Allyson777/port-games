@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PINA Ports Hub • Browser & Native PC Ports</title>
+  <title>PINA Ports Hub • Browser & Native PC Ports (Secure)</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232563eb'/%3E%3Cstop offset='50%25' stop-color='%234f46e5'/%3E%3Cstop offset='100%25' stop-color='%237c3aed'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M19 24h26c4.5 0 8 3.5 8.8 8l1.7 9.5c.6 3.5-2 6.5-5.5 6.5-2.2 0-4.2-1.2-5.2-3.1L42 40H22l-2.8 4.9c-1 1.9-3 3.1-5.2 3.1-3.5 0-6.1-3-5.5-6.5L10.2 32c.8-4.5 4.3-8 8.8-8z' fill='%23fff'/%3E%3Cpath d='M21 29v3h-3v3h3v3h3v-3h3v-3h-3v-3h-3z' fill='%233b82f6'/%3E%3Ccircle cx='43' cy='31' r='2.2' fill='%234f46e5'/%3E%3Ccircle cx='47' cy='35' r='2.2' fill='%23ec4899'/%3E%3Ccircle cx='39' cy='35' r='2.2' fill='%2306b6d4'/%3E%3C/svg%3E" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase JS Client v2 Oficial -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --background: #0b0f17;
@@ -31,24 +33,30 @@
       --secondary: #f1f5f9;
       --secondary-foreground: #1e293b;
     }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body class="bg-[var(--background)] text-[var(--foreground)] antialiased min-h-screen flex flex-col justify-between overflow-x-hidden">
 
   <div>
-    <!-- Redesigned Top Header with Custom Brand Logo & Icon Mode Switcher -->
+    <!-- Top Header -->
     <header class="border-b border-[var(--border)] bg-[var(--card)]/95 backdrop-blur sticky top-0 z-30">
       <div class="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3 sm:gap-5">
 
-        <!-- Left: Custom Gaming Emblem Logo + Divider + Icon Mode Switcher -->
+        <!-- Left: Brand Crest + Nav Switcher -->
         <div class="flex flex-wrap items-center gap-3 sm:gap-5 min-w-0">
 
           <!-- Brand Logo -->
           <a href="#" onclick="switchMainTab('BROWSER'); return false;" class="group flex items-center gap-3 shrink-0 select-none">
-            <!-- Custom SVG Gamepad Crest -->
             <div class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-2xl p-0.5 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 shadow-md group-hover:scale-105 transition-transform duration-200">
               <div class="w-full h-full rounded-[14px] bg-slate-950/90 flex items-center justify-center relative overflow-hidden">
-                <!-- Subtle ambient glow inside logo -->
                 <div class="absolute -top-3 -left-3 w-7 h-7 bg-blue-500/40 rounded-full blur-md"></div>
                 <div class="absolute -bottom-3 -right-3 w-7 h-7 bg-purple-500/40 rounded-full blur-md"></div>
                 <svg class="w-6 h-6 sm:w-7 sm:h-7 relative z-10" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,48 +67,34 @@
                       <stop offset="100%" stop-color="#c084fc"/>
                     </linearGradient>
                   </defs>
-                  <!-- Controller Body -->
                   <path d="M18.5 21H45.5C50.4 21 54.5 24.6 55.3 29.4L57.2 40.2C57.9 44.3 54.7 48 50.5 48C48.1 48 45.8 46.7 44.6 44.5L41.8 39.5H22.2L19.4 44.5C18.2 46.7 15.9 48 13.5 48C9.3 48 6.1 44.3 6.8 40.2L8.7 29.4C9.5 24.6 13.6 21 18.5 21Z"
                         fill="url(#padGrad)" stroke="#ffffff" stroke-opacity="0.25" stroke-width="1.5"/>
-                  <!-- D-Pad -->
                   <path d="M19.5 26.5V30H16V33.5H19.5V37H23V33.5H26.5V30H23V26.5H19.5Z" fill="#0f172a"/>
-                  <!-- Action Buttons -->
                   <circle cx="44.5" cy="28" r="2.3" fill="#38bdf8"/>
                   <circle cx="48.5" cy="32" r="2.3" fill="#f472b6"/>
                   <circle cx="40.5" cy="32" r="2.3" fill="#0f172a"/>
                   <circle cx="44.5" cy="36" r="2.3" fill="#facc15"/>
-                  <!-- Center Core Glow -->
                   <rect x="29.5" y="28" width="5" height="2.5" rx="1.25" fill="#ffffff" fill-opacity="0.85"/>
                 </svg>
               </div>
             </div>
 
-            <!-- Stylized Brand Wordmark -->
             <div class="flex flex-col">
               <div class="flex items-center gap-1.5 leading-none">
-                <span class="font-black text-base sm:text-lg tracking-tight text-[var(--foreground)]">
-                  PINA
-                </span>
-                <span class="font-black text-base sm:text-lg tracking-tight bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                  PORTS
-                </span>
-                <span class="px-1.5 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/15 text-blue-400 border border-blue-500/30">
-                  HUB
-                </span>
+                <span class="font-black text-base sm:text-lg tracking-tight text-[var(--foreground)]">PINA</span>
+                <span class="font-black text-base sm:text-lg tracking-tight bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">PORTS</span>
+                <span class="px-1.5 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/15 text-blue-400 border border-blue-500/30">SECURE HUB</span>
               </div>
               <div class="flex items-center gap-1.5 mt-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                <span class="text-[11px] font-medium tracking-wide text-[var(--muted-foreground)]">
-                  Web &amp; Native Console Archive
-                </span>
+                <span id="conn-indicator" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span id="conn-label" class="text-[11px] font-medium tracking-wide text-[var(--muted-foreground)]">Protegido por Supabase Auth</span>
               </div>
             </div>
           </a>
 
-          <!-- Subtle Vertical Divider -->
           <div class="hidden md:block h-8 w-px bg-[var(--border)]"></div>
 
-          <!-- Redesigned Segmented Navigation Switcher with Icons -->
+          <!-- Nav Switcher -->
           <nav class="inline-flex items-center rounded-2xl bg-[var(--background)] border border-[var(--border)] p-1 gap-1 max-w-full overflow-x-auto shadow-inner">
             <button id="main-tab-browser" onclick="switchMainTab('BROWSER')"
                     class="px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm">
@@ -120,15 +114,51 @@
                 <line x1="12" y1="17" x2="12" y2="21"/>
               </svg>
               <span id="label-tab-native">Ports Nativos PC</span>
-              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-black/25 border border-white/10 leading-none">
-                .EXE
-              </span>
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-black/25 border border-white/10 leading-none">.EXE</span>
             </button>
           </nav>
         </div>
 
-        <!-- Right Controls (Order 2 on mobile, Order 3 on desktop) -->
+        <!-- Right Controls & Authentication Menu -->
         <div class="order-2 lg:order-3 flex items-center gap-1.5 sm:gap-2 shrink-0">
+
+          <!-- User State Control -->
+          <div id="auth-controls" class="flex items-center gap-1.5">
+            <!-- Unauthenticated State -->
+            <button id="btn-open-login" onclick="openAuthModal('login')"
+                    class="px-3 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-sm flex items-center gap-1.5 transition">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                <polyline points="10 17 15 12 10 7"/>
+                <line x1="15" y1="12" x2="3" y2="12"/>
+              </svg>
+              <span>Entrar</span>
+            </button>
+
+            <!-- Authenticated State -->
+            <div id="user-badge" class="hidden flex items-center gap-2 bg-[var(--background)] border border-[var(--border)] px-2.5 py-1.5 rounded-xl">
+              <div class="flex flex-col text-right">
+                <div class="flex items-center gap-1 justify-end">
+                  <span id="user-email" class="text-xs font-semibold text-[var(--foreground)] max-w-[120px] sm:max-w-[160px] truncate">user@email.com</span>
+                  <span id="user-role-badge" class="px-1.5 py-0.2 rounded text-[9px] font-extrabold uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Aprovado</span>
+                </div>
+              </div>
+
+              <!-- Admin Panel Button (Somente visível para Admin) -->
+              <button id="btn-admin-panel" onclick="openAdminModal()" class="hidden px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 transition">
+                ⚙ Admin
+              </button>
+
+              <button onclick="logoutUser()" title="Encerrar Sessão" class="p-1 rounded-lg hover:bg-[var(--card)] text-[var(--muted-foreground)] hover:text-red-400 transition">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                  <polyline points="16 17 21 12 16 7"/>
+                  <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
           <button onclick="openAddModal()"
                   class="px-3 py-2 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] hover:border-[var(--primary)] transition whitespace-nowrap flex items-center gap-1.5">
             <span class="text-blue-400 font-black text-sm leading-none">+</span>
@@ -151,7 +181,7 @@
           </div>
         </div>
 
-        <!-- Center: Search Bar (Full-width row on mobile/tablet, centered inline on desktop) -->
+        <!-- Center: Search Bar -->
         <div class="order-3 lg:order-2 w-full lg:w-auto lg:flex-1 lg:max-w-xs xl:max-w-sm min-w-0">
           <div class="relative">
             <svg class="w-4 h-4 text-[var(--placeholder)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -168,154 +198,106 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-6 space-y-4 sm:space-y-5">
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-6 space-y-5 sm:space-y-6">
 
-      <!-- Sleek Gradient Status Pill (No harsh full-width gray lines) -->
-      <div id="community-notice" class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 border border-blue-500/20 px-3.5 sm:px-4 py-2.5 flex items-center justify-between gap-3 shadow-sm">
-        <div class="flex items-center gap-2.5 min-w-0">
-          <div class="w-7 h-7 rounded-xl bg-blue-500/15 border border-blue-400/25 flex items-center justify-center shrink-0 text-blue-400">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="8" x2="12" y2="12"/>
-              <line x1="12" y1="16" x2="12.01" y2="16"/>
+      <!-- Alerta de Sessão / Estado Não Autenticado -->
+      <div id="auth-banner" class="hidden bg-gradient-to-r from-blue-900/40 via-indigo-900/40 to-purple-900/40 border border-blue-500/30 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
           </div>
-          <p id="header-disclaimer" class="text-xs text-[var(--foreground)]/90 leading-relaxed">
-            <strong class="font-bold text-blue-400">Aviso:</strong> Pedimos desculpas caso algum link não abra — os ports são mantidos por servidores da comunidade e podem passar por instabilidades temporárias.
-          </p>
+          <div>
+            <h4 class="text-sm font-bold text-white">Catálogo Exclusivo e Protegido</h4>
+            <p class="text-xs text-slate-300 mt-0.5">Faça login com sua conta aprovada para liberar a execução e download dos ports sem interrupções.</p>
+          </div>
         </div>
-        <button onclick="document.getElementById('community-notice').classList.add('hidden')"
-                title="Fechar aviso"
-                class="w-6 h-6 rounded-lg text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-white/5 flex items-center justify-center shrink-0 transition">
-          ✕
-        </button>
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="openAuthModal('login')" class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white transition shadow-sm">
+            Entrar Agora
+          </button>
+          <button onclick="openAuthModal('signup')" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/15 text-white transition">
+            Solicitar Acesso
+          </button>
+        </div>
       </div>
 
-      <!-- =================================================================== -->
-      <!-- VIEW 1: BROWSER GAMES (WITH PLATFORM + SORT SUB-TABS)               -->
-      <!-- =================================================================== -->
-      <div id="section-browser" class="space-y-5">
+      <!-- Alerta de Conta Pendente de Aprovação -->
+      <div id="pending-banner" class="hidden bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-amber-300">Conta Aguardando Aprovação do Administrador</h3>
+          <p class="text-xs text-[var(--muted-foreground)] max-w-lg mx-auto mt-1">
+            Seu cadastro foi realizado com sucesso. Para proteger a plataforma contra compartilhamento indevido, cada novo usuário precisa ser ativado individualmente pelo administrador antes de acessar os jogos.
+          </p>
+        </div>
+        <div class="flex justify-center gap-2 pt-1">
+          <button onclick="checkSessionStatus()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-400 text-black transition">
+            Verificar Aprovação
+          </button>
+          <button onclick="logoutUser()" class="px-4 py-2 rounded-xl text-xs font-semibold border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--card)] transition">
+            Sair
+          </button>
+        </div>
+      </div>
 
-        <!-- Filter & Sub-Tabs Bar -->
+      <!-- VIEW 1: BROWSER GAMES -->
+      <div id="section-browser" class="space-y-5">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-[var(--border)]">
-          <!-- Platform Sub-Tabs -->
           <div class="flex items-center gap-1.5 flex-wrap">
-            <button onclick="setBrowserPlatform('ALL')" data-bplat="ALL"
-                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]">
-              Todos
-            </button>
-            <button onclick="setBrowserPlatform('PS2')" data-bplat="PS2"
-                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              PS2
-            </button>
-            <button onclick="setBrowserPlatform('PS1_PSP')" data-bplat="PS1_PSP"
-                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              PS1 / PSP
-            </button>
-            <button onclick="setBrowserPlatform('PS3')" data-bplat="PS3"
-                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              PS3
-            </button>
-            <button onclick="setBrowserPlatform('PS4_PS5')" data-bplat="PS4_PS5"
-                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              PS4 / PS5
-            </button>
-            <button onclick="setBrowserPlatform('XBOX')" data-bplat="XBOX"
-                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              Xbox
-            </button>
-            <button onclick="setBrowserPlatform('NINTENDO')" data-bplat="NINTENDO"
-                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              Nintendo
-            </button>
-            <button onclick="setBrowserPlatform('OTHER')" data-bplat="OTHER"
-                    class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              PC / Outros
-            </button>
+            <button onclick="setBrowserPlatform('ALL')" data-bplat="ALL" class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]">Todos</button>
+            <button onclick="setBrowserPlatform('PS2')" data-bplat="PS2" class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">PS2</button>
+            <button onclick="setBrowserPlatform('PS1_PSP')" data-bplat="PS1_PSP" class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">PS1 / PSP</button>
+            <button onclick="setBrowserPlatform('PS3')" data-bplat="PS3" class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">PS3</button>
+            <button onclick="setBrowserPlatform('PS4_PS5')" data-bplat="PS4_PS5" class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">PS4 / PS5</button>
+            <button onclick="setBrowserPlatform('XBOX')" data-bplat="XBOX" class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">Xbox</button>
+            <button onclick="setBrowserPlatform('NINTENDO')" data-bplat="NINTENDO" class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">Nintendo</button>
+            <button onclick="setBrowserPlatform('OTHER')" data-bplat="OTHER" class="b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">PC / Outros</button>
           </div>
 
-          <!-- Sort Sub-Tabs (Populares, Recentes, A-Z, Favoritos) -->
           <div class="flex items-center justify-between sm:justify-start gap-2 flex-wrap">
             <div class="inline-flex flex-wrap rounded-xl bg-[var(--card)] border border-[var(--border)] p-0.5 gap-0.5">
-              <button onclick="setBrowserSort('POPULAR')" data-sort="POPULAR"
-                      class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]">
-                Populares
-              </button>
-              <button onclick="setBrowserSort('RECENT')" data-sort="RECENT"
-                      class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
-                Recentes
-              </button>
-              <button onclick="setBrowserSort('AZ')" data-sort="AZ"
-                      class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
-                A–Z
-              </button>
-              <button onclick="setBrowserSort('FAV')" data-sort="FAV"
-                      class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
-                ★ Favoritos
-              </button>
+              <button onclick="setBrowserSort('POPULAR')" data-sort="POPULAR" class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]">Populares</button>
+              <button onclick="setBrowserSort('RECENT')" data-sort="RECENT" class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]">Recentes</button>
+              <button onclick="setBrowserSort('AZ')" data-sort="AZ" class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]">A–Z</button>
+              <button onclick="setBrowserSort('FAV')" data-sort="FAV" class="b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]">★ Favoritos</button>
             </div>
             <span id="browser-count-label" class="text-xs text-[var(--muted-foreground)] whitespace-nowrap">0 jogos</span>
           </div>
         </div>
 
-        <!-- Clean Responsive Cover Grid (5x5 = 25 cards per page on desktop) -->
-        <section id="browser-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-5">
+        <section id="browser-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 sm:gap-5">
           <!-- Populated by JS -->
         </section>
-
-        <!-- Pagination Controls (25 cards per page) -->
-        <div id="browser-pagination" class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-[var(--border)]">
-          <!-- Populated by JS -->
-        </div>
-
       </div>
 
-      <!-- =================================================================== -->
-      <!-- VIEW 2: NATIVE PC PORTS (SAME COVER LAYOUT + DIRECT .EXE DOWNLOAD)  -->
-      <!-- =================================================================== -->
+      <!-- VIEW 2: NATIVE PC PORTS -->
       <div id="section-native" class="hidden space-y-5">
-
-        <!-- Platform Filter Bar for Native PC Ports -->
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-[var(--border)]">
           <div class="flex flex-wrap gap-1.5">
-            <button onclick="setConsoleFilter('ALL')" data-console="ALL"
-                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]">
-              Todos
-            </button>
-            <button onclick="setConsoleFilter('PS2')" data-console="PS2"
-                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              PS2
-            </button>
-            <button onclick="setConsoleFilter('PS3')" data-console="PS3"
-                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              PS3
-            </button>
-            <button onclick="setConsoleFilter('PS4')" data-console="PS4"
-                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              PS4
-            </button>
-            <button onclick="setConsoleFilter('XBOX')" data-console="XBOX"
-                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              Xbox / 360
-            </button>
-            <button onclick="setConsoleFilter('NINTENDO')" data-console="NINTENDO"
-                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              Nintendo
-            </button>
-            <button onclick="setConsoleFilter('PS1')" data-console="PS1"
-                    class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">
-              PS1 / Clássicos
-            </button>
+            <button onclick="setConsoleFilter('ALL')" data-console="ALL" class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]">Todos</button>
+            <button onclick="setConsoleFilter('PS2')" data-console="PS2" class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">PS2</button>
+            <button onclick="setConsoleFilter('PS3')" data-console="PS3" class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">PS3</button>
+            <button onclick="setConsoleFilter('PS4')" data-console="PS4" class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">PS4</button>
+            <button onclick="setConsoleFilter('XBOX')" data-console="XBOX" class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">Xbox / 360</button>
+            <button onclick="setConsoleFilter('NINTENDO')" data-console="NINTENDO" class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">Nintendo</button>
+            <button onclick="setConsoleFilter('PS1')" data-console="PS1" class="console-tab px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)] hover:text-[var(--foreground)]">PS1 / Clássicos</button>
           </div>
 
           <span id="native-count-label" class="text-xs text-[var(--muted-foreground)] whitespace-nowrap">0 ports nativos</span>
         </div>
 
-        <!-- Same Responsive Cover Grid for Native PC Ports -->
         <section id="projects-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 sm:gap-5">
           <!-- Populated by JS -->
         </section>
-
       </div>
 
     </main>
@@ -324,10 +306,161 @@
   <!-- Mini Footer -->
   <footer class="border-t border-[var(--border)] bg-[var(--card)] mt-12 py-4">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--muted-foreground)]">
-      <span>PINA Ports Hub</span>
+      <span>PINA Ports Hub • Sessão Segura Backend &amp; Supabase Auth</span>
       <span class="font-semibold tracking-wider text-[var(--foreground)]">developed by PINA-ESTUDIOS</span>
     </div>
   </footer>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: AUTENTICAÇÃO (LOGIN / REGISTRO RESTRITO / RECUPERAÇÃO DE SENHA)   -->
+  <!-- ========================================================================= -->
+  <div id="auth-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-[var(--muted-foreground)] hover:text-[var(--foreground)] p-1 rounded-lg">✕</button>
+
+      <!-- Tabs de Autenticação -->
+      <div class="flex border-b border-[var(--border)] pb-2 gap-3 text-xs font-bold">
+        <button id="auth-tab-login" onclick="switchAuthTab('login')" class="pb-1 text-[var(--primary)] border-b-2 border-[var(--primary)] transition">Entrar</button>
+        <button id="auth-tab-signup" onclick="switchAuthTab('signup')" class="pb-1 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition">Criar Conta</button>
+        <button id="auth-tab-reset" onclick="switchAuthTab('reset')" class="pb-1 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition">Recuperar Senha</button>
+      </div>
+
+      <!-- Mensagens de Alerta / Erro -->
+      <div id="auth-error" class="hidden p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-xs"></div>
+      <div id="auth-success" class="hidden p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs"></div>
+
+      <!-- Formulário de Login -->
+      <form id="form-login" onsubmit="handleLogin(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-medium mb-1">E-mail</label>
+          <input id="login-email" type="email" required placeholder="seu@email.com" class="w-full px-3 py-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--primary)]" />
+        </div>
+        <div>
+          <label class="block font-medium mb-1">Senha</label>
+          <input id="login-password" type="password" required placeholder="••••••••" class="w-full px-3 py-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--primary)]" />
+        </div>
+        <button id="btn-submit-login" type="submit" class="w-full py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md transition flex items-center justify-center gap-2">
+          <span>Entrar no Hub</span>
+        </button>
+      </form>
+
+      <!-- Formulário de Cadastro Restrito -->
+      <form id="form-signup" onsubmit="handleSignup(event)" class="hidden space-y-3 text-xs">
+        <div class="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 text-[11px] leading-relaxed">
+          <strong>Cadastro com Aprovação:</strong> Para garantir controle de sessão única e proteção das contas, novos registros são cadastrados como <em>pendentes</em> e ativados pelo administrador.
+        </div>
+        <div>
+          <label class="block font-medium mb-1">E-mail</label>
+          <input id="signup-email" type="email" required placeholder="seu@email.com" class="w-full px-3 py-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--primary)]" />
+        </div>
+        <div>
+          <label class="block font-medium mb-1">Criar Senha</label>
+          <input id="signup-password" type="password" required minlength="6" placeholder="Mínimo 6 caracteres" class="w-full px-3 py-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--primary)]" />
+        </div>
+        <button id="btn-submit-signup" type="submit" class="w-full py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md transition flex items-center justify-center gap-2">
+          <span>Criar Cadastro</span>
+        </button>
+      </form>
+
+      <!-- Formulário de Recuperação de Senha -->
+      <form id="form-reset" onsubmit="handlePasswordReset(event)" class="hidden space-y-3 text-xs">
+        <p class="text-[11px] text-[var(--muted-foreground)]">Insira seu e-mail cadastrado para receber instruções seguras de redefinição de senha.</p>
+        <div>
+          <label class="block font-medium mb-1">E-mail</label>
+          <input id="reset-email" type="email" required placeholder="seu@email.com" class="w-full px-3 py-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:border-[var(--primary)]" />
+        </div>
+        <button id="btn-submit-reset" type="submit" class="w-full py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md transition">
+          <span>Enviar Link de Recuperação</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: SESSÃO CONCORRENTE DETECTADA (KICK AUTOMÁTICO SERVER-SIDE)        -->
+  <!-- ========================================================================= -->
+  <div id="session-displaced-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+    <div class="bg-[var(--card)] border border-red-500/40 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl text-center">
+      <div class="w-14 h-14 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center mx-auto">
+        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-red-400">Sessão Concorrente Detectada</h3>
+        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+          Esta conta foi acessada a partir de outro dispositivo ou navegador. Por motivos de segurança e cumprimento das políticas de sessão única, o acesso deste computador foi desconectado.
+        </p>
+      </div>
+      <div class="pt-2">
+        <button onclick="handleAcknowledgeDisplacement()" class="w-full py-2.5 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-500 text-white transition">
+          Entendido / Fazer Novo Login
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: PAINEL ADMINISTRATIVO (GERENCIAMENTO DE USUÁRIOS E SESSÕES)       -->
+  <!-- ========================================================================= -->
+  <div id="admin-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-sm">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col p-5 sm:p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+        <div class="flex items-center gap-2">
+          <span class="text-amber-400 font-black">⚙</span>
+          <h3 class="text-sm sm:text-base font-bold text-[var(--foreground)]">Painel Administrativo • PINA Hub</h3>
+        </div>
+        <button onclick="closeAdminModal()" class="text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] p-1 rounded-lg">✕</button>
+      </div>
+
+      <div class="overflow-y-auto custom-scrollbar flex-1 py-4 space-y-5 text-xs">
+        <!-- Sub-seção: Criar Usuário pelo Admin -->
+        <div class="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-3">
+          <h4 class="font-bold text-[var(--foreground)] flex items-center gap-1.5">
+            <span>+</span> Cadastrar Novo Usuário (Aprovação Direta)
+          </h4>
+          <form onsubmit="handleAdminCreateUser(event)" class="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
+            <input id="adm-new-email" type="email" required placeholder="E-mail do usuário" class="px-3 py-2 rounded-xl bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] sm:col-span-2" />
+            <input id="adm-new-pass" type="password" required minlength="6" placeholder="Senha provisória" class="px-3 py-2 rounded-xl bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)]" />
+            <button type="submit" class="px-3 py-2 rounded-xl font-bold bg-blue-600 hover:bg-blue-500 text-white transition">Criar Aprovado</button>
+          </form>
+        </div>
+
+        <!-- Sub-seção: Tabela de Usuários e Sessões -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-bold text-[var(--foreground)]">Usuários Registrados &amp; Sessões Ativas</h4>
+            <button onclick="loadAdminUsersList()" class="px-2.5 py-1 rounded-lg border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-[11px] flex items-center gap-1">
+              <span>↻</span> Atualizar
+            </button>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-[var(--border)]">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-[var(--background)] border-b border-[var(--border)] text-[var(--muted-foreground)] text-[11px]">
+                  <th class="p-2.5">E-mail</th>
+                  <th class="p-2.5">Papel</th>
+                  <th class="p-2.5">Status</th>
+                  <th class="p-2.5">Sessão Ativa</th>
+                  <th class="p-2.5 text-right">Ações de Acesso</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-table-body" class="divide-y divide-[var(--border)]">
+                <tr><td colspan="5" class="p-4 text-center text-[var(--muted-foreground)]">Carregando usuários...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-3 border-t border-[var(--border)] flex justify-end">
+        <button onclick="closeAdminModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]">Fechar</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal: Add Custom Game -->
   <div id="add-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/60">
@@ -348,8 +481,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <div>
             <label class="block font-medium mb-1">Nome do Jogo *</label>
-            <input id="inp-title" type="text" placeholder="Ex: Bully"
-                   class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
+            <input id="inp-title" type="text" placeholder="Ex: Bully" class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
           </div>
           <div>
             <label class="block font-medium mb-1">Plataforma *</label>
@@ -366,1456 +498,64 @@
         </div>
         <div>
           <label class="block font-medium mb-1">Autor / Projeto</label>
-          <input id="inp-author" type="text" placeholder="Ex: Slayoner"
-                 class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
+          <input id="inp-author" type="text" placeholder="Ex: Slayoner" class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
         </div>
         <div>
           <label class="block font-medium mb-1">URL da Capa (Se deixar vazio, busca automático na Wikipedia)</label>
-          <input id="inp-cover" type="url" placeholder="https://.../capa.png"
-                 class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
+          <input id="inp-cover" type="url" placeholder="https://.../capa.png" class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
         </div>
         <div>
           <label class="block font-medium mb-1">Link Direto do Jogo / Executável *</label>
-          <input id="inp-url" type="url" placeholder="https://..."
-                 class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
+          <input id="inp-url" type="url" placeholder="https://..." class="w-full px-3 py-2 rounded-xl bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]" />
         </div>
       </div>
 
       <div class="flex justify-end gap-2 pt-2 border-t border-[var(--border)]">
-        <button onclick="closeAddModal()"
-                class="px-3.5 py-1.5 rounded-xl text-xs border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">
-          Cancelar
-        </button>
-        <button onclick="saveCustomEntry()"
-                class="px-4 py-1.5 rounded-xl text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)]">
-          Salvar
-        </button>
+        <button onclick="closeAddModal()" class="px-3.5 py-1.5 rounded-xl text-xs border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">Cancelar</button>
+        <button onclick="saveCustomEntry()" class="px-4 py-1.5 rounded-xl text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)]">Salvar</button>
       </div>
     </div>
   </div>
 
+  <!-- SCRIPT PRINCIPAL: SEGURANÇA, SESSÃO ÚNICA E CATÁLOGO PROTEGIDO -->
   <script>
+    // =========================================================================
+    // CONFIGURAÇÃO DE AMBIENTE SUPABASE & BACKEND
+    // =========================================================================
+    const API_BASE_URL = window.location.origin.includes('http') && !window.location.origin.includes('github.io')
+      ? window.location.origin
+      : 'http://127.0.0.1:3000';
+
+    // Se o usuário configurar o Supabase localmente ou em produção
+    const SUPABASE_URL = window.ENV_SUPABASE_URL || localStorage.getItem('pina_supabase_url') || '';
+    const SUPABASE_ANON_KEY = window.ENV_SUPABASE_ANON_KEY || localStorage.getItem('pina_supabase_anon_key') || '';
+
+    let supabaseClient = null;
+    if (typeof supabase !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY) {
+      try {
+        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      } catch (e) {
+        console.warn('Supabase JS Init Error:', e);
+      }
+    }
+
+    // Estado da Aplicação
+    let currentUser = null;
+    let currentUserProfile = null;
+    let currentSessionToken = localStorage.getItem('pina_single_session_token') || '';
+    let heartbeatTimer = null;
+
     let currentLang = 'pt';
     let activeMainTab = 'BROWSER';
     let browserSort = 'POPULAR';
     let browserPlatform = 'ALL';
-    let browserCurrentPage = 1;
-    const BROWSER_PAGE_SIZE = 25;
     let currentConsole = 'ALL';
 
-    let favorites = JSON.parse(localStorage.getItem('pina_ports_favs_v6') || '[]');
+    let protectedGames = [];
     let customBrowserGames = JSON.parse(localStorage.getItem('pina_browser_custom_v6') || '[]');
     let customNativeGames = JSON.parse(localStorage.getItem('pina_native_custom_v6') || '[]');
+    let favorites = JSON.parse(localStorage.getItem('pina_ports_favs_v6') || '[]');
     let wikiCoverCache = JSON.parse(localStorage.getItem('pina_wiki_covers_v6') || '{}');
-
-    const LB_PS2 = 'https://raw.githubusercontent.com/libretro-thumbnails/Sony_-_PlayStation_2/master/Named_Boxarts/';
-    const LB_PSP = 'https://raw.githubusercontent.com/libretro-thumbnails/Sony_-_PlayStation_Portable/master/Named_Boxarts/';
-    const LB_N64 = 'https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Nintendo_64/master/Named_Boxarts/';
-    const LB_PS1 = 'https://raw.githubusercontent.com/libretro-thumbnails/Sony_-_PlayStation/master/Named_Boxarts/';
-    const LB_GBA = 'https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Game_Boy_Advance/master/Named_Boxarts/';
-
-    // =========================================================================
-    // TAB 1: BROWSER GAMES (STRICTLY CLASSIFIED BY REAL PORT & DIRECT GAME URL)
-    // =========================================================================
-    const defaultBrowserGames = [
-      // --- PS2 ---
-      {
-        id: 'b-dbz-bt3',
-        title: 'Dragon Ball Z: Budokai Tenkaichi 3',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 1,
-        dateRank: 75,
-        url: 'https://dragonballbt3.online/',
-        wiki: 'Dragon_Ball_Z:_Budokai_Tenkaichi_3',
-        covers: [LB_PS2 + 'Dragon%20Ball%20Z%20-%20Budokai%20Tenkaichi%203%20(USA).png'],
-        palette: ['#9a3412', '#f97316']
-      },
-      {
-        id: 'b-nfsu2',
-        title: 'Need for Speed: Underground 2',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 2,
-        dateRank: 74,
-        url: 'https://nfsu2.xyz/',
-        wiki: 'Need_for_Speed:_Underground_2',
-        covers: [LB_PS2 + 'Need%20for%20Speed%20-%20Underground%202%20(USA).png'],
-        palette: ['#064e3b', '#047857']
-      },
-      {
-        id: 'b-pes-6',
-        title: 'Pro Evolution Soccer 6 (PES 6 Online)',
-        author: 'OptiJuegos • PS2 / PSP',
-        platform: 'PS2',
-        popularRank: 3,
-        dateRank: 73,
-        url: 'https://pes6.optijuegos.net/',
-        wiki: 'Pro_Evolution_Soccer_6',
-        covers: [LB_PS2 + 'Pro%20Evolution%20Soccer%206%20(Europe).png'],
-        palette: ['#064e3b', '#10b981']
-      },
-      {
-        id: 'b-bully',
-        title: 'Bully (Canis Canem Edit)',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 4,
-        dateRank: 72,
-        url: 'https://bully.online/',
-        wiki: 'Bully_(video_game)',
-        covers: [LB_PS2 + 'Bully%20(USA).png'],
-        palette: ['#78350f', '#d97706']
-      },
-      {
-        id: 'b-f1-06',
-        title: 'Formula One 06',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 5,
-        dateRank: 71,
-        url: 'https://f12006.online/',
-        wiki: 'Formula_One_06',
-        covers: [LB_PS2 + 'Formula%20One%2006%20(Europe).png'],
-        palette: ['#0f172a', '#1d4ed8']
-      },
-      {
-        id: 'b-downhill',
-        title: 'Downhill Domination',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 6,
-        dateRank: 70,
-        url: 'https://downhilldomination.online/',
-        wiki: 'Downhill_Domination',
-        covers: [LB_PS2 + 'Downhill%20Domination%20(USA).png'],
-        palette: ['#7c2d12', '#ea580c']
-      },
-      {
-        id: 'b-tekken-5',
-        title: 'Tekken 5',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 7,
-        dateRank: 69,
-        url: 'https://tekken5.online/',
-        wiki: 'Tekken_5',
-        covers: [LB_PS2 + 'Tekken%205%20(USA).png'],
-        palette: ['#31102f', '#be185d']
-      },
-      {
-        id: 'b-burnout-3',
-        title: 'Burnout 3: Takedown',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 8,
-        dateRank: 68,
-        url: 'https://burnout3.online/',
-        wiki: 'Burnout_3:_Takedown',
-        covers: [LB_PS2 + 'Burnout%203%20-%20Takedown%20(USA).png'],
-        palette: ['#7f1d1d', '#dc2626']
-      },
-      {
-        id: 'b-def-jam',
-        title: 'Def Jam: Fight for NY',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 9,
-        dateRank: 67,
-        url: 'https://defjam.online/',
-        wiki: 'Def_Jam:_Fight_for_NY',
-        covers: [LB_PS2 + 'Def%20Jam%20-%20Fight%20for%20NY%20(USA).png'],
-        palette: ['#27272a', '#b45309']
-      },
-      {
-        id: 'b-pes-11',
-        title: 'PES 2011 / Bomba Patch',
-        author: 'OptiJuegos • PS2',
-        platform: 'PS2',
-        popularRank: 10,
-        dateRank: 66,
-        url: 'https://pes11.optijuegos.net/',
-        wiki: 'Pro_Evolution_Soccer_2011',
-        covers: [LB_PS2 + 'Pro%20Evolution%20Soccer%202011%20(USA).png'],
-        palette: ['#064e3b', '#10b981']
-      },
-      {
-        id: 'b-re4',
-        title: 'Resident Evil 4',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 11,
-        dateRank: 65,
-        url: 'https://residentevil4.online/',
-        wiki: 'Resident_Evil_4',
-        covers: [LB_PS2 + 'Resident%20Evil%204%20(USA).png'],
-        palette: ['#1c1917', '#991b1b']
-      },
-      {
-        id: 'b-ssx-3',
-        title: 'SSX 3',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 12,
-        dateRank: 64,
-        url: 'https://ssx3.online/',
-        wiki: 'SSX_3',
-        covers: [LB_PS2 + 'SSX%203%20(USA).png'],
-        palette: ['#0c4a6e', '#0284c7']
-      },
-      {
-        id: 'b-shaolin-monks',
-        title: 'Mortal Kombat: Shaolin Monks',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 13,
-        dateRank: 63,
-        url: 'https://mortalkombatsm.online/',
-        wiki: 'Mortal_Kombat:_Shaolin_Monks',
-        covers: [LB_PS2 + 'Mortal%20Kombat%20-%20Shaolin%20Monks%20(USA).png'],
-        palette: ['#450a0a', '#b91c1c']
-      },
-      {
-        id: 'b-midnight-club-3',
-        title: 'Midnight Club 3: DUB Edition',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 14,
-        dateRank: 62,
-        url: 'https://midnighhtclub3.online/',
-        wiki: 'Midnight_Club_3:_DUB_Edition',
-        covers: [LB_PS2 + 'Midnight%20Club%203%20-%20DUB%20Edition%20Remix%20(USA).png'],
-        palette: ['#312e81', '#4f46e5']
-      },
-      {
-        id: 'b-naruto-un5',
-        title: 'Naruto Shippuden: Ultimate Ninja 5',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 15,
-        dateRank: 61,
-        url: 'https://narutoshippuden5.online/',
-        wiki: 'Naruto_Shippuden:_Ultimate_Ninja_5',
-        covers: [LB_PS2 + 'Naruto%20Shippuden%20-%20Ultimate%20Ninja%205%20(Europe).png'],
-        palette: ['#7c2d12', '#ea580c']
-      },
-      {
-        id: 'b-mvc2',
-        title: 'Marvel vs. Capcom 2',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 16,
-        dateRank: 60,
-        url: 'https://mvc2.online/',
-        wiki: 'Marvel_vs._Capcom_2:_New_Age_of_Heroes',
-        covers: [LB_PS2 + 'Marvel%20vs.%20Capcom%202%20-%20New%20Age%20of%20Heroes%20(USA).png'],
-        palette: ['#1e3a8a', '#dc2626']
-      },
-      {
-        id: 'b-fifa-street-2',
-        title: 'FIFA Street 2',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 17,
-        dateRank: 59,
-        url: 'https://fifastreet.online/',
-        wiki: 'FIFA_Street_2',
-        covers: [LB_PS2 + 'FIFA%20Street%202%20(USA).png'],
-        palette: ['#365314', '#65a30d']
-      },
-      {
-        id: 'b-nfl-street',
-        title: 'NFL Street',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 18,
-        dateRank: 58,
-        url: 'https://nflstreet.online/',
-        wiki: 'NFL_Street',
-        covers: [LB_PS2 + 'NFL%20Street%20(USA).png'],
-        palette: ['#172554', '#dc2626']
-      },
-      {
-        id: 'b-nba-street',
-        title: 'NBA Street V3',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 19,
-        dateRank: 57,
-        url: 'https://nbastreet.online/',
-        wiki: 'NBA_Street_V3',
-        covers: [LB_PS2 + 'NBA%20Street%20V3%20(USA).png'],
-        palette: ['#7c2d12', '#ea580c']
-      },
-      {
-        id: 'b-wwe-svr-2011',
-        title: 'WWE SmackDown vs. Raw 2011',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 20,
-        dateRank: 56,
-        url: 'https://wwe2011.online/',
-        wiki: 'WWE_SmackDown_vs._Raw_2011',
-        covers: [LB_PS2 + 'WWE%20SmackDown%20vs.%20Raw%202011%20(USA).png'],
-        palette: ['#1e1b4b', '#dc2626']
-      },
-      {
-        id: 'b-nba-2k12',
-        title: 'NBA 2K12',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 21,
-        dateRank: 55,
-        url: 'https://nba2k12.online/',
-        wiki: 'NBA_2K12',
-        covers: [LB_PS2 + 'NBA%202K12%20(USA).png'],
-        palette: ['#7f1d1d', '#dc2626']
-      },
-      {
-        id: 'b-wwe-hctp',
-        title: 'WWE SmackDown! Here Comes the Pain',
-        author: 'Slayoner • PS2',
-        platform: 'PS2',
-        popularRank: 22,
-        dateRank: 54,
-        url: 'https://wwepain.online/',
-        wiki: 'WWE_SmackDown!_Here_Comes_the_Pain',
-        covers: [LB_PS2 + 'WWE%20SmackDown!%20Here%20Comes%20the%20Pain%20(USA).png'],
-        palette: ['#1e1b4b', '#dc2626']
-      },
-      {
-        id: 'b-guitar-hero-3',
-        title: 'Guitar Hero III: Legends of Rock',
-        author: 'Web Edition • PS2',
-        platform: 'PS2',
-        popularRank: 23,
-        dateRank: 53,
-        url: 'https://lasvegasherogame.com/gh3/',
-        wiki: 'Guitar_Hero_III:_Legends_of_Rock',
-        covers: [LB_PS2 + 'Guitar%20Hero%20III%20-%20Legends%20of%20Rock%20(USA).png'],
-        palette: ['#450a0a', '#ea580c']
-      },
-      {
-        id: 'b-simpsons-har-web',
-        title: 'The Simpsons: Hit & Run (WASM Port)',
-        author: 'cjoseph WASM • PS2',
-        platform: 'PS2',
-        popularRank: 24,
-        dateRank: 52,
-        url: 'https://shar-wasm.cjoseph.workers.dev/?skipmovie',
-        wiki: 'The_Simpsons:_Hit_&_Run',
-        covers: [LB_PS2 + 'Simpsons,%20The%20-%20Hit%20%26%20Run%20(USA).png'],
-        palette: ['#854d0e', '#eab308']
-      },
-      {
-        id: 'b-gta-vc-ps2',
-        title: 'Grand Theft Auto: Vice City (reVC Web)',
-        author: 'Quenq / reVC • PS2 / PC',
-        platform: 'PS2',
-        popularRank: 25,
-        dateRank: 51,
-        url: 'https://quenq.com/apps/vice-city/',
-        wiki: 'Grand_Theft_Auto:_Vice_City',
-        covers: [LB_PS2 + 'Grand%20Theft%20Auto%20-%20Vice%20City%20(USA).png'],
-        palette: ['#701a75', '#db2777']
-      },
-
-      // --- PS1 / PSP ---
-      {
-        id: 'b-gow-coo',
-        title: 'God of War: Chains of Olympus',
-        author: 'Slayoner • PSP',
-        platform: 'PS1_PSP',
-        popularRank: 26,
-        dateRank: 50,
-        url: 'https://godofwar.online/',
-        wiki: 'God_of_War:_Chains_of_Olympus',
-        covers: [LB_PSP + 'God%20of%20War%20-%20Chains%20of%20Olympus%20(USA).png'],
-        palette: ['#450a0a', '#dc2626']
-      },
-      {
-        id: 'b-naruto-impact',
-        title: 'Naruto Shippuden: Ultimate Ninja Impact',
-        author: 'Slayoner • PSP',
-        platform: 'PS1_PSP',
-        popularRank: 27,
-        dateRank: 49,
-        url: 'https://narutoimpact.online/',
-        wiki: 'Naruto_Shippuden:_Ultimate_Ninja_Impact',
-        covers: [LB_PSP + 'Naruto%20Shippuden%20-%20Ultimate%20Ninja%20Impact%20(USA).png'],
-        palette: ['#7c2d12', '#f97316']
-      },
-      {
-        id: 'b-tekken-dr',
-        title: 'Tekken 5: Dark Resurrection',
-        author: 'Slayoner • PSP',
-        platform: 'PS1_PSP',
-        popularRank: 28,
-        dateRank: 48,
-        url: 'https://tekkendr.live/',
-        wiki: 'Tekken_5:_Dark_Resurrection',
-        covers: [LB_PSP + 'Tekken%20-%20Dark%20Resurrection%20(USA).png'],
-        palette: ['#450a0a', '#991b1b']
-      },
-      {
-        id: 'b-fifa-11',
-        title: 'FIFA 11',
-        author: 'Slayoner • PSP',
-        platform: 'PS1_PSP',
-        popularRank: 29,
-        dateRank: 47,
-        url: 'https://fifa11.online/',
-        wiki: 'FIFA_11',
-        covers: [LB_PSP + 'FIFA%20Soccer%2011%20(USA).png'],
-        palette: ['#1e3a8a', '#2563eb']
-      },
-      {
-        id: 'b-gta-ctw',
-        title: 'Grand Theft Auto: Chinatown Wars',
-        author: 'Web Port • PSP',
-        platform: 'PS1_PSP',
-        popularRank: 30,
-        dateRank: 46,
-        url: 'https://gta-chinatown-wars.pages.dev/',
-        wiki: 'Grand_Theft_Auto:_Chinatown_Wars',
-        covers: [LB_PSP + 'Grand%20Theft%20Auto%20-%20Chinatown%20Wars%20(USA).png'],
-        palette: ['#7f1d1d', '#f59e0b']
-      },
-      {
-        id: 'b-crash-bash',
-        title: 'Crash Bash Online',
-        author: 'crashbash.app • PS1',
-        platform: 'PS1_PSP',
-        isSquareCover: true,
-        popularRank: 31,
-        dateRank: 45,
-        url: 'https://crashbash.app/',
-        wiki: 'Crash_Bash',
-        covers: [LB_PS1 + 'Crash%20Bash%20(USA).png'],
-        palette: ['#7c2d12', '#f97316']
-      },
-      {
-        id: 'b-tomb-raider-lara',
-        title: 'Tomb Raider (OpenLara Web)',
-        author: 'XProger • PS1',
-        platform: 'PS1_PSP',
-        isSquareCover: true,
-        popularRank: 32,
-        dateRank: 44,
-        url: 'https://xproger.info/projects/OpenLara/',
-        wiki: 'Tomb_Raider_(1996_video_game)',
-        covers: [LB_PS1 + 'Tomb%20Raider%20(USA).png'],
-        palette: ['#1c1917', '#b45309']
-      },
-
-      // --- PS3 ---
-      {
-        id: 'b-mw2-web',
-        title: 'Call of Duty: Modern Warfare 2 (iw4browse)',
-        author: 'iw4browse • PS3 / Xbox 360',
-        platform: 'PS3',
-        popularRank: 33,
-        dateRank: 43,
-        url: 'https://iw4browse.iw4b.workers.dev/',
-        wiki: 'Call_of_Duty:_Modern_Warfare_2',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10180/library_600x900.jpg'],
-        palette: ['#14532d', '#4d7c0f']
-      },
-      {
-        id: 'b-bo-zombies',
-        title: 'Call of Duty: Black Ops Zombies',
-        author: 'vel.gg • PS3 Era',
-        platform: 'PS3',
-        popularRank: 34,
-        dateRank: 42,
-        url: 'https://vel.gg/bsz',
-        wiki: 'Call_of_Duty:_Black_Ops',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/42700/library_600x900.jpg'],
-        palette: ['#1c1917', '#dc2626']
-      },
-      {
-        id: 'b-waw-zombies',
-        title: 'Call of Duty: World at War Zombies',
-        author: 'waw.fun • PS3 Era',
-        platform: 'PS3',
-        popularRank: 35,
-        dateRank: 41,
-        url: 'https://waw.fun/',
-        wiki: 'Call_of_Duty:_World_at_War',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10090/library_600x900.jpg'],
-        palette: ['#1c1917', '#b91c1c']
-      },
-      {
-        id: 'b-cod-zombies-web',
-        title: 'Call of Duty: Zombies (NZ:P Web)',
-        author: 'NZ:P Team • PS3 Era',
-        platform: 'PS3',
-        popularRank: 36,
-        dateRank: 40,
-        url: 'https://nzp.gay/',
-        wiki: 'Call_of_Duty:_World_at_War',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10090/library_600x900.jpg'],
-        palette: ['#1c1917', '#b91c1c']
-      },
-      {
-        id: 'b-skate-3-web',
-        title: 'Skate 3 (Web Remake)',
-        author: 'aaddpp • PS3 / Xbox 360',
-        platform: 'PS3',
-        popularRank: 37,
-        dateRank: 39,
-        url: 'https://skate.aaddpp.lol/',
-        wiki: 'Skate_3',
-        covers: [],
-        palette: ['#0f172a', '#0284c7']
-      },
-
-      // --- PS4 / PS5 ---
-      {
-        id: 'b-gta-v-web',
-        title: 'Grand Theft Auto V (GTA V Web Port)',
-        author: 'FivePlay • PS4 / PS5',
-        platform: 'PS4_PS5',
-        popularRank: 3,
-        dateRank: 75,
-        url: 'https://fiveplay.lol/',
-        wiki: 'Grand_Theft_Auto_V',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/271590/library_600x900.jpg'],
-        palette: ['#14532d', '#15803d']
-      },
-      {
-        id: 'b-fifa-14',
-        title: 'FIFA 14 (Online Web Port)',
-        author: 'Slayoner • PS4 / PS3',
-        platform: 'PS4_PS5',
-        popularRank: 38,
-        dateRank: 38,
-        url: 'https://fifa14.online/',
-        wiki: 'FIFA_14',
-        covers: [],
-        palette: ['#1e3a8a', '#3b82f6']
-      },
-      {
-        id: 'b-pes-14',
-        title: 'Pro Evolution Soccer 2014 (PES 2014)',
-        author: 'Slayoner • PS4 / PS3',
-        platform: 'PS4_PS5',
-        popularRank: 39,
-        dateRank: 37,
-        url: 'https://pes14.online/',
-        wiki: 'Pro_Evolution_Soccer_2014',
-        covers: [LB_PS2 + 'Pro%20Evolution%20Soccer%202014%20(Europe).png'],
-        palette: ['#064e3b', '#10b981']
-      },
-      {
-        id: 'b-gta-3-web',
-        title: 'Grand Theft Auto III (re3 Web Port)',
-        author: 'Quenq / re3 • PS4 / PC',
-        platform: 'PS4_PS5',
-        popularRank: 40,
-        dateRank: 36,
-        url: 'https://quenq.com/apps/iii-online/',
-        wiki: 'Grand_Theft_Auto_III',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/12100/library_600x900.jpg'],
-        palette: ['#14532d', '#15803d']
-      },
-
-      // --- XBOX ---
-      {
-        id: 'b-halo-ce',
-        title: 'Halo: Combat Evolved (Multiplayer Web)',
-        author: 'Exenu / OpenCE • Xbox',
-        platform: 'XBOX',
-        popularRank: 41,
-        dateRank: 35,
-        url: 'https://halo.exenu.co.uk/',
-        wiki: 'Halo:_Combat_Evolved',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/976730/library_600x900.jpg'],
-        palette: ['#14532d', '#15803d']
-      },
-      {
-        id: 'b-nfs-mw',
-        title: 'Need for Speed: Most Wanted (2005)',
-        author: 'Lauta Web Port • Xbox 360',
-        platform: 'XBOX',
-        popularRank: 42,
-        dateRank: 34,
-        url: 'https://nfsmwested.lauta.site/',
-        wiki: 'Need_for_Speed:_Most_Wanted_(2005_video_game)',
-        covers: [],
-        palette: ['#78350f', '#d97706']
-      },
-      {
-        id: 'b-morrowind',
-        title: 'The Elder Scrolls III: Morrowind',
-        author: 'OpenMW Web • Xbox / PC',
-        platform: 'XBOX',
-        popularRank: 43,
-        dateRank: 33,
-        url: 'https://morrowind.app/',
-        wiki: 'The_Elder_Scrolls_III:_Morrowind',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/22320/library_600x900.jpg'],
-        palette: ['#422006', '#ca8a04']
-      },
-      {
-        id: 'b-cuphead-web',
-        title: 'Cuphead (WASM Web Port)',
-        author: 'WASM Port • Xbox / PC',
-        platform: 'XBOX',
-        popularRank: 44,
-        dateRank: 32,
-        url: 'https://wasm.rip/files/cuphead/index.html',
-        wiki: 'Cuphead',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/268910/library_600x900.jpg'],
-        palette: ['#7f1d1d', '#eab308']
-      },
-      {
-        id: 'b-fez-web',
-        title: 'FEZ (WASM Web Port)',
-        author: 'WASM Port • Xbox 360 / PC',
-        platform: 'XBOX',
-        popularRank: 45,
-        dateRank: 31,
-        url: 'https://wasm.rip/files/FEZ/fez.html',
-        wiki: 'Fez_(video_game)',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/224760/library_600x900.jpg'],
-        palette: ['#701a75', '#f59e0b']
-      },
-
-      // --- NINTENDO ---
-      {
-        id: 'b-sm64',
-        title: 'Super Mario 64',
-        author: 'ArkShocer • Nintendo 64',
-        platform: 'NINTENDO',
-        isSquareCover: true,
-        popularRank: 46,
-        dateRank: 30,
-        url: 'https://arkshocer.github.io/sm64/',
-        wiki: 'Super_Mario_64',
-        covers: [LB_N64 + 'Super%20Mario%2064%20(USA).png'],
-        palette: ['#7f1d1d', '#ef4444']
-      },
-      {
-        id: 'b-zelda-oot',
-        title: 'Zelda: Ocarina of Time',
-        author: 'ShipWeb • Nintendo 64',
-        platform: 'NINTENDO',
-        isSquareCover: true,
-        popularRank: 47,
-        dateRank: 29,
-        url: 'https://samfisher753.github.io/ShipWeb/',
-        wiki: 'The_Legend_of_Zelda:_Ocarina_of_Time',
-        covers: [LB_N64 + 'Legend%20of%20Zelda,%20The%20-%20Ocarina%20of%20Time%20(USA).png'],
-        palette: ['#14532d', '#ca8a04']
-      },
-      {
-        id: 'b-mk64',
-        title: 'Mario Kart 64',
-        author: 'mk64 Decomp • Nintendo 64',
-        platform: 'NINTENDO',
-        isSquareCover: true,
-        popularRank: 48,
-        dateRank: 28,
-        url: 'https://andrewnakas.github.io/',
-        wiki: 'Mario_Kart_64',
-        covers: [LB_N64 + 'Mario%20Kart%2064%20(USA).png'],
-        palette: ['#7f1d1d', '#f59e0b']
-      },
-      {
-        id: 'b-pokemon-18',
-        title: 'Pokémon (18 Classic Games Web)',
-        author: 'PokeWeb • Game Boy / GBA',
-        platform: 'NINTENDO',
-        isSquareCover: true,
-        popularRank: 49,
-        dateRank: 27,
-        url: 'https://pokeweb.morisoba.moe/',
-        wiki: 'Pokémon_Red,_Blue,_and_Yellow',
-        covers: [LB_GBA + 'Pokemon%20-%20Emerald%20Version%20(USA,%20Europe).png'],
-        palette: ['#064e3b', '#10b981']
-      },
-      {
-        id: 'b-pokemon-firered',
-        title: 'Pokémon FireRed / Viridian Forest',
-        author: 'PokéBonk 3D • Nintendo GBA',
-        platform: 'NINTENDO',
-        isSquareCover: true,
-        popularRank: 50,
-        dateRank: 26,
-        url: 'https://pokebonk.com/',
-        wiki: 'Pokémon_FireRed_and_LeafGreen',
-        covers: [LB_GBA + 'Pokemon%20-%20FireRed%20Version%20(USA,%20Europe)%20(Rev%201).png'],
-        palette: ['#7f1d1d', '#ea580c']
-      },
-      {
-        id: 'b-pokemon-redstone',
-        title: 'Pokémon Redstone (Web Edition)',
-        author: 'Redstone Team • Nintendo GBA',
-        platform: 'NINTENDO',
-        isSquareCover: true,
-        popularRank: 51,
-        dateRank: 25,
-        url: 'https://pokemon-redstone.pages.dev/',
-        wiki: 'Pokémon_Ruby_and_Sapphire',
-        covers: [LB_GBA + 'Pokemon%20-%20Ruby%20Version%20(USA,%20Europe)%20(Rev%202).png'],
-        palette: ['#7f1d1d', '#dc2626']
-      },
-      {
-        id: 'b-monkey-ball',
-        title: 'Super Monkey Ball (GameCube Web)',
-        author: 'monkeyball-online • GameCube',
-        platform: 'NINTENDO',
-        popularRank: 52,
-        dateRank: 24,
-        url: 'https://monkeyball-online.pages.dev/',
-        wiki: 'Super_Monkey_Ball_(video_game)',
-        covers: [],
-        palette: ['#7c2d12', '#f59e0b']
-      },
-      {
-        id: 'b-smb-web',
-        title: 'Super Mario Bros. (Web Port)',
-        author: 'FullScreenMario • NES',
-        platform: 'NINTENDO',
-        isSquareCover: true,
-        popularRank: 53,
-        dateRank: 23,
-        url: 'https://supermariobros.io/',
-        wiki: 'Super_Mario_Bros.',
-        covers: [],
-        palette: ['#7f1d1d', '#dc2626']
-      },
-
-      // --- PC / OUTROS (DIRECT PLAYABLE WEB PORTS) ---
-      {
-        id: 'b-cs-16',
-        title: 'Counter-Strike 1.6 (CSJS Live)',
-        author: 'CSJS • PC',
-        platform: 'OTHER',
-        popularRank: 54,
-        dateRank: 22,
-        url: 'https://csjs.live/',
-        wiki: 'Counter-Strike_(video_game)',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10/library_600x900.jpg'],
-        palette: ['#1e293b', '#0369a1']
-      },
-      {
-        id: 'b-cs-skirmish',
-        title: 'Counter-Strike 1.6 (Combat Skirmish)',
-        author: 'Combat Skirmish • PC',
-        platform: 'OTHER',
-        popularRank: 55,
-        dateRank: 21,
-        url: 'https://combatskirmish.net/quickjoin',
-        wiki: 'Counter-Strike_(video_game)',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/10/library_600x900.jpg'],
-        palette: ['#0f172a', '#f59e0b']
-      },
-      {
-        id: 'b-hl-1',
-        title: 'Half-Life (Xash3D Web Port)',
-        author: 'pixelsuft / Xash3D • PC',
-        platform: 'OTHER',
-        popularRank: 56,
-        dateRank: 20,
-        url: 'https://pixelsuft.github.io/hl/',
-        wiki: 'Half-Life_(video_game)',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/70/library_600x900.jpg'],
-        palette: ['#7c2d12', '#ea580c']
-      },
-      {
-        id: 'b-portal',
-        title: 'Portal (Web Port)',
-        author: 'yikes.pw • PC',
-        platform: 'OTHER',
-        popularRank: 57,
-        dateRank: 19,
-        url: 'https://yikes.pw/portal/',
-        wiki: 'Portal_(video_game)',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/400/library_600x900.jpg'],
-        palette: ['#0c4a6e', '#ea580c']
-      },
-      {
-        id: 'b-tf2',
-        title: 'Team Fortress 2 (Web Port)',
-        author: 'riddy • PC',
-        platform: 'OTHER',
-        popularRank: 58,
-        dateRank: 18,
-        url: 'https://tf2.riddy.workers.dev/',
-        wiki: 'Team_Fortress_2',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/440/library_600x900.jpg'],
-        palette: ['#7c2d12', '#f97316']
-      },
-      {
-        id: 'b-stardew',
-        title: 'Stardew Valley (WASM Port)',
-        author: 'WASM Port • PC',
-        platform: 'OTHER',
-        popularRank: 59,
-        dateRank: 17,
-        url: 'https://wasm.rip/files/stardewvalley/index.html',
-        wiki: 'Stardew_Valley',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/413150/library_600x900.jpg'],
-        palette: ['#14532d', '#eab308']
-      },
-      {
-        id: 'b-hollow-knight',
-        title: 'Hollow Knight (Web Port)',
-        author: 'WebAssembly Port • PC',
-        platform: 'OTHER',
-        popularRank: 60,
-        dateRank: 16,
-        url: 'https://fnaffree.io/hollow-knight',
-        wiki: 'Hollow_Knight',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/367520/library_600x900.jpg'],
-        palette: ['#0f172a', '#38bdf8']
-      },
-      {
-        id: 'b-isaac',
-        title: 'The Binding of Isaac: Repentance+',
-        author: 'tboi.online • PC',
-        platform: 'OTHER',
-        popularRank: 61,
-        dateRank: 15,
-        url: 'https://tboi.online/',
-        wiki: 'The_Binding_of_Isaac:_Rebirth',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/250900/library_600x900.jpg'],
-        palette: ['#450a0a', '#991b1b']
-      },
-      {
-        id: 'b-lethal-company',
-        title: 'Lethal Company (WASM Port)',
-        author: 'WASM Port • PC',
-        platform: 'OTHER',
-        popularRank: 62,
-        dateRank: 14,
-        url: 'https://wasm.rip/files/lethal/index.html',
-        wiki: 'Lethal_Company',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/1966720/library_600x900.jpg'],
-        palette: ['#450a0a', '#ea580c']
-      },
-      {
-        id: 'b-brotato',
-        title: 'Brotato (WASM Port)',
-        author: 'WASM Port • PC',
-        platform: 'OTHER',
-        popularRank: 63,
-        dateRank: 13,
-        url: 'https://wasm.rip/files/bpac/index.html',
-        wiki: 'Brotato',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/1942280/library_600x900.jpg'],
-        palette: ['#78350f', '#eab308']
-      },
-      {
-        id: 'b-inscryption',
-        title: 'Inscryption (WASM Port)',
-        author: 'WASM Port • PC',
-        platform: 'OTHER',
-        popularRank: 64,
-        dateRank: 12,
-        url: 'https://wasm.rip/files/inscryption/index.html',
-        wiki: 'Inscryption',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/1092790/library_600x900.jpg'],
-        palette: ['#1c1917', '#b45309']
-      },
-      {
-        id: 'b-rimworld',
-        title: 'RimWorld (WASM Port)',
-        author: 'WASM Port • PC',
-        platform: 'OTHER',
-        popularRank: 65,
-        dateRank: 11,
-        url: 'https://wasm.rip/files/rimworld/index.html',
-        wiki: 'RimWorld',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/294100/library_600x900.jpg'],
-        palette: ['#1e293b', '#64748b']
-      },
-      {
-        id: 'b-clustertruck',
-        title: 'Clustertruck (WASM Port)',
-        author: 'WASM Port • PC',
-        platform: 'OTHER',
-        popularRank: 66,
-        dateRank: 10,
-        url: 'https://wasm.rip/files/ClusterTruck/clustertruck.html',
-        wiki: 'Clustertruck',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/397950/library_600x900.jpg'],
-        palette: ['#1e1b4b', '#ec4899']
-      },
-      {
-        id: 'b-diablo-1',
-        title: 'Diablo (DevilutionX Web)',
-        author: 'JohnImril • PC',
-        platform: 'OTHER',
-        popularRank: 67,
-        dateRank: 9,
-        url: 'https://johnimril.github.io/diablo_web/',
-        wiki: 'Diablo_(video_game)',
-        covers: [],
-        palette: ['#450a0a', '#b91c1c']
-      },
-      {
-        id: 'b-celeste-wasm',
-        title: 'Celeste (WASM Web Port)',
-        author: 'MercuryWorkshop • PC',
-        platform: 'OTHER',
-        popularRank: 68,
-        dateRank: 8,
-        url: 'https://celeste.r58playz.dev/',
-        wiki: 'Celeste_(video_game)',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/504230/library_600x900.jpg'],
-        palette: ['#31102f', '#ec4899']
-      },
-      {
-        id: 'b-red-alert-2',
-        title: 'Command & Conquer: Red Alert 2',
-        author: 'Chrono Divide • PC',
-        platform: 'OTHER',
-        popularRank: 69,
-        dateRank: 7,
-        url: 'https://game.chronodivide.com/',
-        wiki: 'Command_&_Conquer:_Red_Alert_2',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/2229850/library_600x900.jpg'],
-        palette: ['#7f1d1d', '#dc2626']
-      },
-      {
-        id: 'b-quake-3',
-        title: 'Quake III Arena (Browser Port)',
-        author: 'q3.pieter.com • PC',
-        platform: 'OTHER',
-        popularRank: 70,
-        dateRank: 6,
-        url: 'https://q3.pieter.com/',
-        wiki: 'Quake_III_Arena',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/2200/library_600x900.jpg'],
-        palette: ['#450a0a', '#ea580c']
-      },
-      {
-        id: 'b-doom-2',
-        title: 'DOOM II Multiplayer (Web Port)',
-        author: 'doom.pieter.com • PC',
-        platform: 'OTHER',
-        popularRank: 71,
-        dateRank: 5,
-        url: 'https://doom.pieter.com/',
-        wiki: 'Doom_II',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/2300/library_600x900.jpg'],
-        palette: ['#450a0a', '#ea580c']
-      },
-      {
-        id: 'b-minecraft-18',
-        title: 'Minecraft 1.8.8 (EaglercraftX)',
-        author: 'WASM Arcade • PC',
-        platform: 'OTHER',
-        popularRank: 72,
-        dateRank: 4,
-        url: 'https://wasmarcade.com/minecraft',
-        wiki: 'Minecraft',
-        covers: [],
-        palette: ['#14532d', '#16a34a']
-      },
-      {
-        id: 'b-lego-island',
-        title: 'LEGO Island (isle.pizza Web Port)',
-        author: 'isle.pizza • PC',
-        platform: 'OTHER',
-        popularRank: 73,
-        dateRank: 3,
-        url: 'https://isle.pizza/',
-        wiki: 'Lego_Island',
-        covers: [],
-        palette: ['#1e3a8a', '#eab308']
-      },
-      {
-        id: 'b-space-cadet',
-        title: '3D Pinball: Space Cadet (WASM)',
-        author: 'alula / Decomp • PC',
-        platform: 'OTHER',
-        popularRank: 74,
-        dateRank: 2,
-        url: 'https://alula.github.io/SpaceCadetPinball/',
-        wiki: 'Full_Tilt!_Pinball',
-        covers: [],
-        palette: ['#1e1b4b', '#4f46e5']
-      },
-      {
-        id: 'b-slime-rancher',
-        title: 'Slime Rancher (Web Port)',
-        author: 'snubby.top • PC',
-        platform: 'OTHER',
-        popularRank: 75,
-        dateRank: 1,
-        url: 'https://slimeranchers.com/',
-        wiki: 'Slime_Rancher',
-        covers: ['https://cdn.cloudflare.steamstatic.com/steam/apps/433340/library_600x900.jpg'],
-        palette: ['#831843', '#ec4899']
-      }
-    ];
-
-    // =========================================================================
-    // TAB 2: NATIVE PC PORTS (DECOMPILATIONS / STATIC RECOMPS / SOURCE PORTS)
-    // Only true native PC ports — ZERO emulators & ZERO bare GitHub links.
-    // =========================================================================
-    const defaultNativeProjects = [
-      // --- PS2 (NATIVE DECOMPILATIONS, RECOMPILATIONS & SOURCE PORTS) ---
-      {
-        id: 'n-jak-opengoal',
-        title: 'Jak & Daxter: The Precursor Legacy',
-        author: 'OpenGOAL Native • PS2',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://opengoal.dev/',
-        wiki: 'Jak_and_Daxter:_The_Precursor_Legacy',
-        covers: [LB_PS2 + 'Jak%20and%20Daxter%20-%20The%20Precursor%20Legacy%20(USA).png'],
-        palette: ['#78350f', '#eab308']
-      },
-      {
-        id: 'n-jak2-opengoal',
-        title: 'Jak II (OpenGOAL Native PC)',
-        author: 'OpenGOAL Native • PS2',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://opengoal.dev/',
-        wiki: 'Jak_II',
-        covers: [LB_PS2 + 'Jak%20II%20(USA).png'],
-        palette: ['#1e293b', '#dc2626']
-      },
-      {
-        id: 'n-jak3-opengoal',
-        title: 'Jak 3 (OpenGOAL Native PC)',
-        author: 'OpenGOAL Native • PS2',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://opengoal.dev/',
-        wiki: 'Jak_3',
-        covers: [LB_PS2 + 'Jak%203%20(USA).png'],
-        palette: ['#78350f', '#d97706']
-      },
-      {
-        id: 'n-gta-re3',
-        title: 'Grand Theft Auto III (re3 Native Port)',
-        author: 're3 Team • PS2 / PC',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://archive.org/details/gta-3-gta-vc-re_20210222_0707',
-        wiki: 'Grand_Theft_Auto_III',
-        covers: [LB_PS2 + 'Grand%20Theft%20Auto%20III%20(USA).png'],
-        palette: ['#1c1917', '#ea580c']
-      },
-      {
-        id: 'n-gta-revc',
-        title: 'GTA: Vice City (reVC Native Port)',
-        author: 'reVC Team • PS2 / PC',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://archive.org/details/gta-3-gta-vc-re_20210222_0707',
-        wiki: 'Grand_Theft_Auto:_Vice_City',
-        covers: [LB_PS2 + 'Grand%20Theft%20Auto%20-%20Vice%20City%20(USA).png'],
-        palette: ['#701a75', '#db2777']
-      },
-      {
-        id: 'n-gta-relcs',
-        title: 'GTA: Liberty City Stories (reLCS PC Port)',
-        author: 'reLCS Team • PS2 / PSP',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://www.moddb.com/mods/gta-re-liberty-city-stories-pc/downloads/gta-liberty-city-stories-pc-full-edition-50',
-        wiki: 'Grand_Theft_Auto:_Liberty_City_Stories',
-        covers: [LB_PS2 + 'Grand%20Theft%20Auto%20-%20Liberty%20City%20Stories%20(USA).png'],
-        palette: ['#450a0a', '#b91c1c']
-      },
-      {
-        id: 'n-sh2-enhanced',
-        title: 'Silent Hill 2: Enhanced Edition',
-        author: 'SH2 Enhancements • PS2 / PC',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://enhanced.townofsilenthill.com/SH2/install.htm',
-        wiki: 'Silent_Hill_2',
-        covers: [LB_PS2 + 'Silent%20Hill%202%20(USA).png'],
-        palette: ['#090d16', '#1e293b']
-      },
-      {
-        id: 'n-simpsons-donut',
-        title: 'The Simpsons: Hit & Run (Native PC)',
-        author: 'Donut Team • PS2 / PC',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://modbakery.donutteam.com/releases/view/lucas-mod-launcher',
-        wiki: 'The_Simpsons:_Hit_&_Run',
-        covers: [LB_PS2 + 'Simpsons,%20The%20-%20Hit%20%26%20Run%20(USA).png'],
-        palette: ['#854d0e', '#eab308']
-      },
-      {
-        id: 'n-dmc3-crimson',
-        title: 'Devil May Cry 3: Crimson (Native Port)',
-        author: 'Crimson Team • PS2 / PC',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://www.nexusmods.com/devilmaycryhdcollection/mods/272',
-        wiki: "Devil_May_Cry_3:_Dante's_Awakening",
-        covers: [LB_PS2 + 'Devil%20May%20Cry%203%20-%20Dante%27s%20Awakening%20(USA).png'],
-        palette: ['#450a0a', '#dc2626']
-      },
-      {
-        id: 'n-kh2-decomp',
-        title: 'Kingdom Hearts II (OpenKH Native)',
-        author: 'OpenKH • PS2',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://openkh.dev/',
-        wiki: 'Kingdom_Hearts_II',
-        covers: [LB_PS2 + 'Kingdom%20Hearts%20II%20(USA).png'],
-        palette: ['#1e1b4b', '#6366f1']
-      },
-      {
-        id: 'n-crash-twinsanity',
-        title: 'Crash Twinsanity (TwinsanityEvolved PC)',
-        author: 'TwinsanityEvolved • PS2',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://playported.com/ports/587-crash-twinsanity/',
-        wiki: 'Crash_Twinsanity',
-        covers: [LB_PS2 + 'Crash%20Twinsanity%20(USA).png'],
-        palette: ['#7c2d12', '#f97316']
-      },
-      {
-        id: 'n-defjam-vendetta',
-        title: 'Def Jam: Vendetta Recompiled',
-        author: 'PS2Recomp • PS2',
-        console: 'PS2',
-        hasExe: true,
-        url: 'https://allrecomps.com/',
-        wiki: 'Def_Jam_Vendetta',
-        covers: [LB_PS2 + 'Def%20Jam%20Vendetta%20(USA).png'],
-        palette: ['#27272a', '#b45309']
-      },
-
-      // --- PS3 (STATIC RECOMPILATIONS & NATIVE PORTS) ---
-      {
-        id: 'n-demons-souls-recomp',
-        title: 'Demon\'s Souls Recompiled (Native D3D12)',
-        author: 'DemonsSoulsRecomp • PS3',
-        console: 'PS3',
-        hasExe: true,
-        url: 'https://allrecomps.com/',
-        wiki: "Demon's_Souls",
-        covers: [],
-        palette: ['#1e293b', '#475569']
-      },
-      {
-        id: 'n-gow3-spartan',
-        title: 'God of War III (SpartanPort Native PC)',
-        author: 'FelipePrado0 • PS3 / PS4',
-        console: 'PS3',
-        hasExe: true,
-        url: 'https://allrecomps.com/',
-        wiki: 'God_of_War_III',
-        covers: [],
-        palette: ['#450a0a', '#991b1b']
-      },
-
-      // --- PS4 (NATIVE WINDOWS PORTS — NO EMULATOR) ---
-      {
-        id: 'n-spiderman2-brazil',
-        title: 'Marvel\'s Spider-Man 2 (Port PC Brazil)',
-        author: 'SM2 PC Brazil Team • PS4 / PS5',
-        console: 'PS4',
-        hasExe: true,
-        url: 'https://gamedrive.org/',
-        wiki: "Marvel's_Spider-Man_2",
-        covers: [],
-        palette: ['#7f1d1d', '#dc2626']
-      },
-      {
-        id: 'n-bloodborne-pc',
-        title: 'Bloodborne PC (bbport Native Runtime)',
-        author: 'bbport Team • PS4',
-        console: 'PS4',
-        hasExe: true,
-        url: 'https://allrecomps.com/',
-        wiki: 'Bloodborne',
-        covers: [],
-        palette: ['#090d16', '#334155']
-      },
-      {
-        id: 'n-ctr-nitrofueled',
-        title: 'CTR: Nitro-Fueled (OCTR Native PC Port)',
-        author: 'OCTR Team • PS4',
-        console: 'PS4',
-        hasExe: true,
-        url: 'https://playported.com/ports/555-crash-team-racing/',
-        wiki: 'Crash_Team_Racing_Nitro-Fueled',
-        covers: [],
-        palette: ['#7c2d12', '#f59e0b']
-      },
-
-      // --- XBOX / 360 (XENONRECOMP & NATIVE PC PORTS) ---
-      {
-        id: 'n-sonic-unleashed',
-        title: 'Sonic Unleashed Recompiled',
-        author: 'hedge-dev (XenonRecomp) • Xbox 360',
-        console: 'XBOX',
-        hasExe: true,
-        url: 'https://sourceforge.net/projects/unleashedrecomp.mirror/files/',
-        wiki: 'Sonic_Unleashed',
-        covers: [],
-        palette: ['#1e3a8a', '#2563eb']
-      },
-      {
-        id: 'n-sonic-p06',
-        title: 'Sonic the Hedgehog (Project \'06 Native)',
-        author: 'ChaosX • Xbox 360',
-        console: 'XBOX',
-        hasExe: true,
-        url: 'https://archive.org/details/project-06-update-3.5',
-        wiki: 'Sonic_the_Hedgehog_(2006_video_game)',
-        covers: [],
-        palette: ['#1e293b', '#38bdf8']
-      },
-      {
-        id: 'n-lost-odyssey',
-        title: 'Lost Odyssey Recompiled',
-        author: 'XenonRecomp • Xbox 360',
-        console: 'XBOX',
-        hasExe: true,
-        url: 'https://allrecomps.com/',
-        wiki: 'Lost_Odyssey',
-        covers: [],
-        palette: ['#1e293b', '#0ea5e9']
-      },
-      {
-        id: 'n-fable-2',
-        title: 'Fable II Recompiled',
-        author: 'XenonRecomp • Xbox 360',
-        console: 'XBOX',
-        hasExe: true,
-        url: 'https://allrecomps.com/',
-        wiki: 'Fable_II',
-        covers: [],
-        palette: ['#78350f', '#f59e0b']
-      },
-      {
-        id: 'n-skate-3',
-        title: 'Skate 3 Recompiled',
-        author: 'XenonRecomp • Xbox 360',
-        console: 'XBOX',
-        hasExe: true,
-        url: 'https://allrecomps.com/',
-        wiki: 'Skate_3',
-        covers: [],
-        palette: ['#1e293b', '#f97316']
-      },
-      {
-        id: 'n-driv3r-definitive',
-        title: 'Driv3r: Definitive Edition (Native PC)',
-        author: 'Vortex Team • Xbox / PC',
-        console: 'XBOX',
-        hasExe: true,
-        url: 'https://archive.org/details/driv3r-rerelease',
-        wiki: 'Driv3r',
-        covers: [],
-        palette: ['#1c1917', '#b91c1c']
-      },
-
-      // --- NINTENDO (N64RECOMP & HARBOURMASTERS NATIVE PORTS) ---
-      {
-        id: 'n-zelda-soh',
-        title: 'Zelda: Ocarina of Time (Ship of Harkinian)',
-        author: 'HarbourMasters • Nintendo 64',
-        console: 'NINTENDO',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://www.shipofharkinian.com/',
-        wiki: 'The_Legend_of_Zelda:_Ocarina_of_Time',
-        covers: [LB_N64 + 'Legend%20of%20Zelda,%20The%20-%20Ocarina%20of%20Time%20(USA).png'],
-        palette: ['#14532d', '#ca8a04']
-      },
-      {
-        id: 'n-zelda-2ship',
-        title: 'Zelda: Majora\'s Mask (2Ship2Harkinian)',
-        author: 'HarbourMasters • Nintendo 64',
-        console: 'NINTENDO',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://2ship2harkinian.com/',
-        wiki: "The_Legend_of_Zelda:_Majora's_Mask",
-        covers: [LB_N64 + 'Legend%20of%20Zelda,%20The%20-%20Majora%27s%20Mask%20(USA).png'],
-        palette: ['#3b0764', '#9333ea']
-      },
-      {
-        id: 'n-zelda64-recomp',
-        title: 'Zelda 64: Recompiled (Majora\'s Mask RT)',
-        author: 'Wiseguy (N64Recomp) • Nintendo 64',
-        console: 'NINTENDO',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://recomplauncher.com/',
-        wiki: "The_Legend_of_Zelda:_Majora's_Mask",
-        covers: [LB_N64 + 'Legend%20of%20Zelda,%20The%20-%20Majora%27s%20Mask%20(USA).png'],
-        palette: ['#4c1d95', '#a855f7']
-      },
-      {
-        id: 'n-banjo-recomp',
-        title: 'Banjo-Kazooie: Recompiled',
-        author: 'BanjoRecomp • Nintendo 64',
-        console: 'NINTENDO',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://banjorecomp.com/',
-        wiki: 'Banjo-Kazooie',
-        covers: [LB_N64 + 'Banjo-Kazooie%20(USA).png'],
-        palette: ['#7c2d12', '#facc15']
-      },
-      {
-        id: 'n-starfox-starship',
-        title: 'Star Fox 64 (Starship Native PC)',
-        author: 'HarbourMasters • Nintendo 64',
-        console: 'NINTENDO',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://harbourmasters64.com/',
-        wiki: 'Star_Fox_64',
-        covers: [LB_N64 + 'Star%20Fox%2064%20(USA).png'],
-        palette: ['#1e3a8a', '#38bdf8']
-      },
-      {
-        id: 'n-mk64-spaghetti',
-        title: 'Mario Kart 64 (SpaghettiKart PC)',
-        author: 'HarbourMasters • Nintendo 64',
-        console: 'NINTENDO',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://harbourmasters64.com/',
-        wiki: 'Mario_Kart_64',
-        covers: [LB_N64 + 'Mario%20Kart%2064%20(USA).png'],
-        palette: ['#7f1d1d', '#f59e0b']
-      },
-      {
-        id: 'n-sm64-coop',
-        title: 'Super Mario 64 (sm64coopdx / Ghostship)',
-        author: 'Coop Deluxe • Nintendo 64',
-        console: 'NINTENDO',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://sm64coopdx.com/',
-        wiki: 'Super_Mario_64',
-        covers: [LB_N64 + 'Super%20Mario%2064%20(USA).png'],
-        palette: ['#7f1d1d', '#ef4444']
-      },
-      {
-        id: 'n-perfect-dark',
-        title: 'Perfect Dark (Native PC Decomp)',
-        author: 'fgsfdsfgs • Nintendo 64',
-        console: 'NINTENDO',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://perfect-dark.uptodown.com/windows/download',
-        wiki: 'Perfect_Dark',
-        covers: [LB_N64 + 'Perfect%20Dark%20(USA).png'],
-        palette: ['#0f172a', '#dc2626']
-      },
-      {
-        id: 'n-goemon64-recomp',
-        title: 'Mystical Ninja Starring Goemon (Recompiled)',
-        author: 'Goemon64Recomp • Nintendo 64',
-        console: 'NINTENDO',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://allrecomps.com/',
-        wiki: 'Mystical_Ninja_Starring_Goemon',
-        covers: [LB_N64 + 'Mystical%20Ninja%20Starring%20Goemon%20(USA).png'],
-        palette: ['#7f1d1d', '#dc2626']
-      },
-
-      // --- PS1 / CLÁSSICOS (NATIVE DECOMPILATIONS & SOURCE PORTS) ---
-      {
-        id: 'n-sh1-pc',
-        title: 'Silent Hill (1999 Native PC Decomp)',
-        author: 'PsyCross / SH1PC • PS1',
-        console: 'PS1',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://sh1pc.com/',
-        wiki: 'Silent_Hill_(video_game)',
-        covers: [LB_PS1 + 'Silent%20Hill%20(USA).png'],
-        palette: ['#090d16', '#334155']
-      },
-      {
-        id: 'n-ctr-native',
-        title: 'Crash Team Racing (CTR-Native PC Port)',
-        author: 'CTR-Tools • PS1',
-        console: 'PS1',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://playported.com/ports/555-crash-team-racing/',
-        wiki: 'Crash_Team_Racing',
-        covers: [LB_PS1 + 'Crash%20Team%20Racing%20(USA).png'],
-        palette: ['#7c2d12', '#f97316']
-      },
-      {
-        id: 'n-driver2',
-        title: 'Driver 2 (REDRIVER2 Native PC)',
-        author: 'OpenDriver2 • PS1',
-        console: 'PS1',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://opendriver2.github.io/',
-        wiki: 'Driver_2',
-        covers: [LB_PS1 + 'Driver%202%20(USA)%20(Disc%201).png'],
-        palette: ['#1e293b', '#eab308']
-      },
-      {
-        id: 'n-driver-syndicate',
-        title: 'The Driver Syndicate (Driver 1 Remake)',
-        author: 'SoapyMan • PS1 / PC',
-        console: 'PS1',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://driver-syndicate.com/',
-        wiki: 'Driver_(video_game)',
-        covers: [LB_PS1 + 'Driver%20-%20You%20Are%20the%20Wheelman%20(USA).png'],
-        palette: ['#1c1917', '#ca8a04']
-      },
-      {
-        id: 'n-wipeout-phantom',
-        title: 'WipEout Phantom Edition (Native PC)',
-        author: 'Phantom Edition • PS1',
-        console: 'PS1',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://archive.org/details/wipeout-phantom-edition',
-        wiki: 'Wipeout_(video_game)',
-        covers: [LB_PS1 + 'Wipeout%20(USA).png'],
-        palette: ['#0f172a', '#06b6d4']
-      },
-      {
-        id: 'n-openlara-pc',
-        title: 'Tomb Raider (OpenLara Native PC)',
-        author: 'XProger • PS1',
-        console: 'PS1',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://archive.org/details/OpenLara',
-        wiki: 'Tomb_Raider_(1996_video_game)',
-        covers: [LB_PS1 + 'Tomb%20Raider%20(USA).png'],
-        palette: ['#1c1917', '#b45309']
-      },
-      {
-        id: 'n-re-classic-rebirth',
-        title: 'Resident Evil 1 / 2 / 3 (Classic REbirth)',
-        author: 'Classic REbirth • PS1 / PC',
-        console: 'PS1',
-        isSquareCover: true,
-        hasExe: true,
-        url: 'https://appleofeden.de-doc.com/index.php/downloads/',
-        wiki: 'Resident_Evil_2',
-        covers: [LB_PS1 + 'Resident%20Evil%202%20(USA)%20(Disc%201).png'],
-        palette: ['#450a0a', '#991b1b']
-      }
-    ];
 
     const i18n = {
       pt: {
@@ -1830,11 +570,7 @@
         countNative: (n) => `${n} ports nativos`,
         playBtn: 'Jogar',
         downloadExeBtn: 'Baixar Executável',
-        openGithubBtn: 'Abrir GitHub',
-        pageInfo: (start, end, total, page, pages) => `Mostrando ${start}–${end} de ${total} jogos • Página ${page} de ${pages}`,
-        prevPage: '← Anterior',
-        nextPage: 'Próxima →',
-        disclaimer: '<strong class="font-bold text-blue-400">Aviso:</strong> Pedimos desculpas caso algum link não abra — os ports são mantidos por servidores da comunidade e podem passar por instabilidades temporárias.'
+        openGithubBtn: 'Abrir GitHub'
       },
       en: {
         tabBrowser: 'Browser Games',
@@ -1848,13 +584,531 @@
         countNative: (n) => `${n} native ports`,
         playBtn: 'Play',
         downloadExeBtn: 'Download .EXE',
-        openGithubBtn: 'Open GitHub',
-        pageInfo: (start, end, total, page, pages) => `Showing ${start}–${end} of ${total} games • Page ${page} of ${pages}`,
-        prevPage: '← Prev',
-        nextPage: 'Next →',
-        disclaimer: '<strong class="font-bold text-blue-400">Notice:</strong> We apologize if any link fails to open — these ports are hosted on community servers and may occasionally experience temporary downtime.'
+        openGithubBtn: 'Open GitHub'
       }
     };
+
+    // =========================================================================
+    // FLUXO DE AUTENTICAÇÃO E SESSÃO ÚNICA (SERVER-SIDE VALIDATION)
+    // =========================================================================
+
+    async function initAuth() {
+      // 1. Verificar sessão ativa no Supabase ou LocalStorage
+      const savedUserStr = localStorage.getItem('pina_user_cache');
+      if (savedUserStr && currentSessionToken) {
+        try {
+          currentUser = JSON.parse(savedUserStr);
+          await checkSessionStatus();
+        } catch (e) {
+          clearLocalSession();
+        }
+      } else {
+        updateAuthUI(null);
+        await loadGamesCatalog();
+      }
+
+      // Iniciar monitoramento contínuo de concorrência de sessão (Heartbeat a cada 25s)
+      if (heartbeatTimer) clearInterval(heartbeatTimer);
+      heartbeatTimer = setInterval(checkSessionHeartbeat, 25000);
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const errorEl = document.getElementById('auth-error');
+      const submitBtn = document.getElementById('btn-submit-login');
+
+      errorEl.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Verificando...</span>';
+
+      try {
+        let authUserId = null;
+        let authToken = null;
+
+        if (supabaseClient) {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          authUserId = data.user.id;
+          authToken = data.session.access_token;
+        } else {
+          // Modo Direto Server Backend
+          authUserId = 'usr_' + btoa(email).replace(/=/g, '');
+          authToken = authUserId;
+        }
+
+        // Registrar e obter sessão única no servidor
+        const resp = await fetch(`${API_BASE_URL}/api/session/start`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({ userId: authUserId, email })
+        });
+
+        const sessionData = await resp.json();
+
+        if (!resp.ok || !sessionData.success) {
+          if (sessionData.error === 'ACCOUNT_PENDING') {
+            currentUser = { id: authUserId, email };
+            currentUserProfile = { status: 'pending', role: 'user' };
+            localStorage.setItem('pina_user_cache', JSON.stringify(currentUser));
+            updateAuthUI(currentUserProfile);
+            closeAuthModal();
+            return;
+          }
+          throw new Error(sessionData.message || sessionData.error || 'Falha no login');
+        }
+
+        // Salvar token de sessão única emitido pelo backend
+        currentSessionToken = sessionData.session_token;
+        localStorage.setItem('pina_single_session_token', currentSessionToken);
+
+        currentUser = { id: authUserId, email };
+        currentUserProfile = {
+          role: sessionData.role,
+          status: sessionData.status,
+          email: sessionData.email
+        };
+        localStorage.setItem('pina_user_cache', JSON.stringify(currentUser));
+
+        updateAuthUI(currentUserProfile);
+        closeAuthModal();
+        await loadGamesCatalog();
+
+      } catch (err) {
+        errorEl.textContent = err.message || 'Erro ao realizar login.';
+        errorEl.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Entrar no Hub</span>';
+      }
+    }
+
+    async function handleSignup(e) {
+      e.preventDefault();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+      const errorEl = document.getElementById('auth-error');
+      const successEl = document.getElementById('auth-success');
+      const submitBtn = document.getElementById('btn-submit-signup');
+
+      errorEl.classList.add('hidden');
+      successEl.classList.add('hidden');
+      submitBtn.disabled = true;
+
+      try {
+        if (supabaseClient) {
+          const { data, error } = await supabaseClient.auth.signUp({ email, password });
+          if (error) throw error;
+        } else {
+          // Backend local direto
+          await fetch(`${API_BASE_URL}/api/session/start`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: 'usr_' + btoa(email).replace(/=/g, ''), email })
+          });
+        }
+
+        successEl.textContent = 'Conta criada com sucesso! Aguarde a aprovação do administrador para ter acesso aos jogos.';
+        successEl.classList.remove('hidden');
+        document.getElementById('form-signup').reset();
+
+      } catch (err) {
+        errorEl.textContent = err.message || 'Erro ao criar conta.';
+        errorEl.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+      }
+    }
+
+    async function handlePasswordReset(e) {
+      e.preventDefault();
+      const email = document.getElementById('reset-email').value.trim();
+      const errorEl = document.getElementById('auth-error');
+      const successEl = document.getElementById('auth-success');
+
+      errorEl.classList.add('hidden');
+      successEl.classList.add('hidden');
+
+      try {
+        if (supabaseClient) {
+          const { error } = await supabaseClient.auth.resetPasswordForEmail(email);
+          if (error) throw error;
+        }
+        successEl.textContent = 'Se o e-mail estiver cadastrado, um link de redefinição foi enviado.';
+        successEl.classList.remove('hidden');
+      } catch (err) {
+        errorEl.textContent = err.message || 'Erro ao solicitar redefinição.';
+        errorEl.classList.remove('hidden');
+      }
+    }
+
+    async function checkSessionStatus() {
+      if (!currentUser || !currentSessionToken) return;
+
+      try {
+        const resp = await fetch(`${API_BASE_URL}/api/session/heartbeat`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentUser.id}`,
+            'X-Session-Token': currentSessionToken
+          },
+          body: JSON.stringify({ userId: currentUser.id })
+        });
+
+        const data = await resp.json();
+
+        if (resp.status === 403 && data.reason === 'SESSION_DISPLACED') {
+          triggerDisplacementNotice();
+          return;
+        }
+
+        if (resp.ok && data.valid) {
+          currentUserProfile = {
+            role: data.role,
+            status: data.status,
+            email: currentUser.email
+          };
+          updateAuthUI(currentUserProfile);
+          await loadGamesCatalog();
+        } else {
+          if (data.status === 'pending') {
+            currentUserProfile = { status: 'pending', role: 'user' };
+            updateAuthUI(currentUserProfile);
+          } else {
+            clearLocalSession();
+          }
+        }
+      } catch (e) {
+        console.warn('Erro de comunicação no heartbeat:', e);
+      }
+    }
+
+    async function checkSessionHeartbeat() {
+      if (!currentUser || !currentSessionToken) return;
+      try {
+        const resp = await fetch(`${API_BASE_URL}/api/session/heartbeat`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentUser.id}`,
+            'X-Session-Token': currentSessionToken
+          },
+          body: JSON.stringify({ userId: currentUser.id })
+        });
+
+        const data = await resp.json();
+        if (resp.status === 403 && data.reason === 'SESSION_DISPLACED') {
+          triggerDisplacementNotice();
+        }
+      } catch (e) {
+        // Falha transitória de rede não desloga de imediato
+      }
+    }
+
+    function triggerDisplacementNotice() {
+      clearLocalSession();
+      document.getElementById('session-displaced-modal').classList.remove('hidden');
+    }
+
+    function handleAcknowledgeDisplacement() {
+      document.getElementById('session-displaced-modal').classList.add('hidden');
+      openAuthModal('login');
+    }
+
+    async function logoutUser() {
+      if (currentUser && currentSessionToken) {
+        try {
+          await fetch(`${API_BASE_URL}/api/session/terminate`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${currentUser.id}`,
+              'X-Session-Token': currentSessionToken
+            },
+            body: JSON.stringify({ userId: currentUser.id })
+          });
+        } catch (e) {}
+      }
+
+      if (supabaseClient) {
+        try { await supabaseClient.auth.signOut(); } catch (e) {}
+      }
+
+      clearLocalSession();
+      window.location.reload();
+    }
+
+    function clearLocalSession() {
+      currentUser = null;
+      currentUserProfile = null;
+      currentSessionToken = '';
+      localStorage.removeItem('pina_single_session_token');
+      localStorage.removeItem('pina_user_cache');
+      updateAuthUI(null);
+      loadGamesCatalog();
+    }
+
+    function updateAuthUI(profile) {
+      const btnOpenLogin = document.getElementById('btn-open-login');
+      const userBadge = document.getElementById('user-badge');
+      const userEmail = document.getElementById('user-email');
+      const roleBadge = document.getElementById('user-role-badge');
+      const btnAdminPanel = document.getElementById('btn-admin-panel');
+      const authBanner = document.getElementById('auth-banner');
+      const pendingBanner = document.getElementById('pending-banner');
+
+      if (!profile) {
+        btnOpenLogin.classList.remove('hidden');
+        userBadge.classList.add('hidden');
+        btnAdminPanel.classList.add('hidden');
+        authBanner.classList.remove('hidden');
+        pendingBanner.classList.add('hidden');
+        return;
+      }
+
+      if (profile.status === 'pending') {
+        btnOpenLogin.classList.add('hidden');
+        userBadge.classList.remove('hidden');
+        userEmail.textContent = currentUser.email;
+        roleBadge.textContent = 'Pendente';
+        roleBadge.className = 'px-1.5 py-0.2 rounded text-[9px] font-extrabold uppercase bg-amber-500/15 text-amber-300 border border-amber-500/30';
+        btnAdminPanel.classList.add('hidden');
+        authBanner.classList.add('hidden');
+        pendingBanner.classList.remove('hidden');
+        return;
+      }
+
+      // Usuário Aprovado
+      btnOpenLogin.classList.add('hidden');
+      userBadge.classList.remove('hidden');
+      userEmail.textContent = profile.email || currentUser.email;
+      authBanner.classList.add('hidden');
+      pendingBanner.classList.add('hidden');
+
+      if (profile.role === 'admin') {
+        roleBadge.textContent = 'Admin';
+        roleBadge.className = 'px-1.5 py-0.2 rounded text-[9px] font-extrabold uppercase bg-purple-500/15 text-purple-300 border border-purple-500/30';
+        btnAdminPanel.classList.remove('hidden');
+      } else {
+        roleBadge.textContent = 'Aprovado';
+        roleBadge.className = 'px-1.5 py-0.2 rounded text-[9px] font-extrabold uppercase bg-emerald-500/15 text-emerald-300 border border-emerald-500/30';
+        btnAdminPanel.classList.add('hidden');
+      }
+    }
+
+    // =========================================================================
+    // CARREGAMENTO SEGURO DO CATÁLOGO DE JOGOS (SERVER-SIDE VALIDATION)
+    // =========================================================================
+    async function loadGamesCatalog() {
+      // Se não autenticado ou não aprovado, catálogo protegido não é entregue
+      if (!currentUserProfile || currentUserProfile.status !== 'approved') {
+        protectedGames = [];
+        renderBrowserGames();
+        renderNativeProjects();
+        return;
+      }
+
+      try {
+        const resp = await fetch(`${API_BASE_URL}/api/games`, {
+          headers: {
+            'Authorization': `Bearer ${currentUser.id}`,
+            'X-Session-Token': currentSessionToken
+          }
+        });
+
+        if (resp.status === 403) {
+          const errData = await resp.json();
+          if (errData.error === 'SESSION_DISPLACED') {
+            triggerDisplacementNotice();
+            return;
+          }
+        }
+
+        if (resp.ok) {
+          const data = await resp.json();
+          protectedGames = data.games || [];
+        } else {
+          protectedGames = [];
+        }
+      } catch (e) {
+        console.warn('Erro ao carregar catálogo protegido:', e);
+      }
+
+      renderBrowserGames();
+      renderNativeProjects();
+    }
+
+    // =========================================================================
+    // MODAIS DE AUTENTICAÇÃO E ADMINISTRAÇÃO
+    // =========================================================================
+    function openAuthModal(tab = 'login') {
+      document.getElementById('auth-modal').classList.remove('hidden');
+      switchAuthTab(tab);
+    }
+
+    function closeAuthModal() {
+      document.getElementById('auth-modal').classList.add('hidden');
+      document.getElementById('auth-error').classList.add('hidden');
+      document.getElementById('auth-success').classList.add('hidden');
+    }
+
+    function switchAuthTab(tab) {
+      const tabs = ['login', 'signup', 'reset'];
+      tabs.forEach(t => {
+        const tabBtn = document.getElementById(`auth-tab-${t}`);
+        const formEl = document.getElementById(`form-${t}`);
+        if (t === tab) {
+          tabBtn.className = 'pb-1 text-[var(--primary)] border-b-2 border-[var(--primary)] transition';
+          formEl.classList.remove('hidden');
+        } else {
+          tabBtn.className = 'pb-1 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition';
+          formEl.classList.add('hidden');
+        }
+      });
+      document.getElementById('auth-error').classList.add('hidden');
+      document.getElementById('auth-success').classList.add('hidden');
+    }
+
+    function openAdminModal() {
+      document.getElementById('admin-modal').classList.remove('hidden');
+      loadAdminUsersList();
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.add('hidden');
+    }
+
+    async function loadAdminUsersList() {
+      const tbody = document.getElementById('admin-users-table-body');
+      tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-[var(--muted-foreground)]">Consultando usuários...</td></tr>';
+
+      try {
+        const resp = await fetch(`${API_BASE_URL}/api/admin/users`, {
+          headers: {
+            'Authorization': `Bearer ${currentUser.id}`,
+            'X-Session-Token': currentSessionToken
+          }
+        });
+
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.error || 'Erro ao listar usuários');
+
+        if (!data.users || data.users.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-[var(--muted-foreground)]">Nenhum usuário cadastrado.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.users.map(u => {
+          const isOnline = !!u.active_session_token;
+          const statusBadge = {
+            'approved': '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-400">Aprovado</span>',
+            'pending': '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-400">Pendente</span>',
+            'suspended': '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400">Suspenso</span>',
+            'revoked': '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-500/15 text-slate-400">Revogado</span>'
+          }[u.status] || u.status;
+
+          const sessionBadge = isOnline
+            ? '<span class="flex items-center gap-1 text-emerald-400 font-semibold"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Online</span>'
+            : '<span class="text-[var(--muted-foreground)]">Offline</span>';
+
+          return `
+            <tr class="hover:bg-[var(--background)]/50 transition">
+              <td class="p-2.5 font-medium text-[var(--foreground)]">${u.email}</td>
+              <td class="p-2.5 uppercase text-[10px] font-bold text-[var(--muted-foreground)]">${u.role}</td>
+              <td class="p-2.5">${statusBadge}</td>
+              <td class="p-2.5">${sessionBadge}</td>
+              <td class="p-2.5 text-right space-x-1">
+                ${u.status !== 'approved' ? `
+                  <button onclick="adminSetUserStatus('${u.id}', 'approved')" class="px-2 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-[10px]">Aprovar</button>
+                ` : `
+                  <button onclick="adminSetUserStatus('${u.id}', 'suspended')" class="px-2 py-1 rounded bg-amber-600 hover:bg-amber-500 text-white font-semibold text-[10px]">Suspender</button>
+                `}
+                ${isOnline ? `
+                  <button onclick="adminRevokeSession('${u.id}')" title="Derrubar sessão única ativa" class="px-2 py-1 rounded bg-red-600 hover:bg-red-500 text-white font-semibold text-[10px]">Kick</button>
+                ` : ''}
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-400 font-semibold">${err.message}</td></tr>`;
+      }
+    }
+
+    async function handleAdminCreateUser(e) {
+      e.preventDefault();
+      const email = document.getElementById('adm-new-email').value.trim();
+      const password = document.getElementById('adm-new-pass').value;
+
+      try {
+        const resp = await fetch(`${API_BASE_URL}/api/admin/create-user`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentUser.id}`,
+            'X-Session-Token': currentSessionToken
+          },
+          body: JSON.stringify({ email, password, role: 'user', autoApprove: true })
+        });
+
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.error || 'Erro ao criar usuário');
+
+        document.getElementById('adm-new-email').value = '';
+        document.getElementById('adm-new-pass').value = '';
+        loadAdminUsersList();
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    async function adminSetUserStatus(userId, newStatus) {
+      try {
+        const resp = await fetch(`${API_BASE_URL}/api/admin/set-status`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentUser.id}`,
+            'X-Session-Token': currentSessionToken
+          },
+          body: JSON.stringify({ userId, newStatus })
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.error || 'Erro ao alterar status');
+        loadAdminUsersList();
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    async function adminRevokeSession(userId) {
+      try {
+        const resp = await fetch(`${API_BASE_URL}/api/admin/revoke-session`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentUser.id}`,
+            'X-Session-Token': currentSessionToken
+          },
+          body: JSON.stringify({ userId })
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.error || 'Erro ao revogar sessão');
+        loadAdminUsersList();
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    // =========================================================================
+    // RENDERIZAÇÃO DOS JOGOS (PRESERVANDO TOTALMENTE VISUAL E INTERAÇÕES)
+    // =========================================================================
 
     function applyResolvedCover(imgEl, url) {
       imgEl.src = url;
@@ -1929,7 +1183,6 @@
     }
 
     function handleSearch() {
-      browserCurrentPage = 1;
       if (activeMainTab === 'BROWSER') {
         renderBrowserGames();
       } else {
@@ -1963,24 +1216,19 @@
       currentLang = lang;
       const t = i18n[lang];
 
-      document.getElementById('lang-pt').className = lang === 'pt'
-        ? 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition bg-[var(--primary)] text-[var(--primary-foreground)]'
-        : 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]';
-      document.getElementById('lang-en').className = lang === 'en'
-        ? 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition bg-[var(--primary)] text-[var(--primary-foreground)]'
-        : 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]';
-
       document.getElementById('label-tab-browser').textContent = t.tabBrowser;
       document.getElementById('label-tab-native').textContent = t.tabNative;
       document.getElementById('global-search').placeholder = t.searchPlaceholder;
-      const discEl = document.getElementById('header-disclaimer');
-      if (discEl) discEl.innerHTML = t.disclaimer;
 
-      const sortBtns = document.querySelectorAll('.b-sort-btn');
-      sortBtns[0].textContent = t.sortPopular;
-      sortBtns[1].textContent = t.sortRecent;
-      sortBtns[2].textContent = t.sortAz;
-      sortBtns[3].textContent = t.sortFav;
+      const btnPt = document.getElementById('lang-pt');
+      const btnEn = document.getElementById('lang-en');
+      if (lang === 'pt') {
+        btnPt.className = 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition bg-[var(--primary)] text-[var(--primary-foreground)]';
+        btnEn.className = 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]';
+      } else {
+        btnPt.className = 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition text-[var(--muted-foreground)] hover:text-[var(--foreground)]';
+        btnEn.className = 'px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition bg-[var(--primary)] text-[var(--primary-foreground)]';
+      }
 
       renderBrowserGames();
       renderNativeProjects();
@@ -1988,7 +1236,6 @@
 
     function setBrowserPlatform(plat) {
       browserPlatform = plat;
-      browserCurrentPage = 1;
       document.querySelectorAll('.b-plat-btn').forEach(btn => {
         if (btn.getAttribute('data-bplat') === plat) {
           btn.className = 'b-plat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]';
@@ -2001,7 +1248,6 @@
 
     function setBrowserSort(sortMode) {
       browserSort = sortMode;
-      browserCurrentPage = 1;
       document.querySelectorAll('.b-sort-btn').forEach(btn => {
         if (btn.getAttribute('data-sort') === sortMode) {
           btn.className = 'b-sort-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition bg-[var(--primary)] text-[var(--primary-foreground)]';
@@ -2012,20 +1258,8 @@
       renderBrowserGames();
     }
 
-    function setBrowserPage(page) {
-      browserCurrentPage = page;
-      renderBrowserGames();
-      const secBrowser = document.getElementById('section-browser');
-      if (secBrowser) {
-        secBrowser.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
-
     function toggleFav(id, ev) {
-      if (ev) {
-        ev.preventDefault();
-        ev.stopPropagation();
-      }
+      if (ev) ev.stopPropagation();
       if (favorites.includes(id)) {
         favorites = favorites.filter(x => x !== id);
       } else {
@@ -2047,17 +1281,17 @@
         .replace('PS4_PS5', 'PS4/PS5')
         .replace('PS1_PSP', 'PS1/PSP');
 
-      const fitClass = item.isSquareCover ? 'object-contain p-1.5' : 'object-fill';
+      const fitClass = item.is_square_cover || item.isSquareCover ? 'object-contain p-1.5' : 'object-fill';
+      const isApproved = currentUserProfile && currentUserProfile.status === 'approved';
 
       return `
         <div class="group min-w-0 overflow-hidden bg-[var(--card)] border border-[var(--border)] rounded-2xl p-2.5 sm:p-3 flex flex-col justify-between shadow-sm hover:border-[var(--primary)] hover:shadow-lg transition-all duration-200">
 
-          <!-- Pure Native Game Cover -->
+          <!-- Cover Box -->
           <div class="relative aspect-[3/4] rounded-xl overflow-hidden bg-[var(--background)] border border-[var(--border)]"
                style="background: linear-gradient(160deg, ${c1} 0%, ${c2} 100%);">
 
-            <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="block w-full h-full relative">
-              <!-- Clean Box Art Fallback Underneath -->
+            <a ${isApproved ? `href="${item.url}" target="_blank" rel="noopener noreferrer"` : `href="#" onclick="openAuthModal('login'); return false;"`} class="block w-full h-full relative">
               <div class="absolute inset-0 flex flex-col justify-between p-3 text-white select-none">
                 <div class="bg-black/75 px-2 py-0.5 rounded text-xs font-bold tracking-widest uppercase self-start">
                   ${platTag}
@@ -2072,14 +1306,12 @@
                 </div>
               </div>
 
-              <!-- Blurred Backdrop for Square/Landscape Covers -->
               <img src="${primaryCover}"
                    alt=""
                    aria-hidden="true"
                    style="${primaryCover ? '' : 'display:none;'}"
                    class="cover-blur-bg absolute inset-0 z-0 w-full h-full object-cover blur-md scale-110 opacity-55 pointer-events-none" />
 
-              <!-- Official Box Art Image -->
               <img src="${primaryCover}"
                    alt="${item.title}"
                    loading="lazy"
@@ -2090,7 +1322,14 @@
                    class="relative z-10 w-full h-full ${fitClass} group-hover:scale-105 transition-transform duration-300" />
             </a>
 
-            <!-- Favorite Star on Top-Right -->
+            ${item.repo_url && item.has_exe ? `
+              <a href="${item.repo_url}" target="_blank" rel="noopener noreferrer"
+                 title="Código Fonte no GitHub"
+                 class="absolute top-2 left-2 z-20 px-2 h-6 rounded-full bg-black/70 hover:bg-black/90 text-white flex items-center justify-center text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                GitHub
+              </a>
+            ` : ''}
+
             <button onclick="toggleFav('${item.id}', event)"
                     title="Favorito"
                     class="absolute top-2 right-2 z-20 w-7 h-7 rounded-full bg-black/65 text-amber-300 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity ${isFav ? '!opacity-100' : ''}">
@@ -2098,7 +1337,7 @@
             </button>
           </div>
 
-          <!-- Clean Card Footer + Single Full-Width Responsive Action Button -->
+          <!-- Card Footer & Action Button -->
           <div class="pt-2.5 sm:pt-3 flex flex-col gap-2 min-w-0">
             <div class="px-0.5 min-w-0">
               <div class="font-bold text-xs sm:text-sm text-[var(--foreground)] truncate" title="${item.title}">
@@ -2109,7 +1348,7 @@
               </div>
             </div>
 
-            <a href="${item.url}" target="_blank" rel="noopener noreferrer"
+            <a ${isApproved ? `href="${item.url}" target="_blank" rel="noopener noreferrer"` : `href="#" onclick="openAuthModal('login'); return false;"`}
                class="w-full min-w-0 py-2 px-2.5 sm:px-3 rounded-xl text-xs font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 shadow-sm">
               ${isDownloadBtn ? `
                 <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24">
@@ -2132,7 +1371,10 @@
       const t = i18n[currentLang];
       const query = document.getElementById('global-search').value.trim().toLowerCase();
 
-      const allGames = [...customBrowserGames, ...defaultBrowserGames];
+      // Jogos do catálogo protegido + custom games
+      const browserProtected = protectedGames.filter(g => g.category === 'BROWSER' || !g.category);
+      const allGames = [...customBrowserGames, ...browserProtected];
+
       let filtered = allGames.filter(g => {
         if (browserPlatform !== 'ALL' && g.platform !== browserPlatform) return false;
         if (browserSort === 'FAV' && !favorites.includes(g.id)) return false;
@@ -2144,75 +1386,26 @@
       });
 
       if (browserSort === 'POPULAR') {
-        filtered.sort((a, b) => (a.popularRank || 999) - (b.popularRank || 999));
+        filtered.sort((a, b) => (a.popular_rank || a.popularRank || 99) - (b.popular_rank || b.popularRank || 99));
       } else if (browserSort === 'RECENT') {
-        filtered.sort((a, b) => (b.dateRank || 0) - (a.dateRank || 0));
+        filtered.sort((a, b) => (b.date_rank || b.dateRank || 0) - (a.date_rank || a.dateRank || 0));
       } else if (browserSort === 'AZ') {
         filtered.sort((a, b) => a.title.localeCompare(b.title));
       }
 
-      const totalItems = filtered.length;
-      const totalPages = Math.max(1, Math.ceil(totalItems / BROWSER_PAGE_SIZE));
-      if (browserCurrentPage > totalPages) browserCurrentPage = totalPages;
-      if (browserCurrentPage < 1) browserCurrentPage = 1;
-
-      const startIdx = (browserCurrentPage - 1) * BROWSER_PAGE_SIZE;
-      const pageItems = filtered.slice(startIdx, startIdx + BROWSER_PAGE_SIZE);
-
-      document.getElementById('browser-count-label').textContent = t.countBrowser(totalItems);
-
+      document.getElementById('browser-count-label').textContent = t.countBrowser(filtered.length);
       const grid = document.getElementById('browser-grid');
-      grid.innerHTML = pageItems.map(g => buildCoverCardHTML(g, t.playBtn, false)).join('');
 
-      const pagEl = document.getElementById('browser-pagination');
-      if (pagEl) {
-        if (totalItems === 0) {
-          pagEl.innerHTML = '';
-        } else {
-          const startDisplay = startIdx + 1;
-          const endDisplay = Math.min(startIdx + BROWSER_PAGE_SIZE, totalItems);
-
-          let pageBtnsHTML = '';
-          const prevDisabled = browserCurrentPage <= 1;
-          const nextDisabled = browserCurrentPage >= totalPages;
-
-          pageBtnsHTML += `
-            <button onclick="setBrowserPage(${browserCurrentPage - 1})"
-                    ${prevDisabled ? 'disabled' : ''}
-                    class="px-3 py-1.5 rounded-xl text-xs font-semibold border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] transition ${prevDisabled ? 'opacity-40 cursor-not-allowed' : 'hover:border-[var(--primary)] hover:text-[var(--primary)]'}">
-              ${t.prevPage}
-            </button>
-          `;
-
-          for (let p = 1; p <= totalPages; p++) {
-            const isActive = p === browserCurrentPage;
-            pageBtnsHTML += `
-              <button onclick="setBrowserPage(${p})"
-                      class="w-8 h-8 rounded-xl text-xs font-bold transition flex items-center justify-center ${isActive ? 'bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm' : 'bg-[var(--card)] border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-[var(--primary)]'}">
-                ${p}
-              </button>
-            `;
-          }
-
-          pageBtnsHTML += `
-            <button onclick="setBrowserPage(${browserCurrentPage + 1})"
-                    ${nextDisabled ? 'disabled' : ''}
-                    class="px-3 py-1.5 rounded-xl text-xs font-semibold border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] transition ${nextDisabled ? 'opacity-40 cursor-not-allowed' : 'hover:border-[var(--primary)] hover:text-[var(--primary)]'}">
-              ${t.nextPage}
-            </button>
-          `;
-
-          pagEl.innerHTML = `
-            <span class="text-xs text-[var(--muted-foreground)]">
-              ${t.pageInfo(startDisplay, endDisplay, totalItems, browserCurrentPage, totalPages)}
-            </span>
-            <div class="flex items-center gap-1.5 flex-wrap justify-center">
-              ${pageBtnsHTML}
-            </div>
-          `;
-        }
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center text-xs text-[var(--muted-foreground)]">
+            Nenhum jogo encontrado para os filtros atuais.
+          </div>
+        `;
+        return;
       }
 
+      grid.innerHTML = filtered.map(g => buildCoverCardHTML(g, t.playBtn, false)).join('');
       resolveMissingCovers();
     }
 
@@ -2231,23 +1424,36 @@
     function renderNativeProjects() {
       const t = i18n[currentLang];
       const query = document.getElementById('global-search').value.trim().toLowerCase();
-      const allNative = [...customNativeGames, ...defaultNativeProjects];
+
+      const nativeProtected = protectedGames.filter(g => g.category === 'NATIVE');
+      const allNative = [...customNativeGames, ...nativeProtected];
 
       const filtered = allNative.filter(p => {
-        if (currentConsole !== 'ALL' && p.console !== currentConsole) return false;
+        const pConsole = p.console || p.platform;
+        if (currentConsole !== 'ALL' && pConsole !== currentConsole) return false;
         if (query) {
-          const hay = `${p.title} ${p.author} ${p.console}`.toLowerCase();
+          const hay = `${p.title} ${p.author} ${pConsole}`.toLowerCase();
           if (!hay.includes(query)) return false;
         }
         return true;
       });
 
       document.getElementById('native-count-label').textContent = t.countNative(filtered.length);
-
       const grid = document.getElementById('projects-grid');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center text-xs text-[var(--muted-foreground)]">
+            Nenhum port nativo encontrado para os filtros selecionados.
+          </div>
+        `;
+        return;
+      }
+
       grid.innerHTML = filtered.map(p => {
-        const label = p.hasExe ? t.downloadExeBtn : t.openGithubBtn;
-        return buildCoverCardHTML(p, label, p.hasExe);
+        const hasExe = p.has_exe !== undefined ? p.has_exe : p.hasExe;
+        const label = hasExe ? t.downloadExeBtn : t.openGithubBtn;
+        return buildCoverCardHTML(p, label, hasExe);
       }).join('');
       resolveMissingCovers();
     }
@@ -2276,15 +1482,14 @@
           title,
           author,
           platform: plat,
-          popularRank: 0,
-          dateRank: 99,
+          popular_rank: 0,
+          date_rank: 99,
           url,
           wiki: title.replace(/\s+/g, '_'),
           covers: cover ? [cover] : [],
           palette: ['#1e3a8a', '#2563eb']
         });
         localStorage.setItem('pina_browser_custom_v6', JSON.stringify(customBrowserGames));
-        browserCurrentPage = 1;
         switchMainTab('BROWSER');
       } else {
         const mappedConsole = plat === 'PS4_PS5' ? 'PS4' : (plat === 'PS1_PSP' ? 'PS1' : plat);
@@ -2293,7 +1498,7 @@
           title,
           author,
           console: mappedConsole,
-          hasExe: true,
+          has_exe: true,
           url,
           wiki: title.replace(/\s+/g, '_'),
           covers: cover ? [cover] : [],
@@ -2309,8 +1514,8 @@
       closeAddModal();
     }
 
-    renderBrowserGames();
-    renderNativeProjects();
+    // Inicialização ao carregar a página
+    window.addEventListener('DOMContentLoaded', initAuth);
   </script>
 </body>
 </html>
